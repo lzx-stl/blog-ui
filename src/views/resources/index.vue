@@ -1,26 +1,34 @@
 <template>
-  <div style="height: 100%">
-    <Picture></Picture>
-    <BackToTop></BackToTop>
+  <div class="main-page">
+    <WaterFall :obj="prop" />
+    <BackToTop />
   </div>
-
 </template>
 
 <script>
-import Picture from '@/components/Picture'
-import BackToTop from '../../components/BackToTop/index'
-import {findAllImage} from '@/api/image'
+import WaterFall from "@/components/WaterFall";
+import BackToTop from "../../components/BackToTop/index";
+import { findAllImage } from "@/api/image";
 export default {
-  name: 'Resources',
+  name: "Resources",
   components: {
+    WaterFall,
     BackToTop,
-    Picture
-  }
-}
+  },
+  computed: {
+    prop() {
+      return {
+        column_cnt: 4, //列数
+      };
+    },
+  },
+};
 </script>
 
 <style scoped>
-
-
-
+.main-page {
+  width: 100%;
+  position: relative;
+  margin-top: 30px;
+}
 </style>

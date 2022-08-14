@@ -7,16 +7,12 @@ import ElementUI from "element-ui";
 import axios from "axios";
 import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
-import comment from "bright-comment";
 
-
-
+import '@/styles/index.scss' // global css
 
 import moment from "moment";
 Vue.prototype.$moment = moment;
 
-import md5 from 'js-md5';
-Vue.prototype.$md5 = md5;
 
 ElementUI.Dialog.props.lockScroll.default = false; //解决页面抖动
 // ElementUI.Dialog.props.closeOnClickModal.default = false; //禁止点击遮罩层关闭

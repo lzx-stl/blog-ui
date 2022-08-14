@@ -1,90 +1,71 @@
 <template>
-  <div style="
-  height: fit-content;"
-  >
-    <div class="topBg"
-         :style="{'background-image': 'url('+topImg+')'}"
-    >
+  <div class="home-container">
+    <div class="topBg" :style="{ 'background-image': 'url(' + topImg + ')' }">
       <div class="down">
-        <i class="iconfont icon-arrow-copy"
-           @click="scrollWindow"></i>
+        <i class="iconfont icon-arrow-copy" @click="scrollWindow"></i>
       </div>
-<!--      <carousel :list="list"/>-->
-      <!-- <el-button @click="down"
-                 style="margin:0 auto">
-        <i class="iconfont icon-arrow-copy"></i>
-      </el-button> -->
-
-      <!-- <TopCard></TopCard> -->
     </div>
-    <div class="main"
-         :style="{'background-image': 'url('+mainImg+')'}">
-
-
+    <div class="main" :style="{ 'background-image': 'url(' + mainImg + ')' }">
       <ArticleList></ArticleList>
-
     </div>
-    <Footer />
   </div>
 </template>
 
-
 <script>
-import {getConfig} from '@/api/config'
-import Carousel from '@/components/Carousel'
-import ArticleList from '@/components/ArticleList/index'
+import { getConfig } from "@/api/config";
+import Carousel from "@/components/Carousel";
+import ArticleList from "@/components/ArticleList/index";
 
-import TopCard from './components/TopCard'
-import TagCard from './components/TagCard'
-import MyCard from './components/MyCard'
-import Search from '../../components/HeaderSearch/index'
-import Footer from '@/layout/components/Footer'
+import TagCard from "./components/TagCard";
+import MyCard from "./components/MyCard";
+import Search from "../../components/HeaderSearch/index";
 
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     Carousel,
     ArticleList,
     Search,
-    TopCard,
     TagCard,
     MyCard,
-    Footer
   },
   data() {
     return {
-      uid: '',
+      uid: "",
       show: false,
       list: [
-          'http://r8l2ddg76.hn-bkt.clouddn.com/ls8F80CxotuQEOG8am9rerEas2bh',
-'http://r8l2ddg76.hn-bkt.clouddn.com/Fu8w_HrPSLLrvyatF4kTjMaz5tv_',
-'http://r8l2ddg76.hn-bkt.clouddn.com/FpKpf4ROcl7s6ADkGZ_ikCNDFl4-'
-      ]
-    }
+        "http://r8l2ddg76.hn-bkt.clouddn.com/ls8F80CxotuQEOG8am9rerEas2bh",
+        "http://r8l2ddg76.hn-bkt.clouddn.com/Fu8w_HrPSLLrvyatF4kTjMaz5tv_",
+        "http://r8l2ddg76.hn-bkt.clouddn.com/FpKpf4ROcl7s6ADkGZ_ikCNDFl4-",
+      ],
+    };
   },
-  computed:{
-    ...mapState({
-      topImg: state => state.config.topImg,
-      mainImg: state => state.config.mainImg,
+  computed: {
+    ...mapState(
+      {
+      topImg: (state) => state.config.topImg,
+      mainImg: (state) => state.config.mainImg,
     }),
   },
-  mounted() {
-    this.$store.dispatch('article/getList')
-  },methods:{
+  methods: {
     scrollWindow(event) {
       // window.scrollto
       window.scrollTo({
         top: 780,
-        behavior: "smooth"
-      })
-    }
-  }
-}
+        behavior: "smooth",
+      });
+    },
+  },
+};
 </script>
 
-<style>
+<style scoped>
+.home-container {
+  width: 100%;
+}
+
 .topBg {
   width: 100%;
   height: 720px;
@@ -94,7 +75,7 @@ export default {
 }
 
 .blogName {
-  font-family: 'STXingkai';
+  font-family: "STXingkai";
   color: black;
   text-align: center;
   position: relative;
@@ -155,7 +136,6 @@ export default {
   font-size: 70px;
   font-weight: 500;
 }
-
 
 .container {
   width: 1200px;

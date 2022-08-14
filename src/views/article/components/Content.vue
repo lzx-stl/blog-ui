@@ -1,81 +1,84 @@
 <template>
-  <div class="content-container">
-    <div class="detail-content">
-      <div class="big-title">{{ article.title }}</div>
-<!--      <div style="height:30px;">-->
-<!--        <span style="margin-left:50px">-->
-<!--          <i class="iconfont icon-liulanliang"> {{ article.readCnt }}</i>-->
-<!--        </span>-->
-<!--      </div>-->
-      <!-- <div class="author-Infor"><span>{{article.author.username}}</span>
-      </div> -->
-      <div style="width:100%;">
+  <div class="article-container"
+       :style="{ width: options.width }">
+    <div class="article-container-content">
+      <div class="title-container">
+        <h1 class="big-title">{{ article.title }}</h1>
+        <div class="article-read-info">
+          <span class="publish-text"
+                data-v-0735ec40="">2022-07-08 20:06</span>
+          <span>{{ article.readCnt }}阅读</span>
+          <span>{{ article.thumbCnt }}点赞</span>
+          <span>{{ article.replyCnt }}评论</span>
+        </div>
+      </div>
+      <div class="article-up-info">
+        <div class="up-left">
+          <div class="avatar-container">
+            <el-image v-if="author.avatar"
+                      :src="author.avatar"></el-image>
+          </div>
+          <div class="up-name-pannel">{{ author.nickname }}</div>
+        </div>
+      </div>
+      <div class="article-content">
         <mavon-editor class="md"
                       :value="article.content"
                       :subfield="prop.subfield"
                       :defaultOpen="prop.defaultOpen"
                       :toolbarsFlag="prop.toolbarsFlag"
                       :editable="prop.editable"
-                      :scrollStyle="prop.scrollStyle"
                       :code-style="code_style"
-        ></mavon-editor>
+                      :previewBackground="prop.previewBackground">
+        </mavon-editor>
       </div>
-      <!-- <div class="bottomBar">
-      <i class="iconfont icon-dianzan"
-         style="color:red"></i>
-      <i class="iconfont icon-collect-01"
-         style="color:yellow"></i>
-
-      <svg class="icon loginIcon"
-           aria-hidden="true">
-        <a href="#">
-          <use xlink:href="#icon-fenxiang"></use>
-        </a>
-      </svg>
-    </div> -->
     </div>
-    <div class="comment-zone">
-      <Comment></Comment>
-    </div>
-<!--    <Reply style="position: fixed;bottom: 0;background-color: #fff"></Reply>-->
   </div>
 </template>
 
 <script>
-import Comment from '../components/Comment'
-import Reply from "./Reply";
-import { getArticle} from '@/api/article'
+import Reply from '@/components/Comment/components/Reply'
+
 export default {
   name: 'Content',
   components: {
-    Comment,Reply
+    Reply
+  },
+  props: {
+    options: {
+      Type: Object,
+      default: {
+        witdh: '900px'
+      }
+    },
+    article: {
+      Type: Object,
+      default: () => {}
+    },
+    author: {
+      Type: Object,
+      default: () => {}
+    }
   },
   data() {
     return {
-      code_style: 'tomorrow-night',
-      article: {}
+      code_style: 'androidstudio'
     }
   },
-  created() {
-    this.getDetail()
-  },methods:{
-    getDetail() {
-      getArticle(this.$route.params.id).then(res =>{
-        this.article = res.article;
-      }).catch(error => {
-      })
-    }
-
-  },
+  mounted() {},
+  methods: {},
   computed: {
     prop() {
       let data = {
+        // header: true, // 标题,
+        navigation: true,
         subfield: false, // 单双栏模式
         defaultOpen: 'preview', //edit： 默认展示编辑区域 ， preview： 默认展示预览区域
         editable: false,
         toolbarsFlag: false,
         scrollStyle: true,
-        navigation: true,
+        previewBackground: '#fff'
+        // boxShadowStyle: '0 2px 12px 0 rgba(0, 0, 0, 0)'
       }
       return data
     }
@@ -83,53 +86,83 @@ export default {
 }
 </script>
 
-<style>
-.big-title {
-  text-align: left;
-  font-size: 28px;
-  font-weight: 600;
-  margin: 30px;
-}
-
-.hljs {
-  font-size: 18px;
-  font-weight: 900;
-}
-
-.content-container {
-  width: 760px;
-  min-height: 20px;
-  overflow: visible;
-  border: 1px solid #fff;
-  margin: 50px auto 100px auto;
-
-  /*background-size: 100% 100%;*/
-  /*background-attachment: fixed;*/
-}
-
-.detail-content {
-  width: 760px;
-  height: auto;
+<style lang="scss" scoped>
+.article-container {
+  width: 900px;
+  margin: 60px auto;
+  padding: 30px 40px 40px;
+  border-radius: 4px;
   background-color: #fff;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  margin-bottom: 12px;
 
-}
+  .article-container-content {
+    .title-container {
+      padding: 0 80px;
+      .big-title {
+        min-height: 39px;
+        font-size: 28px;
+        color: #222;
+        margin-bottom: 16px;
+        font-weight: 700;
+        line-height: 1.4;
+      }
+    }
 
-.v-note-wrapper .markdown-body .md .shadow{
-  box-shadow: none!important;
-}
-.v-show-content{
-  background-color: #fff!important;
-}
+    .v-note-wrapper.shadow {
+      box-shadow: none !important;
+    }
+    .v-note-wrapper
+      .v-note-panel
+      .v-note-show
+      .v-show-content
+      .scroll-style
+      .scroll-style-border-radius {
+      padding: 0 !important;
+    }
+    .article-read-info {
+      color: #999;
+      font-weight: 400;
+      font-size: 13px;
 
-.comment-zone{
-  /*float: left;*/
-  width: 100%;
-  min-height: 20px;
-  padding: 30px 0;
-  margin: 80px auto;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-}
+      span {
+        margin: 0 10px;
+      }
+    }
 
+    .article-up-info {
+      margin: 10px 0;
+      padding: 0 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .up-left {
+        display: flex;
+        align-items: center;
+        .avatar-container {
+          display: flex;
+          width: 44px;
+          height: 44px;
+          margin-right: 10px;
+          .el-image {
+            border-radius: 50%;
+          }
+        }
+        .up-name-pannel {
+          display: flex;
+          font-size: 18px;
+          position: relative;
+          line-height: 44px;
+        }
+      }
+    }
+
+    .article-content {
+      padding: 0 55px;
+    }
+  }
+  .markdown-body .highlight pre,
+  .markdown-body pre {
+    background-color: #fff !important;
+  }
+}
 </style>

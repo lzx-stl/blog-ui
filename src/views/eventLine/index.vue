@@ -1,5 +1,5 @@
 <template>
-  <div>
+
 
     <div class="eventline-continer"
          :style="{'background-image': 'url('+$store.state.config.eventImg+')'}">
@@ -14,22 +14,21 @@
       <div class="eventline-content">
         <div class="block">
           <el-timeline :reverse="reverse">
-            <el-timeline-item :timestamp="$moment(t.time).format('YYYY年MM月DD日')"
-                              placement="top"
-                              v-for="(t, index) in list"
-                              :key="index">
-              <el-card>
+            <el-timeline-item v-for="(item, index) in list"
+                              :key="index"
+                              :timestamp="$moment(item.time).format('YYYY年MM月DD日')">
+              <!-- <el-card>
                 <h2>{{t.title}}</h2>
                 <p>{{t.content}}</p>
-              </el-card>
+              </el-card> -->
+              <h3> {{item.title}}</h3>
             </el-timeline-item>
           </el-timeline>
         </div>
       </div>
 
-    <BackToTop></BackToTop>
+      <BackToTop></BackToTop>
     </div>
-  </div>
 </template>
 
 <script>
@@ -58,11 +57,13 @@ export default {
 
 <style>
 .eventline-continer {
-  position: relative;
+  /* position: relative; */
   /* overflow: hidden; */
   /* color: #000; */
+  position: relative;
   background-size: 100% 100%;
   background-attachment: fixed;
+  background-color: red;
 }
 
 .eventline-content {
@@ -77,8 +78,8 @@ export default {
   height: 100px;
   margin: 100px;
 }
-.el-card{
-  width: 470px!important;
+.el-card {
+  width: 470px !important;
 }
 
 .eventline-content .el-timeline {
@@ -94,7 +95,7 @@ export default {
 .eventline-content .el-timeline .el-timeline-item .el-card {
   width: 600px;
   min-height: 250px;
-  opacity: 0.8;
+  /*opacity: 0.8;*/
 }
 
 .el-card h2 {
