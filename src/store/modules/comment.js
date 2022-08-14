@@ -1,26 +1,30 @@
-import {getConfig, updateConfig} from "../../api/config";
 
 const state = {
-    target: '',
+  rootId: '',
+  toId: '',
 }
 
 const mutations = {
-    SET_TARGET : (state, target) => {
-        state.target = target
-    }
+  SET_TO: (state, toId) => {
+    state.toId = toId
+  },
+  SET_ROOT (state, rootId) {
+    state.rootId = rootId
+  }
 }
 
 const actions = {
-    change({commit}, uuid){
-        commit('SET_TARGET', uuid);
-    }
+  change({ commit }, {rootId, toId}) {
+    commit('SET_ROOT', rootId);
+    commit('SET_TO', toId);
+  }
 }
 
 
 export default {
-    namespaced: true,
-    state,
-    mutations,
-    actions
+  namespaced: true,
+  state,
+  mutations,
+  actions
 }
 

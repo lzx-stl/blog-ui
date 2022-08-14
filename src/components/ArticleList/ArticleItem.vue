@@ -1,45 +1,45 @@
 <template>
-
-  <div class="articleItem-container">
-    <!-- <div class="bgImg"></div>  -->
-    <router-link :to="{
-        name: 'Detail',
-        params:{
-          id: article.id
-        }
+  <div class="article-item-container">
+    <router-link
+      :to="{
+        name: 'Article',
+        params: {
+          id: article.id,
+        },
       }"
-                 target="_blank">
-      <div class="articleItem-content">
-        <div class="article-img"
-             :style="{'background-image': 'url('+article.titleImg+')'}"></div>
+    >
+      <div class="article-item-content">
+        <div
+          class="article-img"
+          :style="{ 'background-image': 'url(' + article.titleImg + ')' }"
+        ></div>
         <div class="article-brief">
-          <h2 class="articleItem-title">
-            {{article.title}}
-          </h2>
+          <p class="article-item-title">
+            {{ article.title }}
+          </p>
         </div>
         <slot name="tagNew">....</slot>
       </div>
     </router-link>
-
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ArticleItem',
-  props: ['article']
-}
+  name: "articleItem",
+  props: ["article"]
+};
 </script>
 
-<style>
+<style lang="scss" scoped>
 * {
   margin: 0;
   padding: 0;
 }
 
-.articleItem-container {
+.article-item-container {
   margin: 0 auto 30px auto;
-  width: 750px;
+  width: 100%;
   height: 250px;
   background-color: #fff;
   border-radius: 10px;
@@ -49,19 +49,22 @@ export default {
 
 }
 
-.articleItem-title {
-  margin: 85px auto;
+.article-item-title {
+  font-size: 18px;
+  font-weight: 600;
+  font-style: italic;
+  margin-top: 85px;
   text-align: center;
   height: 30px;
   line-height: 30px;
 }
 
-.articleItem-container a {
+.article-item-container a {
   text-decoration: none;
   color: #fff;
 }
 
-.articleItem-content {
+.article-item-content {
   width: 100%;
   height: 100%;
   /* box-shadow: 1px 1px 3px 250px rgba(0, 0, 0, 0.3) inset; */
@@ -72,14 +75,14 @@ export default {
   overflow: hidden;
 }
 
-.articleItem-content .article-img {
+.article-item-content .article-img {
   float: left;
   width: 400px;
   height: 100%;
   background-size: 100% 100%;
 }
 
-.articleItem-content > slot {
+.article-item-content > slot {
   color: red;
   position: absolute;
   right: 0;
@@ -89,36 +92,12 @@ export default {
 .article-brief {
   float: right;
   height: 100%;
-  width: 350px;
+  width: 300px;
   color: #000;
 }
-
 
 .datetime > i {
   font-size: 14px;
 }
 
-.operation > i {
-  width: 70px;
-  float: left;
-  font-size: 14px;
-  margin: 0 0 0 5px;
-  text-align: left;
-}
-
-.v-note-wrapper.shadow {
-  border: none;
-  box-shadow: none !important;
-}
-
-.v-note-wrapper .v-note-panel .v-note-show .v-show-content,
-.v-note-wrapper .v-note-panel .v-note-show .v-show-content-html {
-  width: 100%;
-  background-color: #fff !important;
-  height: 100%;
-  padding: 8px 25px 15px 25px;
-  overflow-y: auto;
-  box-sizing: border-box;
-  overflow-x: hidden;
-}
 </style>

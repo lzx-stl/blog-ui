@@ -1,34 +1,13 @@
 <template>
-  <div class="card-container">
-
-    <router-link :to="{
-        name: 'Detail',
-        params: {
-          id: article.id,
-        },
-      }"
-
-                 target="_blank">
-
-    <div class="img-box" >
-        <img :src="article.titleImg"
-             alt="" >
+  <div class="card-container"
+       @click="handleClick">
+    <div class="img-box">
+      <img :src="article.titleImg"
+           alt="" />
     </div>
-
     <div class="infor">
-
-        <h3>{{ article.title }}</h3>
-      <!-- <p>
-        {{article.brief}}
-      </p> -->
-      <!-- <div class="tool">
-        <i class="iconfont icon-liulanliang"> {{ article.readCnt }}</i>
-        <i class="iconfont icon-pinglun"> {{ article.replyCnt }}</i>
-
-        <i class="iconfont icon-dianzan"> {{ article.thumbCnt }}</i>
-      </div> -->
+      <h3>{{ article.title }}</h3>
     </div>
-    </router-link>
   </div>
 </template>
 
@@ -36,13 +15,22 @@
 export default {
   name: 'Card',
   props: ['article'],
-
-  mounted() {}
+  methods: {
+    handleClick() {
+      this.$router.push({
+        name: 'Article',
+        params: {
+          id: this.article.id
+        }
+      })
+    }
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
 .card-container {
+  cursor: pointer;
   display: inline-block;
   font-size: 15px;
   text-align: center;
@@ -56,73 +44,55 @@ export default {
   position: relative;
   z-index: 1;
   transition: all 0.2s linear;
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    text-decoration: none;
+    color: #000000;
+  }
+  &:hover {
+    z-index: 2;
+    shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    transform: translate3d(0, -4px, 0);
+  }
+  .img-box {
+    border-top-left-radius: 14px;
+    border-top-right-radius: 14px;
+    width: 100%;
+    height: 168px;
+    overflow: hidden;
+  }
+  p {
+    height: 80px;
+  }
 }
-
-.card-container a{
-  display: block;
-  width: 100%;
-  height: 100%;
-
-  border-radius: 14px;
-
+.img-box {
+  img {
+    width: 100%;
+    height: 100%;
+    transition: all 0.2s ease;
+  }
 }
-
-.card-container:hover{
-  z-index: 2;
-  shadow: 0 15px 30px rgba(0, 0, 0, .1);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, .3);
-  transform: translate3d(0, -4px, 0);
-}
-
-
-.card-container .img-box {
-  border-top-left-radius: 14px;
-  border-top-right-radius: 14px;
-  width: 100%;
-  height: 160px;
-
-  overflow: hidden;
-}
-
-
-.img-box img {
-  width: 100%;
-  height: 160px;
-  transition: all 0.2s ease;
-}
-
-
-.card-container a {
-  text-decoration: none;
-  color: #000000;
-}
-
 .infor {
-  margin-top: 10px;
   width: 100%;
+  height: 50px;
+  h3 {
+    line-height: 50px;
+    font-style: italic;
+  }
 }
-
-.infor h3 {
-  width: 100%;
-  height: 30px;
-  line-height: 30px;
-}
-
-.card-container p {
-  height: 80px;
-  /* margin: 15px auto; */
-}
-
 .tool {
   width: 100%;
   margin-top: 30px;
   height: 50px;
   line-height: 50px;
-}
-
-.tool > i {
-  float: left;
-  color: #748594;
-  width: 33%;
+  & > i {
+    float: left;
+    color: #748594;
+    width: 33%;
+  }
 }
 </style>

@@ -37,7 +37,6 @@ service.interceptors.request.use(
 service.interceptors.response.use(res => {
   // 未设置状态码则默认成功状态
   const code = res.data.code || 200;
-  // console.log(res);
   if(code === 200 && res.data.msg){
     Message.success({
       offset: '60',

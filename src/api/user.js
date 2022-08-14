@@ -1,7 +1,13 @@
 import request from "@/utils/request";
-import md5 from 'js-md5';
 
-import { encrypt, decrypt } from '@/utils/jsencrypt'
+
+export function getUserList () {
+  return request({
+    url: "/getList",
+    method: "get",
+  });
+}
+
 
 export function getInformation (uuid) {
   return request({
@@ -24,12 +30,12 @@ export function getInfor(token){
 
 }
 
-export function login (src) {
+export function login (source) {
   return request({
     url: "/oauth/render",
     method: "post",
     params:{
-      src
+      source
     }
   });
 }
@@ -53,3 +59,4 @@ export function update (data) {
     data
   });
 }
+

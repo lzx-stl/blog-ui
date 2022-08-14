@@ -1,29 +1,37 @@
 <template>
   <div class="app-wrapper"
-  ref="box"
-  >
-    <Header :dialogFormVisible.sync="dialogFormVisible"/>
-    <el-dialog style="width: 300px;height: 300px;" v-if="dialogFormVisible">
-      <LoginForm/>
+       ref="box">
+    <Header :dialogFormVisible.sync="dialogFormVisible" />
+    <el-dialog style="width: 300px;height: 300px;"
+               v-if="dialogFormVisible">
+      <LoginForm />
     </el-dialog>
-<BackToTop/>
+    <BackToTop/>
     <app-main></app-main>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import {Header, AppMain} from './components'
+import { Header, AppMain, Footer } from './components'
 import BackToTop from '@/components/BackToTop'
 export default {
-  name: "Layout",
+  name: 'Layout',
   components: {
     Header,
     AppMain,
-    BackToTop
-  }, data() {
+    BackToTop,
+    Footer
+  },
+  data() {
     return {
       dialogFormVisible: false
     }
+  },
+  methods: {
+   
+  },
+  mounted() {
   }
 }
 </script>
@@ -31,7 +39,5 @@ export default {
 <style scoped>
 .app-wrapper {
   width: 100%;
-  height: 100%;
-  position: relative;
 }
 </style>

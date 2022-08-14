@@ -1,28 +1,26 @@
 <template>
-  <section class="app-main">
-    <router-view :key="key"/>
-  </section>
+  <div class="app-main">
+    <router-view :key="key" />
+  </div>
 </template>
 
 <script>
 export default {
-  name: "AppMain",
+  name: 'AppMain',
   computed: {
     key() {
       return this.$route.path
     }
-  }, mounted() {
-
-    this.$store.dispatch('config/getConfig', 1);
+  },
+  mounted() {
+    this.$store.dispatch('config/getConfig', 1)
   }
 }
 </script>
 
 <style scoped>
-
 .app-main {
   width: 100%;
-  height: 100%;
+  padding-top: 60px;
 }
-
 </style>
