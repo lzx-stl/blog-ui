@@ -1,0 +1,168 @@
+<template>
+  <div class="article-container"
+       :style="{ width: options.width }">
+    <div class="article-container-content">
+      <div class="title-container">
+        <h1 class="big-title">{{ article.title }}</h1>
+        <div class="article-read-info">
+          <span class="publish-text"
+                data-v-0735ec40="">2022-07-08 20:06</span>
+          <span>{{ article.readCnt }}阅读</span>
+          <span>{{ article.thumbCnt }}点赞</span>
+          <span>{{ article.replyCnt }}评论</span>
+        </div>
+      </div>
+      <div class="article-up-info">
+        <div class="up-left">
+          <div class="avatar-container">
+            <el-image v-if="author.avatar"
+                      :src="author.avatar"></el-image>
+          </div>
+          <div class="up-name-pannel">{{ author.nickname }}</div>
+        </div>
+      </div>
+      <div class="article-content">
+        <mavon-editor class="md"
+                      :value="article.content"
+                      :subfield="prop.subfield"
+                      :defaultOpen="prop.defaultOpen"
+                      :toolbarsFlag="prop.toolbarsFlag"
+                      :editable="prop.editable"
+                      :code-style="code_style"
+                      :previewBackground="prop.previewBackground">
+        </mavon-editor>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Reply from '@/components/Comment/components/Reply'
+
+export default {
+  name: 'Content',
+  components: {
+    Reply
+  },
+  props: {
+    options: {
+      Type: Object,
+      default: {
+        witdh: '900px'
+      }
+    },
+    article: {
+      Type: Object,
+      default: () => {}
+    },
+    author: {
+      Type: Object,
+      default: () => {}
+    }
+  },
+  data() {
+    return {
+      code_style: 'androidstudio'
+    }
+  },
+  mounted() {},
+  methods: {},
+  computed: {
+    prop() {
+      let data = {
+        // header: true, // 标题,
+        navigation: true,
+        subfield: false, // 单双栏模式
+        defaultOpen: 'preview', //edit： 默认展示编辑区域 ， preview： 默认展示预览区域
+        editable: false,
+        toolbarsFlag: false,
+        scrollStyle: true,
+        previewBackground: '#fff'
+        // boxShadowStyle: '0 2px 12px 0 rgba(0, 0, 0, 0)'
+      }
+      return data
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.article-container {
+  width: 900px;
+  margin: 60px auto;
+  padding: 30px 40px 40px;
+  border-radius: 4px;
+  background-color: #fff;
+  margin-bottom: 12px;
+
+  .article-container-content {
+    .title-container {
+      padding: 0 80px;
+      .big-title {
+        min-height: 39px;
+        font-size: 28px;
+        color: #222;
+        margin-bottom: 16px;
+        font-weight: 700;
+        line-height: 1.4;
+      }
+    }
+
+    .v-note-wrapper.shadow {
+      box-shadow: none !important;
+    }
+    .v-note-wrapper
+      .v-note-panel
+      .v-note-show
+      .v-show-content
+      .scroll-style
+      .scroll-style-border-radius {
+      padding: 0 !important;
+    }
+    .article-read-info {
+      color: #999;
+      font-weight: 400;
+      font-size: 13px;
+
+      span {
+        margin: 0 10px;
+      }
+    }
+
+    .article-up-info {
+      margin: 10px 0;
+      padding: 0 80px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .up-left {
+        display: flex;
+        align-items: center;
+        .avatar-container {
+          display: flex;
+          width: 44px;
+          height: 44px;
+          margin-right: 10px;
+          .el-image {
+            border-radius: 50%;
+          }
+        }
+        .up-name-pannel {
+          display: flex;
+          font-size: 18px;
+          position: relative;
+          line-height: 44px;
+        }
+      }
+    }
+
+    .article-content {
+      padding: 0 55px;
+    }
+  }
+  .markdown-body .highlight pre,
+  .markdown-body pre {
+    background-color: #fff !important;
+  }
+}
+</style>
