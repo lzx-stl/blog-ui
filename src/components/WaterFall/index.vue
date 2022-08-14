@@ -12,7 +12,7 @@
       }">
       <el-image :src="o.url"
                 :preview-src-list="srcList"
-                > </el-image>
+                lazy> </el-image>
     </div>
   </div>
 </template>
