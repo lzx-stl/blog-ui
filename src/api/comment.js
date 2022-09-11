@@ -85,3 +85,14 @@ export function getCommentSum (articleId) {
     },
   });
 }
+
+
+export function getRelativeComments ({ page, limit, fromId, toId }) {
+  return request({
+    url: "/comment/getRelativeComments",
+    method: "get",
+    params: {
+      page, limit, fromId, toId
+    },
+  });
+}

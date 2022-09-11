@@ -12,9 +12,7 @@ export default {
     console.log(window.location.search)
     const token = params.get('token')
     setToken(token)    
-    // let _this = this;
-    // let redirectUrl = window.localStorage.getItem("redirectUrl");
-    // console.log(window.localStorage);
+
     setTimeout(()=>{
       window.close();
     }, 1000)

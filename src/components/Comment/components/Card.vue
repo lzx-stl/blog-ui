@@ -3,16 +3,25 @@
     <div class="reply-face">
       <img :src="from.avatar"
            alt="" />
+
     </div>
     <div class="reply-con">
       <div class="user-name">
         {{ from.nickname }}
         <span class="text-con">
-          回复@ <a href="">{{ to.nickname }}</a>:
-          {{ obj.content }}
+          回复
+          <!-- <a href="">
+            {{ to.nickname }}
+          </a> -->
 
         </span>
+        <img :src="to.avatar"
+             alt="">
 
+      </div>
+      <div class="con-text">
+
+        {{ obj.content }}
       </div>
       <div class="con-msg">
         <span>{{ getTime }}</span>
@@ -48,7 +57,6 @@ export default {
   },
   methods: {
     handleReply() {
-      console.log(this.obj.id)
       this.$store.dispatch('comment/change', {
         rootId: this.obj.parentId ? this.obj.parentId : this.obj.id,
         toId: this.from.uuid
@@ -67,21 +75,22 @@ export default {
 .comment-card {
   width: 100%;
   margin-top: 22px;
+  img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    // position: absolute;
+    // left: 50%;
+    // top: 50%;
+    // transform: translate(-50%, -50%);
+  }
   .reply-face {
     width: 24px;
     height: 24px;
     position: absolute;
-    & > img {
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-      border-radius: 50%;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-    }
   }
+
   .reply-con {
     height: 100%;
     margin-left: 40px;

@@ -1,4 +1,4 @@
-import { getInfor, getUserList } from "@/api/user";
+import { login, getInfor, getUserList, updateUser } from "@/api/user";
 import { getToken, setToken } from "@/utils/auth";
 import { removeToken } from "../../utils/auth";
 
@@ -6,40 +6,35 @@ import { removeToken } from "../../utils/auth";
 const state = {
   token: '',
   uuid: '',
-  nickname: '',
   avatar: '',
-  role: '',
+  nickname: '',
+  username: '', 
+  information: '',
   users: new Map(),
-  redirectUrl: '',
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
-
     state.token = token
   },
-  SET_UUID: (state, uuid) => {
+  SET_USER: (state, { uuid, nickname, avatar, username, information }) => {
     state.uuid = uuid
-  },
-  SET_NICK_NAME: (state, nickname) => {
     state.nickname = nickname
-  },
-  SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+    state.username = username
+    state.information = information
+    // if (state.users.has(uuid)) {
+    //   state.users[uuid].nickname = nickname;
+    //   state.users[uuid].avatar = avatar;
+    //   window.localStorage.setItem("users", JSON.stringify(state.users));
+    // }
   },
-  SET_ROLE: (state, role) => {
-    state.role = role
-  }, SET_USERS (state, users) {
-
+  SET_USERS (state, users) {
     for (let o of users) {
       state.users[o.uuid] = o;
     }
     window.localStorage.setItem("users", JSON.stringify(state.users));
   },
-  SET_REDIRECTURL: (state, redirectUrl)=>
-  {
-    state.redirectUrl = redirectUrl
-  }
 }
 
 const actions = {
@@ -47,33 +42,33 @@ const actions = {
     getUserList().then(res => {
       commit('SET_USERS', res.list);
     })
-  }, setRedirect ({ commit }, redirectUrl) {
-    commit('SET_REDIRECTURL', redirectUrl);
-
   },
-  getInfor ({ commit }, token) {
+  getInfor ({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfor(token).then(res => {
-
-        const { uuid, nickname, avatar, role } = res.user;
-
-        commit('SET_TOKEN', token);
-        commit('SET_UUID', uuid);
-        commit('SET_NICK_NAME', nickname);
-        commit('SET_AVATAR', avatar);
-        commit('SET_ROLE', role);
-        resolve();
+      getInfor().then(res => {
+        commit('SET_TOKEN', getToken())
+        commit('SET_USER', res.user);
+        resolve(res.user);
+      }).catch(error => {
+        reject(error);
+      })
+    })
+  }, updateInfor ({ commit }, user) {
+    return new Promise((resolve, reject) => {
+      updateUser(user).then(res => {
+        commit('SET_USER', res.user);
+        resolve(res.user);
       }).catch(error => {
         reject(error);
       })
     })
   },
+  login ({ commit, user }) {
+
+  },
   logout ({ commit }) {
     commit('SET_TOKEN', '');
-    commit('SET_UUID', '');
-    commit('SET_NICK_Name', '');
-    commit('SET_AVATAR', '');
-    commit('SET_ROLE', '');
+    commit('SET_USER', {});
     // window.localStorageNaNpxoveItem("")
     removeToken();
   }

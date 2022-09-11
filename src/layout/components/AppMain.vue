@@ -14,13 +14,13 @@ export default {
   },
   mounted() {
     this.$store.dispatch('config/getConfig', 1)
+    this.$store.dispatch('user/init')
   }
 }
 </script>
 
 <style scoped>
 .app-main {
-  width: 100%;
-  padding-top: 60px;
+  
 }
 </style>

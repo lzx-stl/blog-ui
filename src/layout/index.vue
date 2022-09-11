@@ -6,38 +6,29 @@
                v-if="dialogFormVisible">
       <LoginForm />
     </el-dialog>
-    <BackToTop/>
     <app-main></app-main>
-    <Footer/>
   </div>
 </template>
 
 <script>
-import { Header, AppMain, Footer } from './components'
-import BackToTop from '@/components/BackToTop'
+import { Header, AppMain } from './components'
 export default {
   name: 'Layout',
   components: {
     Header,
-    AppMain,
-    BackToTop,
-    Footer
+    AppMain
   },
   data() {
     return {
       dialogFormVisible: false
     }
   },
-  methods: {
-   
-  },
-  mounted() {
-  }
+  methods: {},
+  mounted() {}
 }
 </script>
 
 <style scoped>
 .app-wrapper {
-  width: 100%;
 }
 </style>

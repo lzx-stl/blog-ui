@@ -1,24 +1,58 @@
 <template>
   <div class="login-form-container">
     <div class="login-box">
+      <el-form :model="form"
+               class="login-form">
+        <el-form-item>
+          <el-input v-model="form.username"
+                    placeholder="请输入用户名"
+                    prefix-icon="el-icon-user">
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input type="password"
+                    v-model="form.password"
+                    prefix-icon="el-icon-lock"
+                    placeholder="请输入密码"
+                    show-password
+                    style="user-select:none"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-checkbox v-model="form.rememberMe">记住我</el-checkbox>
+          <el-button type="primary">登录</el-button>
+        </el-form-item>
+      </el-form>
 
-      <div class="login-box-bottom">
-        <div class="login-third">
-          <p>其他登录方式</p>
-          <div class="login-third-items">
+    </div>
+    <div class="login-box-bottom">
+
+      <div class="login-third">
+
+        <p>其他登录方式</p>
+        <div class="login-third-items">
+          <div class="login-third-item"
+               v-for="icon in icons"
+               :key="icon.name">
             <svg class="icon"
-                 @click="login('gitee')"
+                 @click="login(icon.source)"
                  aria-hidden="true">
-              <use xlink:href="#icon-gitee"></use>
-            </svg>
-            <svg class="icon"
-                 @click="login('qq')"
-                 aria-hidden="true">
-              <use xlink:href="#icon-QQ"></use>
+              <use :xlink:href="icon.class"></use>
             </svg>
           </div>
 
+          <!-- <svg class="icon"
+               @click="login('gitee')"
+               aria-hidden="true">
+            <use xlink:href="#icon-gitee"></use>
+          </svg>
+          <svg class="icon"
+               @click="login('qq')"
+               aria-hidden="true">
+            <use xlink:href="#icon-QQ"></use>
+          </svg> -->
+
         </div>
+
       </div>
     </div>
   </div>
@@ -36,10 +70,23 @@ export default {
   name: 'LoginForm',
   data() {
     return {
+      icons: [
+        {
+          source: 'github',
+          class: '#icon-github'
+        },
+        {
+          source: 'gitee',
+          class: '#icon-gitee'
+        },
+        {
+          source: 'qq',
+          class: '#icon-QQ'
+        }
+      ],
       form: {
         username: '',
         password: '',
-
         rememberMe: false
       },
       rules: {
@@ -59,25 +106,28 @@ export default {
   },
   methods: {
     getCookie() {
-      const username = Cookies.get('username')
-      const password = Cookies.get('password')
-      const rememberMe = Cookies.get('rememberMe')
-      this.form = {
-        username: username === undefined ? this.form.username : username,
-        password: password === undefined ? this.form.password : password,
-        rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
-      }
+      // const username = Cookies.get('username')
+      // const password = Cookies.get('password')
+      // const rememberMe = Cookies.get('rememberMe')
+      // this.form = {
+      //   username: username === undefined ? this.form.username : username,
+      //   password: password === undefined ? this.form.password : password,
+      //   rememberMe: rememberMe === undefined ? false : Boolean(rememberMe)
+      // }
     },
     goto(url) {
       const { href } = this.$router.resolve({ path: '/register' })
       window.open(href, '_blank')
     },
     login(source) {
+      console.log('source', source)
       login(source).then((res) => {
-        let son = openWindow(res, '', 800, 600)
+        let son = openWindow(res, '', 600, 400)
+        let that = this
         var loop = setInterval(function () {
           if (son.closed) {
             clearInterval(loop)
+            //判读登录状态
             window.location.reload()
           }
         }, 1000)
@@ -109,59 +159,54 @@ export default {
 
 <style lang="scss">
 .login-form-container {
-  height: 100%;
-  background-image: url('http://r7n2cvhum.hn-bkt.clouddn.com/d0382a8ae8eab0b0dd9747e4323ecbe91645329737127.jpeg');
-  background-size: 100% 100%;
-  background-color: #f5f5f5;
-  overflow: hidden;
   .login-box {
-    position: relative;
-
+    display: flex;
+    justify-content: center;
     width: 100%;
-    height: 260px;
-    margin: 0 auto;
     background-color: #fff;
-    .login-box-bottom {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      border-bottom-left-radius: 2px;
-      border-bottom-right-radius: 2px;
-      box-sizing: border-box;
-      padding: 0 24px 24px;
-      font-size: 12px;
-      color: #555666;
-      .login-third {
-        text-align: center;
-        .login-third-items {
-          padding-top: 20px;
-          position: relative;
-          margin-left: 16px;
-          .login-third-item {
-            height: 40px;
-            background-color: #409eff;
-            // background-image: url("https://wiki.connect.qq.com/wp-content/uploads/2016/12/Connect_logo_1.png");
-            // background-size: 100% 100%;
-          }
+  }
+
+  .login-box-bottom {
+    // position: absolute;
+    // bottom: 0;
+    // width: 100%;
+    // border-bottom-left-radius: 2px;
+    // border-bottom-right-radius: 2px;
+    // box-sizing: border-box;
+    // padding: 0 24px 24px;
+    font-size: 12px;
+    color: #555666;
+    .login-third {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .login-third-items {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 20px;
+        .login-third-item {
+          padding: 0 20px;
         }
       }
+    }
 
-      .icon {
-        font-size: 30px;
-        cursor: pointer;
-        margin-right: 30px;
-      }
+    .icon {
+      font-size: 30px;
+      cursor: pointer;
+      // margin-right: 30px;
     }
   }
 }
 
 .login-form {
-  margin: 100px auto;
-  width: 300px;
-}
-
-.login-form .el-form-item {
-  width: 100%;
-  height: auto;
+  width: 380px;
+  .el-form-item {
+    .el-input,
+    .el-button {
+      width: 100%;
+    }
+  }
 }
 </style>

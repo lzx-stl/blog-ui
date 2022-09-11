@@ -1,9 +1,36 @@
 <template>
   <div class="reply-wrapper">
     <div class="first">
-      <div class="user-avatar-img">
-        <img :src="users[obj.fromId].avatar"
-             alt="" />
+      <div class="user-avatar">
+        <el-popover placement="top"
+                    width="360"
+                    trigger="hover">
+          <div class="user-card">
+            <div class="bg"></div>
+            <div class="face">
+              <img :src="users[obj.fromId].avatar"
+                   alt="" />
+            </div>
+            <div class="infor">
+              <div class="user">
+                <p class="name">{{users[obj.fromId].nickname}}</p>
+              </div>
+              <!-- <div class="social">社交</div>
+              <div class="verify">认证</div> -->
+            </div>
+            <div class="btn-box">
+              <el-button type="primary">+关注</el-button>
+
+              <el-button>发消息</el-button>
+            </div>
+          </div>
+          <div slot="reference">
+
+            <img :src="users[obj.fromId].avatar"
+                 alt=""
+                 class="user-avatar-img" />
+          </div>
+        </el-popover>
       </div>
       <div class="con">
         <div class="user-name">
@@ -22,18 +49,21 @@
         </div>
 
         <div class="reply-box">
-          <div >
+          <div>
             <Card v-for="item in list"
                   :key="item.id"
                   :obj="item"
                   :users="users" />
           </div>
-          <Pagination :background="false"
-                      v-if="total > listQuery.limit"
-                      :total="total"
-                      :limit="listQuery.limit"
-                      :layout="'total, prev, pager, next'"
-                      @pagination="handlePageChange" />
+          <div>
+            <Pagination :background="false"
+                        v-if="total > listQuery.limit"
+                        :total="total"
+                        :limit="listQuery.limit"
+                        :layout="'total, prev, pager, next'"
+                        @pagination="handlePageChange" />
+
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +108,7 @@ export default {
       }
     }
   },
- created() {
+  created() {
     this.users = JSON.parse(window.localStorage.getItem('users'))
     this.getList()
   },
@@ -102,11 +132,10 @@ export default {
       return this.users[obj.toId]
     },
     handleAdmit(val) {
-      this.list.unshift(val);
+      this.list.unshift(val)
       this.total++
     },
     handleReply() {
-      console.log(this.obj.id)
       this.$store.dispatch('comment/change', {
         rootId: this.obj.id,
         toId: this.users[this.obj.fromId].uuid
@@ -124,7 +153,6 @@ export default {
       toId: (state) => state.comment.toId
     }),
     getTime() {
-      // console.log(this.obj);
       return getTime(this.obj.replyTime)
     }
   }
@@ -133,19 +161,20 @@ export default {
 
 <style lang="scss" scoped>
 .reply-wrapper {
-  float: left;
   width: 100%;
   min-height: 40px;
   margin-bottom: 10px;
-  border-top: 1px solid #e5e9ef;
+  &:last-child .con {
+    border-bottom: 1px solid #e5e9ef;
+  }
   .first {
-    width: 100%;
-    .user-avatar-img {
+    .user-avatar {
       width: 82px;
       height: 48px;
       position: absolute;
       margin-top: 24px;
-      img {
+
+      .user-avatar-img {
         width: 48px;
         height: 48px;
         cursor: pointer;
@@ -156,7 +185,7 @@ export default {
         transform: translate(-50%, -50%);
       }
     }
-    & > .con {
+    .con {
       height: 100%;
 
       margin-left: 85px;
@@ -164,10 +193,13 @@ export default {
       font-size: 14px;
       box-sizing: content-box;
       padding: 24px 0 14px 0;
+      border-top: 1px solid #e5e9ef;
+
       i:hover {
         color: #00a1d6;
       }
     }
+
     .user-name {
       display: inline-block;
       cursor: pointer;
@@ -199,18 +231,13 @@ export default {
   }
 
   .reply-box {
-    min-height: 10px;
     .comment-card {
       width: 100%;
       .con {
         width: 500px;
       }
     }
-    .pagination-container {
-      background: #fff;
-      padding: 5px 0px;
-      text-align: left;
-    }
+    
   }
 
   .comment-send {
@@ -224,6 +251,52 @@ export default {
         width: 70%;
       }
     }
+  }
+}
+
+.user-card {
+  position: relative;
+  .bg {
+    // background-image: url('https://upload-bbs.mihoyo.com/upload/2022/02/08/73491413/51df9519bdcdb4f42a630497f19b1485_4543259733633110045.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg');
+    position: absolute;
+    width: 100%;
+    height: 85px;
+    top: 0;
+    left: 0;
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .face {
+    cursor: pointer;
+
+    position: absolute;
+    top: 95px;
+    left: 10px;
+
+    img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+  }
+
+  .infor {
+    padding: 95px 20px 16px 70px;
+    .name {
+      max-width: 160px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #222;
+    }
+  }
+  .btn-box {
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

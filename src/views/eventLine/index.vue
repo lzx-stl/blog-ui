@@ -1,114 +1,114 @@
 <template>
+  <div class="flex-container"
+       :style="{backgroundImage: 'url(' + eventImg + ')' }">
+    <el-timeline class="container">
+      <el-timeline-item v-for="item in list"
+                        :key="item.id"
+                        placement="top">
+        <el-card class="event-card">
+          <div class="event-card__header">
 
+            <h2 class="title">{{item.title}}</h2>
+          </div>
+          <div class="event-card__body">
+            {{item.content}}
+          </div>
+          <div class="event-card__footer">
+            <div class="time">{{getTime(item.time)}}</div>
 
-    <div class="eventline-continer"
-         :style="{'background-image': 'url('+$store.state.config.eventImg+')'}">
-      <div class="order-rule"
-           style="float:right">
-        排序：
-        <el-radio-group v-model="reverse">
-          <el-radio :label="false">正序</el-radio>
-          <el-radio :label="true">倒序</el-radio>
-        </el-radio-group>
+          </div>
+        </el-card>
+      </el-timeline-item>
+
+    </el-timeline>
+    <!-- <div class="flex-item"
+         v-for="item in list"
+         :key="item.id">
+      <h1>
+        {{item.title}}
+      </h1>
+      <div>{{item.content}}
+
       </div>
-      <div class="eventline-content">
-        <div class="block">
-          <el-timeline :reverse="reverse">
-            <el-timeline-item v-for="(item, index) in list"
-                              :key="index"
-                              :timestamp="$moment(item.time).format('YYYY年MM月DD日')">
-              <!-- <el-card>
-                <h2>{{t.title}}</h2>
-                <p>{{t.content}}</p>
-              </el-card> -->
-              <h3> {{item.title}}</h3>
-            </el-timeline-item>
-          </el-timeline>
-        </div>
-      </div>
+    </div> -->
 
-      <BackToTop></BackToTop>
-    </div>
+  </div>
 </template>
 
 <script>
-import BackToTop from '@/components/BackToTop'
-
-import { findAll } from '@/api/event.js'
+import { findAll } from '@/api/event'
+import { getTime } from '@/utils/common'
+import { mapState } from 'vuex'
 export default {
-  name: 'EventLine',
-  components: {
-    BackToTop
-  },
-
   data() {
     return {
-      reverse: true,
       list: []
     }
   },
-  mounted() {
-    findAll().then((res) => {
-      this.list = res.list
+  methods: {
+    getList() {
+      findAll().then((res) => {
+        console.log(res)
+        this.list = res.list
+      })
+    },
+    getTime(time) {
+      return getTime(time)
+    }
+  },
+  computed: {
+    ...mapState({
+      eventImg: (state) => state.config.eventImg
     })
+  },
+  created() {
+    this.getList()
   }
 }
 </script>
 
-<style>
-.eventline-continer {
-  /* position: relative; */
-  /* overflow: hidden; */
-  /* color: #000; */
-  position: relative;
+<style lang="scss">
+.flex-container {
+  // background-color: yellow;
+  padding-top: 100px;
+
+  //   display: flex;
+  // justify-content: center;
+  //   align-items: center;
   background-size: 100% 100%;
   background-attachment: fixed;
-  background-color: red;
-}
+  .flex-item {
+    width: 100%;
+    // background-color: red;
+  }
+  .container {
+    opacity: 0.75;
+    background-color: transparent;
+    width: 550px;
+    margin: 0 auto;
+    .event-card {
+      padding: 10px 5px;
+      .event-card__header {
+        display: flex;
+        .title {
+          flex-grow: 1;
+        }
+      }
+      .event-card__body {
+        padding: 10px 0;
+      }
+      .event-card__footer {
+        display: flex;
+        justify-content: end;
+        .time {
+          font-size: 16px;
+        }
+      }
+    }
+  }
 
-.eventline-content {
-  margin: 0 auto;
-  width: 1200px;
-  padding: 50px;
-  min-height: 850px;
-}
-
-.order-rule {
-  font-size: 20px;
-  height: 100px;
-  margin: 100px;
-}
-.el-card {
-  width: 470px !important;
-}
-
-.eventline-content .el-timeline {
-  margin: 0 auto;
-}
-
-.eventline-content .el-timeline .el-timeline-item {
-  width: 500px;
-  margin: 0 auto;
-  color: #fff;
-}
-
-.eventline-content .el-timeline .el-timeline-item .el-card {
-  width: 600px;
-  min-height: 250px;
-  /*opacity: 0.8;*/
-}
-
-.el-card h2 {
-  text-align: center;
-}
-.el-card p {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.el-timeline-item__timestamp.is-top {
-  color: #000;
-  font-size: 22px;
-  font-weight: 800px;
+  .card {
+    background-color: skyblue;
+  }
 }
 </style>

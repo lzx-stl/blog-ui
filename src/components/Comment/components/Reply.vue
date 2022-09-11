@@ -82,9 +82,11 @@ export default {
   },
   computed: {
     ...mapState({
+   
       uuid: (state) => state.user.uuid,
-      name: (state) => state.user.name,
+      nickname: (state) => state.user.nickname,
       avatar: (state) => state.user.avatar,
+      username: (state) => state.user.username,
       token: (state) => state.user.token
     }),
     hint() {

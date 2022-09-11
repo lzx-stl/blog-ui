@@ -1,64 +1,73 @@
 <template>
-
   <div class="header-container">
+    <div class="header-nav">
+      <div class="header-nav-menu">
+        <div class="header-nav-menu__item"
+             v-for="item in routers"
+             :key="item.name"
+             :class="{ 'menu-active': $route.path == item.path }">
+          <router-link :to="item.path">
+            {{ item.text }}
+          </router-link>
+          <div class="line"
+               v-show="$route.path == item.path"></div>
+        </div>
+      </div>
 
-    <ul class="header-nav">
-      <li v-for="(o,index) in routers"
-          :key="o.name"
-          :class="{'active': activeIndex == index}"
-          @click="activeIndex = index">
-        <span @click="goto(o.name)">
-          {{o.text}}</span>
-      </li>
-    </ul>
-    <a href="">
-      <el-image class="avatar"
-                :src="avatar"
-                :alt="nickname"
-                v-if="isLogin"
-                :class="{'avatar-hover' : isVisable}"
-                @mouseover="inAvatar=true"></el-image>
-    </a>
-    <button class="login-btn"
-            @click="logout"
-            v-if="isLogin">注销</button>
-    <button class="login-btn"
-            v-if="!isLogin"
-            @click="visible=true">
-      登录
-    </button>
+      <div class="user-zone">
+        <a v-if="isLogin"
+           href="/accountCenter">
+          <el-image class="avatar"
+                    :src="avatar"
+                    :alt="nickname"
+                    :class="{ 'avatar-hover': pannelVisable }"></el-image>
+        </a>
+
+        <button class="login-btn"
+                v-if="!isLogin"
+                @click="visible = true">
+          登录
+        </button>
+      </div>
+
+    </div>
+
     <el-dialog title="登录"
                :visible.sync="visible"
                center
                width="40%"
+               top="91px"
+               :close-on-click-modal="false"
                append-to-body
                :modal="false">
-      <span>需要注意的是内容是默认不居中的</span>
-
       <login-form />
-      <span slot="footer"
+      <!-- <span slot="footer"
             class="dialog-footer">
         <el-button @click="visible = false">取 消</el-button>
         <el-button type="primary"
                    @click="visible = false">确 定</el-button>
-      </span>
+      </span> -->
     </el-dialog>
-    <!-- <div class="avatar-panel"
-         v-if="isVisable"
-         @mouseover="inAvatarPanel=true"
-         @mouseleave="inAvatarPanel=false">
-      <a class="nick-name">
-        {{nickname}}</a>
-        <a href=""></a>
-    </div> -->
-
+    <div class="avatar-panel"
+         v-if="false">
+      <div class="nick-name"> {{nickname}}
+      </div>
+      <div class="pannel-menu">
+        <div class="pannel-menu-item">
+          个人中心
+        </div>
+        <div class="pannel-menu-item"
+             @click="logout"
+             v-if="isLogin">退出</div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { login } from '@/api/user'
 import openWindow from '@/utils/open-window'
-import { getToken} from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 import { mapState } from 'vuex'
 import LoginForm from './components/LoginForm'
 
@@ -70,17 +79,14 @@ export default {
   data() {
     return {
       routers: [
-        { text: '首页', name: '/home' },
-        { text: '专栏', name: '/category' },
-        { text: '图床', name: '/resources' },
-        { text: '文件上传', name: 'eventLine' },
-        { text: '听歌', name: '/1' },
-        { text: '追番', name: '/2' },
-        { text: '计算器', name: '/3' }
+        { text: '首页', path: '/home' },
+        { text: '专栏', path: '/category' },
+        { text: '图床', path: '/imagebed' },
+        { text: '随笔', path: '/eventline' }
+        // { text: '资源', path: '/resources' }
       ],
       visible: false,
-      inAvatar: false,
-      inAvatarPanel: false,
+      pannelVisable: false,
       activeIndex: -1
     }
   },
@@ -102,20 +108,17 @@ export default {
       uuid: (state) => state.user.uuid,
       nickname: (state) => state.user.nickname,
       avatar: (state) => state.user.avatar,
+      username: (state) => state.user.username,
       token: (state) => state.user.token
     }),
     isLogin() {
       return this.token != ''
     },
     isVisable() {
-      console.log(this.inAvatar, this.inAvatarPanel)
-      return this.inAvatar || this.inAvatarPanel
+      return this.isLogin
     }
   },
   mounted() {
- 
-  
-    console.log(`token`, getToken())
     if (getToken()) this.$store.dispatch('user/getInfor', getToken())
   }
 }
@@ -127,46 +130,77 @@ export default {
   width: 100%;
   height: 60px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  background-color: #fff;
   position: fixed;
   top: 0;
-  z-index: 2000;
-  color: #000;
+  z-index: 1999;
+  background-color: #fff;
 }
 
 .header-nav {
-  height: 60px;
-  padding-left: 50px;
-  list-style: none;
-}
+  width: 1200px;
+  height: 100%;
+  color: #1f2233;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  .header-nav-menu {
+    height: 100%;
+    display: flex;
+    .header-nav-menu__item {
+      cursor: pointer;
+      height: 100%;
+      padding: 0 12px;
+      position: relative;
+      a {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        color: #333;
+        &:hover {
+          color: #32ca99;
+        }
+      }
+      .line {
+        background-color: #32ca99;
+        border-top-right-radius: 2px;
+        bottom: 8px;
+        height: 4px;
+        left: 50%;
+        margin-left: -6px;
+        padding: 0;
+        position: absolute;
+        width: 12px;
+      }
+    }
 
-ul li {
-  float: left;
-  height: 60px;
-  cursor: pointer;
-  /*font-size: 20px;*/
-  line-height: 60px;
-  margin-left: 40px;
-}
-
-li:first-child {
-  margin: 0;
-}
-
-.header-container .header-nav span:hover {
-  color: #32ca99;
-}
-
-.active {
-  border-bottom: 4px solid #32ca99;
-  color: #32ca99;
+    .menu-active {
+      a {
+        color: #32ca99;
+      }
+    }
+  }
+  .user-zone {
+    display: flex;
+    align-items: center;
+    .avatar {
+      display: block;
+      width: 48px;
+      height: 48px;
+      position: relative;
+      z-index: 2;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      transform-origin: top;
+      &:hover {
+        transform: scale(1.72);
+      }
+    }
+  }
 }
 
 .login-btn {
   cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 100px;
   height: 40px;
   font-size: 14px;
   padding: 10px 30px;
@@ -174,36 +208,36 @@ li:first-child {
   background-color: #32ca99;
   color: #fff;
   border: 0;
-}
-
-.avatar {
-  position: absolute;
-  top: 5px;
-  right: 250px;
-
-  z-index: 2;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  transform-origin: top right;
+  // vertical-align: top;
 }
 
 .avatar-hover {
-  // transform: scale(1.72);
 }
 
 .avatar-panel {
   cursor: pointer;
-  width: 300px;
-  height: 70px;
+  width: 150px;
   background-color: #fff;
   position: absolute;
-  right: 145px;
-  top: 65px;
-  border: 2px solid #fc8bab;
+  right: 100px;
+  top: 62px;
   border-radius: 6px;
   z-index: 1;
+  .pannel-menu {
+    padding: 10px;
+    .pannel-menu-item {
+      border-radius: 4px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      & + .pannel-menu-item {
+        border-top: 1px solid #f5f5f5;
+      }
+      &:hover {
+        background-color: #f5f5f5;
+      }
+    }
+  }
   .nick-name {
     display: flex;
     margin: 30px;

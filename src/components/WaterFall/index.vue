@@ -10,9 +10,11 @@
           height: o.h + 'px',
           margin: '0 ' + gap + 'px',
       }">
-      <el-image :src="o.url"
+      <img v-lazy="o.url"
+           alt="">
+      <!-- <el-image :src="o.url"
                 :preview-src-list="srcList"
-                lazy> </el-image>
+                lazy> </el-image> -->
     </div>
   </div>
 </template>
@@ -68,6 +70,8 @@ export default {
           this.noMore = true
 
           this.loading = false
+
+          window.removeListener('scroll', this.scrollHandle)
           return
         }
         this.listQuery.page++
@@ -82,7 +86,6 @@ export default {
             o.left = index * (this.gap + w)
           } else {
             let minIndex = this.getMin()
-            console.log(minIndex)
             o.top = this.heightArr[minIndex] + this.gap
             o.left = minIndex * (this.gap + w)
             this.heightArr[minIndex] += h + this.gap
@@ -91,8 +94,6 @@ export default {
           this.srcList.push(o.url)
         }
         //设置父盒子高度
-        document.querySelector('.wf-container').style.height =
-          this.heightArr[this.getMax()] + 100 + 'px'
         this.loading = false
       })
     },
@@ -110,15 +111,18 @@ export default {
   created() {
     this.getList()
     window.addEventListener('scroll', this.scrollHandle, false)
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandle, false)
   }
 }
 </script>
 
 <style lang="scss">
 .wf-container {
-  width: 1250px;
+  width: 98%;
   min-height: 700px;
-  margin: 10px auto;
+  margin: 25px auto;
   position: relative;
 }
 .wf-item {

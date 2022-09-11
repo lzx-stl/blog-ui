@@ -21,7 +21,6 @@ const mutations = {
 
 const actions = {
   getConfig ({ commit }, id) {
-    console.log(id)
     return new Promise((resolve, reject) => {
       getConfig(id).then(res => {
         const { topImg, mainImg, eventImg } = res.config;

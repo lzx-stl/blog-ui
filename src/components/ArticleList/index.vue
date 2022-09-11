@@ -1,29 +1,36 @@
 <template>
   <div class="list-container">
-    <ArticleItem v-for="item in list" :key="item.id" :article="item">
-      <template name="tagNew">
-        <i class="iconfont icon-New-Tga"> </i>
-      </template>
-    </ArticleItem>
-    <div
-      v-if="loading"
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
-    ></div>
-    <p v-if="noMore">没有更多了</p>
+    <div class="list-container__body">
+
+      <ArticleItem v-for="item in list"
+                   :key="item.id"
+                   :article="item"
+                   :author="authors[item.authorId]" />
+
+    </div>
+    <div v-if="loading"
+         v-loading="loading"
+         element-loading-text="加载中"></div>
+    <div class="loading-end"
+         v-if="noMore">没有更多了</div>
   </div>
 </template>
 
 <script>
-import ArticleItem from "./ArticleItem";
-import { findAll } from "@/api/article";
-import { throttle } from "@/utils/common";
+import ArticleItem from './ArticleItem'
+import { findAll } from '@/api/article'
+import { throttle } from '@/utils/common'
 
 export default {
-  name: "ArticleList",
+  name: 'ArticleList',
   components: {
-    ArticleItem,
+    ArticleItem
+  },
+  props: {
+    authorId: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -34,67 +41,88 @@ export default {
         tag: null,
         keyWord: null,
         all: false,
+        authorId: this.authorId
       },
       loading: false,
       noMore: false,
       delay: 1500,
-    };
+      authors: []
+    }
   },
   computed: {
     disabled() {
-      return this.loading || this.noMore;
-    },
+      return this.loading || this.noMore
+    }
+  },
+  created() {},
+  mounted() {
+    window.addEventListener('scroll', this.scrollHandle, false)
+
+    this.listQuery.authorId = this.authorId
+    this.getList()
+
+    this.authors = JSON.parse(window.localStorage.getItem('users'))
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandle, false)
   },
   methods: {
     getList() {
-      if (!this.disabled) {
-        this.loading = true;
-        findAll(this.listQuery).then((res) => {
-          if (!res.list.length) {
-            this.noMore = true;
-            this.loading = false;
-            return;
-          } else {
-            this.listQuery.page++;
-            this.list = this.list.concat(res.list);
-            setTimeout(() => {
-              this.loading = false;
-            }, this.delay);
-          }
-        });
-      }
+      if (this.disabled) return
+      this.loading = true
+      findAll(this.listQuery).then((res) => {
+        if (!res.list.length) {
+          this.noMore = true
+          this.loading = false
+
+          window.removeListener('scroll', this.scrollHandle, false)
+          return
+        } else {
+          // debugger;
+          this.listQuery.page++
+          this.list = this.list.concat(res.list)
+          this.loading = false
+        }
+      })
     },
     scrollHandle() {
-      const scrollHeight = document.body.scrollHeight;
+      const scrollHeight = document.body.scrollHeight
       const scrollTop =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const clientHeight = document.documentElement.clientHeight;
-      const dist = scrollHeight - scrollTop - clientHeight;
-      if (dist <= 0) {
-        this.getList();
+        document.body.scrollTop || document.documentElement.scrollTop
+      const clientHeight = document.documentElement.clientHeight
+      const dist = scrollHeight - scrollTop - clientHeight
+      // console.log('dist', dist)
+      if (dist <= 20) {
+        this.getList()
       }
-    },
-  },
-  created() {
-    this.getList();
-    window.addEventListener("scroll", this.scrollHandle, false);
-  },
-};
+    }
+  }
+}
 </script>
 
-<style scoped>
+<style lang="scss" >
 .list-container {
   width: 700px;
-  height: fit-content;
-  margin: 0 auto;
-  padding: 50px 0;
-  box-sizing: content-box;
-}
 
-.list-container p {
-  width: 20%;
-  text-align: center;
-  margin: 0 auto;
-  color: red;
+  margin-bottom: 100px;
+  .list-container__body {
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  .el-loading-spinner {
+    height: 70px;
+    color: #ccc;
+    background-color: #fff;
+    border-top: 1px solid #ebebeb;
+  }
+
+  .loading-end {
+    height: 70px;
+    background-color: #fff;
+    border-top: 1px solid #ebebeb;
+    color: #ccc;
+    line-height: 70px;
+    text-align: center;
+  }
 }
 </style>

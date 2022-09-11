@@ -24,13 +24,21 @@
       <div class="article-content">
         <mavon-editor class="md"
                       :value="article.content"
-                      :subfield="prop.subfield"
-                      :defaultOpen="prop.defaultOpen"
-                      :toolbarsFlag="prop.toolbarsFlag"
-                      :editable="prop.editable"
-                      :code-style="code_style"
-                      :previewBackground="prop.previewBackground">
+                      :subfield="subfield"
+                      :defaultOpen="defaultOpen"
+                      :toolbarsFlag="toolbarsFlag"
+                      :editable="editable"
+                      :code-style="codeStyle"
+                      :previewBackground="previewBackground">
         </mavon-editor>
+      </div>
+
+      <div class="article-footer">
+        <div class="article-tags">
+          <a class="tag-item"
+             href="">{{article.tag}}</a>
+
+        </div>
       </div>
     </div>
   </div>
@@ -62,7 +70,14 @@ export default {
   },
   data() {
     return {
-      code_style: 'androidstudio'
+      tags: ['原神', '原神爆料', '八重神子', '神里凌人', '八重神子材料'],
+      codeStyle: 'androidstudio',
+      subfield: false, // 单双栏模式
+      defaultOpen: 'preview', //edit： 默认展示编辑区域 ， preview： 默认展示预览区域
+      editable: false,
+      toolbarsFlag: false,
+      scrollStyle: true,
+      previewBackground: '#fff'
     }
   },
   mounted() {},
@@ -71,13 +86,6 @@ export default {
     prop() {
       let data = {
         // header: true, // 标题,
-        navigation: true,
-        subfield: false, // 单双栏模式
-        defaultOpen: 'preview', //edit： 默认展示编辑区域 ， preview： 默认展示预览区域
-        editable: false,
-        toolbarsFlag: false,
-        scrollStyle: true,
-        previewBackground: '#fff'
         // boxShadowStyle: '0 2px 12px 0 rgba(0, 0, 0, 0)'
       }
       return data
@@ -123,7 +131,7 @@ export default {
       color: #999;
       font-weight: 400;
       font-size: 13px;
-
+      margin-bottom: 20px;
       span {
         margin: 0 10px;
       }
@@ -158,6 +166,21 @@ export default {
 
     .article-content {
       padding: 0 55px;
+    }
+    .article-footer {
+      padding: 0 55px;
+      .article-tags {
+        .tag-item {
+          cursor: pointer;
+          font-size: 12px;
+          color: #999;
+          margin-right: 10px;
+          transition: 0.3s;
+          &:hover{
+            color: #00a1d6;
+          }
+        }
+      }
     }
   }
   .markdown-body .highlight pre,

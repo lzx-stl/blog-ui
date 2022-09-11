@@ -9,6 +9,8 @@ import mavonEditor from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
 
 import '@/styles/index.scss' // global css
+import '@/styles/btn.scss' // global css
+import '@/styles/variables.scss' // global css
 
 import moment from "moment";
 Vue.prototype.$moment = moment;
@@ -48,6 +50,19 @@ Vue.use(mavonEditor);
 // 配置请求根路经
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+
+import VueLazyload from 'vue-lazyload'
+
+Vue.use(VueLazyload)
+
+// or with options
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  error: '',
+  loading: '',
+  attempt: 1
+})
+
 
 new Vue({
   router,

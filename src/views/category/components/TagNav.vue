@@ -1,13 +1,32 @@
 <template>
-  <ul class="tag-nav-container">
-    <li @click="handleTagChange('')"
-        :class="{'active-color': currentTag == ''}">全部</li>
-    <li v-for="item in tagList"
-        :key="item.value"
-        @click="handleTagChange(item.value)"
-        :class="{'active-color': currentTag == item.value}">{{ item.value }}
-    </li>
-  </ul>
+  <div class="tag-wrapper">
+    <div class="container">
+
+      <div class="tag-block">分类</div>
+      <div class="tag-list">
+
+        <div @click="handleTagChange('')"
+             :class="{'active-color': currentTag == ''}">全部</div>
+        <div v-for="item in tagList"
+             :key="item.value"
+             @click="handleTagChange(item.value)"
+             :class="{'active-color': currentTag == item.value}">{{ item.value }}
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="tag-block">排序</div>
+      <div class="tag-list">
+        <div v-for="item in sortType"
+             :key="item"
+             @click="handleTagChange(item)"
+             :class="{'active-color': currentTag == item}">{{ item}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </template>
 
 <script>
@@ -18,7 +37,8 @@ export default {
   props: ['tag'],
   data() {
     return {
-      tagList: []
+      tagList: [],
+      sortType: ['发布时间', '浏览量', '点赞数']
     }
   },
   created() {
@@ -49,28 +69,45 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tag-nav-container {
-  list-style: none;
-  width: 100%;
-  margin: 0 auto 20px auto;
-  padding: 4px;
-  min-height: 30px;
-  border-radius: 10px;
-  li {
+.tag-wrapper {
+  width: 85%;
+  margin: 20px auto;
+}
+.container {
+  color: #545c63;
+  white-space: nowrap;
+
+  .tag-block {
+    // color: #000;
     display: inline-block;
+    // font-weight: 600;
     height: 30px;
     padding: 10px 15px;
     line-height: 10px;
-    color: #545c63;
-    cursor: pointer;
     margin: 4px 0 0 4px;
-    border-radius: 4px;
-    user-select: none;
   }
+  .tag-list {
+    
+    list-style: none;
+    border-radius: 10px;
+    display: inline-block;
+    vertical-align: top;
+    white-space: normal;
+    div {
+      display: inline-block;
+      height: 30px;
+      padding: 10px 15px;
+      line-height: 10px;
+      cursor: pointer;
+      margin: 4px 0 0 4px;
+      border-radius: 4px;
+      user-select: none;
+    }
 
-  .active-color {
-    color: #409eff;
-    background-color: #dff6fd;
+    .active-color {
+      color: #409eff;
+      background-color: #dff6fd;
+    }
   }
 }
 </style>

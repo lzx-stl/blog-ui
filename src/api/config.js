@@ -12,7 +12,6 @@ export function getConfig (id) {
 
 
 export function updateConfig (data) {
-    console.log(data)
     return request({
         url: "/config/updateConfig",
         method: "post",

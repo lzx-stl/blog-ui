@@ -1,69 +1,169 @@
 <template>
   <div class="home-container">
-    <div class="topBg" :style="{ 'background-image': 'url(' + topImg + ')' }">
+    <div class="topBg"
+         :style="{ backgroundImage: 'url(' + topImg + ')' }">
       <div class="down">
-        <i class="iconfont icon-arrow-copy" @click="scrollWindow"></i>
+        <i class="iconfont icon-arrow-copy"
+           @click="scrollWindow"></i>
       </div>
+      <!--      <carousel :list="list"/>-->
+      <!-- <el-button @click="down"
+                 style="margin:0 auto">
+        <i class="iconfont icon-arrow-copy"></i>
+      </el-button> -->
+
+      <!-- <TopCard></TopCard> -->
     </div>
-    <div class="main" :style="{ 'background-image': 'url(' + mainImg + ')' }">
-      <ArticleList></ArticleList>
+    <div class="main"
+         :style="{backgroundImage: 'url('+ mainImg +')'}">
+
+      <div class="layout">
+        <div class="layout-main">
+
+          <!-- <div class="home-header">
+          <Banner />
+        </div> -->
+          <div class="article-list">
+            <ArticleList></ArticleList>
+          </div>
+        </div>
+        <div class="layout-sub">
+          <SideMenu>
+            <template v-slot:header>
+              <h2 class="side-section__title">推荐用户</h2>
+              <div class="side-section__link">
+                <a href="">更多</a>
+              </div>
+            </template>
+            <template v-slot:content>
+              <div class="hot-articles">
+                <div class="hot-item"
+                     v-for="i in 5"
+                     :key="i">
+                  <img :src="avatar"
+                       class="user-avatar"
+                       alt="">
+                  <div class="infor">我是老大哥</div>
+                  <el-button type="primary">关注</el-button>
+                </div>
+              </div>
+            </template>
+          </SideMenu>
+
+          <SideMenu>
+            <template v-slot:header>
+              <h2 class="side-section__title">热门文章</h2>
+              <div class="side-section__link">
+                <a href="">更多</a>
+              </div>
+            </template>
+            <template v-slot:content>
+              <div class="hot-articles">
+                <div class="hot-item"
+                     v-for="i in 5"
+                     :key="i">
+
+                  <div class="infor">你滴勋宗</div>
+                  <div class="hot-num">1185448</div>
+                </div>
+              </div>
+            </template>
+          </SideMenu>
+
+          <SideMenu>
+            <template v-slot:header>
+              <h2 class="side-section__title">热门话题</h2>
+              <div class="side-section__link">
+                <a href="">更多</a>
+              </div>
+            </template>
+            <template v-slot:content>
+              <div class="hot-articles">
+                <div class="hot-item"
+                     v-for="i in 5"
+                     :key="i">
+                  <div class="infor">你滴勋宗</div>
+                </div>
+              </div>
+            </template>
+          </SideMenu>
+
+        </div>
+
+      </div>
+
     </div>
+    <Footer />
+    <BackToTop />
   </div>
 </template>
 
 <script>
-import { getConfig } from "@/api/config";
-import Carousel from "@/components/Carousel";
-import ArticleList from "@/components/ArticleList/index";
+import { getConfig } from '@/api/config'
+import Banner from '@/components/Banner'
+import ArticleList from '@/components/ArticleList/index'
 
-import TagCard from "./components/TagCard";
-import MyCard from "./components/MyCard";
-import Search from "../../components/HeaderSearch/index";
+import TagCard from './components/TagCard'
+import MyCard from './components/MyCard'
+import SideMenu from './components/SideMenu'
 
-import { mapState } from "vuex";
+import Search from '../../components/HeaderSearch/index'
+import Footer from '@/components/Footer'
+import BackToTop from '@/components/BackToTop'
+
+import { mapState } from 'vuex'
+import { Avatar } from 'element-ui'
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
-    Carousel,
+    Banner,
     ArticleList,
     Search,
     TagCard,
     MyCard,
+    Footer,
+    BackToTop,
+    SideMenu
   },
   data() {
     return {
-      uid: "",
       show: false,
-      list: [
-        "http://r8l2ddg76.hn-bkt.clouddn.com/ls8F80CxotuQEOG8am9rerEas2bh",
-        "http://r8l2ddg76.hn-bkt.clouddn.com/Fu8w_HrPSLLrvyatF4kTjMaz5tv_",
-        "http://r8l2ddg76.hn-bkt.clouddn.com/FpKpf4ROcl7s6ADkGZ_ikCNDFl4-",
-      ],
-    };
+      url: 'https://upload-bbs.mihoyo.com/upload/2022/05/09/287482956/a1c1d53d6842a703435b5057bd1d8c22_2060042160345570154.png?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,png',
+      avatar:
+        'https://img-static.mihoyo.com/communityweb/upload/a17a95fb1724d2d4492987b50c56f7eb.png'
+    }
   },
   computed: {
-    ...mapState(
-      {
+    ...mapState({
       topImg: (state) => state.config.topImg,
-      mainImg: (state) => state.config.mainImg,
-    }),
+      mainImg: (state) => state.config.mainImg
+    })
   },
   methods: {
     scrollWindow(event) {
       // window.scrollto
       window.scrollTo({
-        top: 780,
-        behavior: "smooth",
-      });
-    },
-  },
-};
+        top: 720,
+        behavior: 'smooth'
+      })
+    }
+  }
+}
 </script>
 
-<style scoped>
+<style lang="scss">
 .home-container {
-  width: 100%;
+  padding-top: 60px;
+  background-size: 100% 100%;
+
+  background-attachment: fixed;
+  // background-color: #f5f5f5;
+  min-height: 1000px;
+  .home-header {
+    width: 700px;
+    margin-bottom: 30px;
+  }
 }
 
 .topBg {
@@ -75,7 +175,7 @@ export default {
 }
 
 .blogName {
-  font-family: "STXingkai";
+  font-family: 'STXingkai';
   color: black;
   text-align: center;
   position: relative;
@@ -85,12 +185,7 @@ export default {
 }
 
 .main {
-  width: 100%;
-
-  height: fit-content;
-  /*position: relative;*/
-  background-color: #f5f5f5;
-  /*padding: 50px 0 0 0;*/
+  padding-top: 20px;
   background-size: 100% 100%;
   background-attachment: fixed;
 }
@@ -137,32 +232,53 @@ export default {
   font-weight: 500;
 }
 
-.container {
-  width: 1200px;
-  height: auto;
+.layout {
+  width: 1000px;
+  min-height: 700px;
+  margin: 0 auto;
+  padding: 0 100px;
+  // background-color: #f5f5f5;
+  box-sizing: content-box;
+  &::after {
+    content: '';
+    display: block;
+    visibility: hidden;
+    height: 0;
+    clear: both;
+    font-size: 0;
+  }
+  .layout-main {
+    float: left;
+    width: 700px;
+  }
+  .layout-sub {
+    float: right;
+    width: 280px;
+  }
 
-  margin: 60px auto 0 auto;
-  overflow: auto;
-}
+  .hot-articles {
+    .hot-item {
+      display: flex;
+      align-items: center;
+      & + .hot-item {
+        margin-top: 20px;
+      }
+      .infor {
+        margin-left: 10px;
+        flex-grow: 1;
+        color: #666;
+      }
+      .user-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+      }
+    }
 
-.left-card {
-  width: 300px;
-  text-align: center;
-  height: auto;
-  float: left;
-}
-
-.mid-list {
-  width: 550px;
-  height: 100%;
-  min-height: 600px;
-  float: left;
-}
-
-.right-card {
-  float: right;
-  height: auto;
-  text-align: center;
-  width: 350px;
+    .hot-num {
+      font-style: italic;
+      color: red;
+    }
+  }
 }
 </style>

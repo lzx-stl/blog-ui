@@ -18,12 +18,15 @@
              :toId="authorId"
              :parentId="0"
              @admitComment="handleAdmit"></Reply>
-      <div class="comments-list">
+      <div class="comment-list">
         <Item v-for="item in list"
               :key="item.id"
               :obj="item"
                />
       </div>
+      
+      <div class="loading-state"> {{noMore ? "没有更多评论" : "正在加载中"}} </div>
+      
     </div>
   </div>
 </template>
@@ -76,12 +79,10 @@ export default {
     //通过文章id和评论父id获取
     this.getSum()
     this.getList()
-
     // this.$bus.$on("add", () => {
     //   this.getList();
     // });
     window.addEventListener('scroll', this.scrollHandle, false)
-    this.$store.dispatch('user/init')
   },
   computed: {
     disabled() {
@@ -100,14 +101,14 @@ export default {
         findAllComments(this.listQuery).then((res) => {
           if (!res.list.length) {
             this.loading = false
+            this.noMore = true;
             return
           } else {
+            if(!this.listQuery.current) this.list = []
             this.list = this.list.concat(res.list)
             this.total = res.total
             this.listQuery.current = this.list.length
-            // setTimeout(() => {
             this.loading = false
-            // }, this.delay);
           }
         })
       }
@@ -129,19 +130,22 @@ export default {
       }
     },
     handleClick() {
+      this.noMore = false;
       this.listQuery.current = 0
-      this.list = []
+      // this.list = []
       this.getList()
 
       this.getSum()
     },
     handleAdmit(data) {
+      this.noMore = false;
       if (this.listQuery.sortMode == 'new') {
         this.list.unshift(data)
         this.listQuery.current = this.list.length
       } else {
-        if (this.list.length == this.total) {
+        if (this.list.length === this.total) {
           this.list.push(data)
+          this.total = this.list.length;
           this.listQuery.current = this.list.length
         }
       }
@@ -152,9 +156,8 @@ export default {
 
 <style scoped lang="scss">
 .comment-container {
-  min-height: 1000px;
+  min-height: 100px;
   padding: 30px 40px 20px 40px;
-  overflow: auto;
 
   background-color: #fff;
   .comment-cnt {
@@ -162,6 +165,18 @@ export default {
     line-height: 24px;
     color: #222;
     margin: 0 0 20px 0;
+  }
+  .comment-list{
+    
+  }
+
+  .loading-state{
+        height: 64px;
+    line-height: 64px;
+    font-size: 12px;
+    color: #99A2AA;
+    text-align: center;
+    margin-bottom: 80px;
   }
 }
 </style>

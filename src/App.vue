@@ -7,6 +7,8 @@
 <script>
 export default {
   name: 'app',
+  mounted() {
+  }
 }
 </script>
 
@@ -15,11 +17,10 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
 
 #nprogress .bar {
-  height: 3px!important;
+  height: 3px !important;
   position: absolute;
   z-index: 2500;
 }

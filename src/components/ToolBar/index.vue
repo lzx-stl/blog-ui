@@ -1,43 +1,53 @@
 <template>
   <div class="toolbar-container">
-    <div class="toolbar-item" v-for="o in arr" :key="o.icon_name">
-      <a :href="o.href">
+    <div class="toolbar-item"
+         v-for="o in arr"
+         :key="o.icon_name">
+      <div @click="top">
         <i :class="'iconfont ' + o.icon_name"></i>
-      </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ToolBar",
+  name: 'ToolBar',
   data() {
     return {
       arr: [
         {
-          icon_name: "icon-zhichi",
+          icon_name: 'icon-zhichi',
           icon_num: 10,
-          href: "",
+          href: ''
         },
         {
-          icon_name: "icon-shoucang1",
+          icon_name: 'icon-shoucang1',
           icon_num: 11,
-          href: "",
+          href: ''
         },
         {
-          icon_name: "icon-pinglun3",
+          icon_name: 'icon-pinglun3',
           icon_num: 12,
-          href: "#comment",
+          href: '#comment'
         },
         {
-          icon_name: "icon-xiangshang",
+          icon_name: 'icon-xiangshang',
           icon_num: undefined,
-          href: "#content",
-        },
-      ],
-    };
+          href: '#content'
+        }
+      ]
+    }
   },
-};
+  methods: {
+    top() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -46,7 +56,8 @@ export default {
   height: 262px;
   position: fixed;
   bottom: 60px;
-  right: 170px;
+  margin-left: 926px;
+  color: #505050;
   background-color: #fff;
 
   .toolbar-item {

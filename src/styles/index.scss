@@ -3,19 +3,104 @@
 @import "./variables.scss";
 body {
   height: 100%;
+  font-size: 14px;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
 }
 
-html {
-  height: 100%;
+// html ,body{
+//   height: 100%;
+// }
+.hljs {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
+
+.hljs-line-numbers {
+  text-align: right;
+
+  border-right: 1px solid #ccc !important;
+  margin-right: 10px !important;
+  padding-right: 5px !important;
+  color: #999;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.el-popup-parent--hidden {
+  overflow: hidden !important;
+}
+
+* {
+  margin: 0;
+  word-break: break-all;
+  box-sizing: border-box;
+}
+
+.container {
+  background-color: #fff;
+  border-radius: 4px;
+}
+
+ol, ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+
+[v-cloak] {
+  display: none!important;
+}
+.global{
+  background-color: red;
 }
 
 #app {
   height: 100%;
   a{
     text-decoration: none;
+    &:visited{
+      text-decoration: none;
+    }
   }
+}
+.el-dialog{
+  border-radius: 12px;
+
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.el-dialog__wrapper{
+  overflow: hidden;
+}
+.clear{
+  clear: both;
+}
+
+.markdown-body .highlight pre, .markdown-body pre {
+  background-color: transparent!important;
+}
+.markdown-body pre code{
+  font-size: 16px!important;
+
 }

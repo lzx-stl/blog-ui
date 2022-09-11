@@ -3,7 +3,7 @@ import request from "@/utils/request";
 
 export function getUserList () {
   return request({
-    url: "/getList",
+    url: "/user/getList",
     method: "get",
   });
 }
@@ -11,7 +11,7 @@ export function getUserList () {
 
 export function getInformation (uuid) {
   return request({
-    url: "/getUser",
+    url: "/user/getUser",
     method: "get",
     params: {
       uuid,
@@ -19,9 +19,9 @@ export function getInformation (uuid) {
   });
 }
 
-export function getInfor(token){
+export function getInfor (token) {
   return request({
-    url: "/getInfor",
+    url: "/user/getInfor",
     method: "get",
     params: {
       token
@@ -34,7 +34,7 @@ export function login (source) {
   return request({
     url: "/oauth/render",
     method: "post",
-    params:{
+    params: {
       source
     }
   });
@@ -42,7 +42,7 @@ export function login (source) {
 
 export function logout (id) {
   return request({
-    url: "/logout",
+    url: "/user/logout",
     method: "post",
     params: {
       id,
@@ -52,9 +52,10 @@ export function logout (id) {
 
 export function add () { }
 export function del () { }
-export function update (data) {
+
+export function updateUser (data) {
   return request({
-    url: "/update",
+    url: "/user/update",
     method: "post",
     data
   });

@@ -1,103 +1,154 @@
 <template>
-  <div class="article-item-container">
-    <router-link
-      :to="{
-        name: 'Article',
-        params: {
-          id: article.id,
-        },
-      }"
-    >
-      <div class="article-item-content">
-        <div
-          class="article-img"
-          :style="{ 'background-image': 'url(' + article.titleImg + ')' }"
-        ></div>
-        <div class="article-brief">
-          <p class="article-item-title">
-            {{ article.title }}
-          </p>
+  <div class="article-card">
+    <div class="article-card__header">
+      <div class="article-card__userinfo">
+        <div class="artilce-user__avatar">
+          <img :src="author.avatar"
+               alt="">
+
         </div>
-        <slot name="tagNew">....</slot>
+        <div class="artilce-user__name">{{author.nickname}}</div>
       </div>
-    </router-link>
+    </div>
+
+    <a class="article-card__link"
+       :href="'/article/' + article.id "
+       target="_blank">
+      <div class="article-card__title">
+        <h3>{{article.title}}</h3>
+      </div>
+
+      <div class="article-card__content">
+
+        <div class="article-card__preview">
+          <img v-lazy="article.titleImg"
+               alt="">
+        </div>
+        <div class="article-card__infor">
+        </div>
+      </div>
+    </a>
+    <div class="article-card__footer">
+      <el-tag type="info">{{article.tag}}</el-tag>
+      <div class="article-card__data">
+        <i class="iconfont icon-liulanliang1"> {{article.readCnt}}</i>
+        <i class="iconfont icon-pinglun4"> {{article.replyCnt}}</i>
+        <i class="iconfont icon-zhichi"> {{article.thumbCnt}}</i>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>
 export default {
-  name: "articleItem",
-  props: ["article"]
-};
+  name: 'articleItem',
+  props: ['article', 'author'],
+}
 </script>
 
-<style lang="scss" scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
+<style lang="scss">
+.article-card {
 
-.article-item-container {
-  margin: 0 auto 30px auto;
   width: 100%;
-  height: 250px;
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
+  padding: 24px 30px;
+  color: #b3b3b3;
+}
+.article-card + .article-card {
+  border-top: 1px solid #ebebeb;
+}
+.article-card__header {
+  // background: red;
+  // display: flex;
+  // -webkit-box-align: center;
+  // -ms-flex-align: center;
+  // align-items: center;
+  margin-bottom: 15px;
   position: relative;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 
+  .article-card__userinfo {
+    .artilce-user__avatar {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+
+      img {
+        width: 100%;
+
+        border: 1px solid #ebebeb;
+        border-radius: 50%;
+      }
+    }
+
+    .artilce-user__name {
+      height: 32px;
+      line-height: 32px;
+      margin-left: 10px;
+      color: #666;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .artilce-user__name:hover {
+      color: #00c3ff;
+    }
+  }
 }
 
-.article-item-title {
-  font-size: 18px;
-  font-weight: 600;
-  font-style: italic;
-  margin-top: 85px;
-  text-align: center;
-  height: 30px;
-  line-height: 30px;
+.article-card__link {
+  .article-card__title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+    &:hover + {
+      color: #00c3ff;
+    }
+  }
+  .article-card__content {
+    // background-color: #00c3ff;
+    .article-card__preview {
+      display: inline-block;
+      width: 250px;
+      img {
+        width: 100%;
+        border-radius: 5px;
+        vertical-align: bottom;
+        user-select: none;
+      }
+    }
+
+    .article-card__infor {
+      width: 390px;
+      display: inline-block;
+      padding: 0 20px;
+      vertical-align: top;
+    }
+  }
 }
 
-.article-item-container a {
-  text-decoration: none;
-  color: #fff;
+.article-card__footer {
+  margin-top: 10px;
+  // display: flex;
+  // justify-content: flex-end;
+  flex-grow: 1;
+  -webkit-box-pack: end;
+  // background-color: yellow;
+  .el-tag {
+    cursor: pointer;
+    border: 0;
+    border-radius: 12px;
+    user-select: none;
+    &:hover {
+      color: #00c3ff;
+    }
+  }
+  .article-card__data {
+    // background-color: red;
+    height: 32px;
+    line-height: 32px;
+    float: right;
+    i {
+      margin: 20px;
+    }
+  }
 }
-
-.article-item-content {
-  width: 100%;
-  height: 100%;
-  /* box-shadow: 1px 1px 3px 250px rgba(0, 0, 0, 0.3) inset; */
-
-  background-size: 100% 100%;
-  /* transition: all .1s ease; */
-  background-color: #fff;
-  overflow: hidden;
-}
-
-.article-item-content .article-img {
-  float: left;
-  width: 400px;
-  height: 100%;
-  background-size: 100% 100%;
-}
-
-.article-item-content > slot {
-  color: red;
-  position: absolute;
-  right: 0;
-  font-size: 70px;
-}
-
-.article-brief {
-  float: right;
-  height: 100%;
-  width: 300px;
-  color: #000;
-}
-
-.datetime > i {
-  font-size: 14px;
-}
-
 </style>

@@ -1,6 +1,6 @@
 import request from "../utils/request";
 
-export function findAll ({ page, limit, tag, keyWord, all }) {
+export function findAll ({ page, limit, tag, keyWord, all, authorId }) {
 
   return request({
     url: "/article/findAll",
@@ -10,7 +10,8 @@ export function findAll ({ page, limit, tag, keyWord, all }) {
       limit,
       tag,
       keyWord,
-      all
+      all,
+      authorId
     },
   });
 }

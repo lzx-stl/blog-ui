@@ -54,12 +54,10 @@ export default {
   },
   methods: {
     handleMouseOver() {
-      console.log("in");
       this.hover = true;
       this.bgColor = "#fff";
     },
     handleMouseLeave() {
-      console.log("out");
       this.bgColor = "#f6f7f8";
     },
     handleSearch() {

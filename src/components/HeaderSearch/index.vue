@@ -31,7 +31,6 @@ export default {
   },
   methods: {
     search() {
-      console.log(this.keyWord)
 
       // this.$bus.$emit('search', this.keyWord)
     }
