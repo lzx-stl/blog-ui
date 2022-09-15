@@ -1,6 +1,6 @@
 <template>
   <div class="flex-container"
-       :style="{backgroundImage: 'url(' + eventImg + ')' }">
+       :style="{backgroundImage: `url(${eventImg})`}">
     <el-timeline class="container">
       <el-timeline-item v-for="item in list"
                         :key="item.id"

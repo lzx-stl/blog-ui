@@ -1,5 +1,6 @@
 import { login, getInfor, getUserList, updateUser } from "@/api/user";
 import { getToken, setToken } from "@/utils/auth";
+import Vue from "vue";
 import { removeToken } from "../../utils/auth";
 
 
@@ -8,7 +9,7 @@ const state = {
   uuid: '',
   avatar: '',
   nickname: '',
-  username: '', 
+  username: '',
   information: '',
   users: new Map(),
 }
@@ -23,6 +24,7 @@ const mutations = {
     state.avatar = avatar
     state.username = username
     state.information = information
+    window.localStorage.setItem("uuid", uuid)
     // if (state.users.has(uuid)) {
     //   state.users[uuid].nickname = nickname;
     //   state.users[uuid].avatar = avatar;
@@ -30,17 +32,24 @@ const mutations = {
     // }
   },
   SET_USERS (state, users) {
+    let m = new Map()
     for (let o of users) {
-      state.users[o.uuid] = o;
+      m.set(o.uuid, o);
     }
-    window.localStorage.setItem("users", JSON.stringify(state.users));
+
+    window.localStorage.setItem("users", m)
+    Vue.set(state, 'users', m)
   },
 }
 
 const actions = {
   init ({ commit }) {
-    getUserList().then(res => {
-      commit('SET_USERS', res.list);
+    return new Promise((resolve, reject) => {
+      getUserList().then(res => {
+        commit('SET_USERS', res.list);
+      
+        resolve()
+      })
     })
   },
   getInfor ({ commit }) {

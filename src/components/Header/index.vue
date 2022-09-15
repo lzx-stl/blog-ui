@@ -14,9 +14,19 @@
         </div>
       </div>
 
+      <div class="header-search">
+        <!-- <el-autocomplete v-model="state"
+                         :fetch-suggestions="querySearchAsync"
+                         placeholder="请输入内容"
+                         @select="handleSelect"
+                         suffix-icon="el-icon-search">
+                         tm
+                         </el-autocomplete> -->
+      </div>
+
       <div class="user-zone">
         <a v-if="isLogin"
-           href="/accountCenter">
+           :href="`/accountCenter/${uuid}`">
           <el-image class="avatar"
                     :src="avatar"
                     :alt="nickname"
@@ -25,7 +35,7 @@
 
         <button class="login-btn"
                 v-if="!isLogin"
-                @click="visible = true">
+                @click="visible=true">
           登录
         </button>
       </div>
@@ -49,7 +59,7 @@
       </span> -->
     </el-dialog>
     <div class="avatar-panel"
-         v-if="false">
+         v-if="isLogin">
       <div class="nick-name"> {{nickname}}
       </div>
       <div class="pannel-menu">
@@ -57,8 +67,7 @@
           个人中心
         </div>
         <div class="pannel-menu-item"
-             @click="logout"
-             v-if="isLogin">退出</div>
+             @click="logout">退出</div>
       </div>
     </div>
   </div>
@@ -71,10 +80,13 @@ import { getToken } from '@/utils/auth'
 import { mapState } from 'vuex'
 import LoginForm from './components/LoginForm'
 
+import Search from '@/components/Search'
+
 export default {
   name: 'Header',
   components: {
-    LoginForm
+    LoginForm,
+    Search
   },
   data() {
     return {
@@ -87,7 +99,8 @@ export default {
       ],
       visible: false,
       pannelVisable: false,
-      activeIndex: -1
+      activeIndex: -1,
+      isLogin: ''
     }
   },
   methods: {
@@ -101,6 +114,7 @@ export default {
     },
     logout() {
       this.$store.dispatch('user/logout')
+      this.isLogin = false
     }
   },
   computed: {
@@ -110,16 +124,11 @@ export default {
       avatar: (state) => state.user.avatar,
       username: (state) => state.user.username,
       token: (state) => state.user.token
-    }),
-    isLogin() {
-      return this.token != ''
-    },
-    isVisable() {
-      return this.isLogin
-    }
+    })
   },
   mounted() {
-    if (getToken()) this.$store.dispatch('user/getInfor', getToken())
+    if (getToken())
+      this.$store.dispatch('user/getInfor', getToken()), (this.isLogin = true)
   }
 }
 </script>
@@ -178,6 +187,15 @@ export default {
       a {
         color: #32ca99;
       }
+    }
+  }
+
+  .header-search {
+    width: 280px;
+    margin-right: 150px;
+    margin-left: auto;
+    .el-autocomplete{
+      width: 100%;
     }
   }
   .user-zone {

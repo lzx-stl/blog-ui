@@ -4,7 +4,7 @@
          v-for="o in arr"
          :key="o.icon_name">
       <div @click="top">
-        <i :class="'iconfont ' + o.icon_name"></i>
+        <i :class="`iconfont ${o.icon_name}`"></i>
       </div>
     </div>
   </div>
@@ -52,11 +52,12 @@ export default {
 
 <style lang="scss">
 .toolbar-container {
+
   width: 62px;
   height: 262px;
   position: fixed;
   bottom: 60px;
-  margin-left: 926px;
+  margin-left: 200px;
   color: #505050;
   background-color: #fff;
 

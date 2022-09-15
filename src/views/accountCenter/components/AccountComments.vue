@@ -14,8 +14,7 @@
 
       </div>
       <div class="comment-card">
-        <div class="comment-card__content">
-          {{item.content}}
+        <div class="comment-card__content" v-html="formatContent(item.content)">
 
         </div>
         <div class="comment-card__origin">
@@ -34,7 +33,7 @@
 
 <script>
 import { getRelativeComments } from '@/api/comment'
-import { getTime } from '@/utils/common.js'
+import { getTime,formatStr } from '@/utils/common.js'
 export default {
   props: {
     fromId: {
@@ -74,6 +73,10 @@ export default {
     window.removeEventListener('scroll', this.scrollHandle, false)
   },
   methods: {
+    formatContent(str)
+    {
+      return formatStr(str) 
+    },
     scrollHandle() {
       const scrollHeight = document.body.scrollHeight
       const scrollTop =

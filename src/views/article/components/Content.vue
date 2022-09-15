@@ -46,7 +46,6 @@
 
 <script>
 import Reply from '@/components/Comment/components/Reply'
-
 export default {
   name: 'Content',
   components: {

@@ -82,11 +82,7 @@ export default {
   },
   computed: {
     ...mapState({
-      uuid: (state) => state.user.uuid,
-      nickname: (state) => state.user.nickname,
-      avatar: (state) => state.user.avatar,
-      username: (state) => state.user.username,
-      information: (state) => state.user.information
+      user: (state) => state.user
     })
   },
   mounted() {

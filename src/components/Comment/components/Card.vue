@@ -3,26 +3,21 @@
     <div class="reply-face">
       <img :src="from.avatar"
            alt="" />
-
     </div>
     <div class="reply-con">
-      <div class="user-name">
-        {{ from.nickname }}
+      <div class="user">
+        <a class="name"
+           target="_blank"
+           :href="`/accountCenter/${from.uuid}`">{{from.nickname}}</a>
+
         <span class="text-con">
           回复
-          <!-- <a href="">
-            {{ to.nickname }}
-          </a> -->
-
+          <a target="_blank"
+             :href="`/accountCenter/${to.uuid}`"> @{{to.nickname}}</a>:
+          {{ obj.content }}
         </span>
-        <img :src="to.avatar"
-             alt="">
-
       </div>
-      <div class="con-text">
 
-        {{ obj.content }}
-      </div>
       <div class="con-msg">
         <span>{{ getTime }}</span>
         <span @click="handleUp"><i class="iconfont icon-zhichi"></i>
@@ -45,8 +40,8 @@ export default {
   props: ['obj', 'users'],
   data() {
     return {
-      from: this.users[this.obj.fromId],
-      to: this.users[this.obj.toId]
+      from: this.users.get(this.obj.fromId),
+      to: this.users.get(this.obj.toId)
     }
   },
 
@@ -101,28 +96,38 @@ export default {
       color: #00a1d6;
     }
   }
-  .user-name {
-    display: inline-block;
-    cursor: pointer;
-    color: #fb7299;
-    line-height: 18px;
-    height: 18px;
-    margin: 2px 0;
-    font-weight: bold;
-  }
-  .text-con {
-    font-size: 14px;
-    color: #222;
-    margin: 10px;
-    font-weight: normal;
-    line-height: 25px;
+  .user {
+    
+    .name {
+      cursor: pointer;
+      color: #fb7299;
+      line-height: 18px;
+      font-weight: bold;
+      height: 18px;
+      margin: 2px 0;
+    }
     a {
       color: #00a1d6;
       &:hover {
         color: #fb7299;
       }
     }
+    .text-con {
+      white-space: pre-wrap;
+      margin-left: 16px;
+    }
   }
+  .user-name {
+    display: inline-block;
+  }
+  // .text-con {
+  //   font-size: 14px;
+  //   color: #222;
+  //   margin: 10px;
+  //   font-weight: normal;
+  //   line-height: 25px;
+    
+  // }
   .con-msg {
     color: #99a2aa;
     font-size: 14px;

@@ -2,21 +2,25 @@
   <div class="reply-wrapper">
     <div class="first">
       <div class="user-avatar">
+
         <el-popover placement="top"
                     width="360"
                     trigger="hover">
           <div class="user-card">
             <div class="bg"></div>
             <div class="face">
-              <img :src="users[obj.fromId].avatar"
+
+              <img :src="from.avatar"
                    alt="" />
             </div>
             <div class="infor">
               <div class="user">
-                <p class="name">{{users[obj.fromId].nickname}}</p>
+                <a class="name"
+                   :href="`/accountCenter/${from.uuid}`"
+                   target="_blank">{{from.nickname}}</a>
               </div>
-              <!-- <div class="social">社交</div>
-              <div class="verify">认证</div> -->
+              <div class="social">社交</div>
+              <div class="verify">认证</div>
             </div>
             <div class="btn-box">
               <el-button type="primary">+关注</el-button>
@@ -26,18 +30,21 @@
           </div>
           <div slot="reference">
 
-            <img :src="users[obj.fromId].avatar"
+            <img :src="from.avatar"
                  alt=""
                  class="user-avatar-img" />
           </div>
         </el-popover>
       </div>
       <div class="con">
-        <div class="user-name">
-          {{ users[obj.fromId].nickname }}
-        </div>
-        <p class="con-text">
-          {{ obj.content }}
+        <a class="user-name"
+           :href="`/accountCenter/${from.uuid}`"
+           target="_blank">
+          {{ from.nickname }}
+        </a>
+        <p class="con-text"
+           v-html="formatContent">
+          <!-- {{ formatContent }} -->
         </p>
         <div class="con-msg">
           <span>{{ getTime }}</span>
@@ -86,7 +93,7 @@ import Reply from './Reply'
 import { mapState } from 'vuex'
 import Pagination from '@/components/Pagination'
 
-import { getTime } from '@/utils/common.js'
+import { getTime,formatStr } from '@/utils/common.js'
 export default {
   name: 'Item',
   components: {
@@ -97,7 +104,6 @@ export default {
   props: ['obj'],
   data() {
     return {
-      users: {},
       list: [],
       total: 0,
       listQuery: {
@@ -105,12 +111,15 @@ export default {
         limit: 5,
         articleId: this.obj.articleId,
         parentId: this.obj.id
-      }
+      },
+      from: null,
+      to: null
     }
   },
   created() {
-    this.users = JSON.parse(window.localStorage.getItem('users'))
     this.getList()
+    this.from = this.users.get(this.obj.fromId)
+    this.to = this.users.get(this.obj.toId)
   },
   methods: {
     getList() {
@@ -125,12 +134,6 @@ export default {
       this.list = []
       this.getList()
     },
-    from(obj) {
-      return this.users[obj.fromId]
-    },
-    to(obj) {
-      return this.users[obj.toId]
-    },
     handleAdmit(val) {
       this.list.unshift(val)
       this.total++
@@ -138,7 +141,7 @@ export default {
     handleReply() {
       this.$store.dispatch('comment/change', {
         rootId: this.obj.id,
-        toId: this.users[this.obj.fromId].uuid
+        toId: this.from.uuid
       })
     },
     handleUp() {
@@ -150,8 +153,13 @@ export default {
   computed: {
     ...mapState({
       rootId: (state) => state.comment.rootId,
-      toId: (state) => state.comment.toId
+      toId: (state) => state.comment.toId,
+
+      users: (state) => state.user.users
     }),
+    formatContent() {
+      return formatStr(this.obj.content)
+    },
     getTime() {
       return getTime(this.obj.replyTime)
     }
@@ -237,13 +245,10 @@ export default {
         width: 500px;
       }
     }
-    
   }
 
   .comment-send {
     width: 100%;
-    min-height: 70px;
-    float: left;
     .comment-user {
       width: 535px;
       overflow: auto;
@@ -285,7 +290,7 @@ export default {
   }
 
   .infor {
-    padding: 95px 20px 16px 70px;
+    padding: 95px 20px 16px 80px;
     .name {
       max-width: 160px;
       overflow: hidden;

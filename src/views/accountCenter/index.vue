@@ -5,13 +5,13 @@
       <div class="bg"></div>
       <div class="container account-center-header">
         <div class="account-center-header__avatar">
-          <img :src="avatar"
+          <img :src="user.avatar"
                alt="" />
         </div>
         <div class="account-center-user">
           <div class="account-center-user__header">
             <div class="account-center-user__title">
-              <span class="account-center-user__name">{{nickname}}</span>
+              <span class="account-center-user__name">{{user.nickname}}</span>
             </div>
             <div class="form-button">
               <button class="form-button__button"
@@ -21,7 +21,7 @@
           </div>
           <div class="account-center-user__intro">
             <span>个性签名</span>
-            <p>{{information}}</p>
+            <p>{{user.information}}</p>
           </div>
           <div class="account-center-user__intro">IP</div>
           <div class="account-center-header__data">
@@ -50,12 +50,12 @@
       </div>
       <div class="account-center-content container">
         <div class="account-center__subheader">{{ activeText }}</div>
-        <ArticleList v-if="activeText == '我的收藏' && uuid"
+        <ArticleList v-if="activeText == '我的收藏'"
                      :authorId="uuid" />
-        <AccountComments v-if="activeText == '我的评论' && uuid"
+        <AccountComments v-if="activeText == '我的评论'"
                          :fromId="uuid"
                          key="我的评论" />
-        <AccountComments v-if="activeText == '回复我的' &&uuid"
+        <AccountComments v-if="activeText == '回复我的'"
                          :toId="uuid"
                          key="回复我的" />
         <AcountInfor v-if="activeText == '编辑资料'" />
@@ -75,13 +75,15 @@ import ArticleList from '@/components/ArticleList'
 import BackToTop from '@/components/BackToTop'
 import AcountInfor from './components/AccountInfo.vue'
 import AccountComments from './components/AccountComments.vue'
-
+import {getInformation} from '@/api/user'
 import { mapState } from 'vuex'
 export default {
   name: 'accountCenter',
   components: { ArticleList, AcountInfor, BackToTop, AccountComments },
+  props: ['uuid'],
   data() {
     return {
+      user: {},
       activeText: '',
       url: 'http://thirdqq.qlogo.cn/g?b=oidb&k=wI8yLs7abh13VwaTQBic9NA&s=100&t=1613243338',
       list: [
@@ -107,21 +109,21 @@ export default {
           icon: 'icon-yonghu',
           text: '退出登录'
         }
-      ]
+      ],
     }
   },
   computed: {
-    ...mapState({
-      uuid: (state) => state.user.uuid,
-      nickname: (state) => state.user.nickname,
-      avatar: (state) => state.user.avatar,
-      username: (state) => state.user.username,
-      
-      information: (state) => state.user.information
+  },created()
+  {
+    console.log(`this`, this);
+    console.log(`this.uuid`, this.uuid);
+    getInformation(this.uuid).then(res => {
+      this.user = res.user;
     })
   },
   mounted() {
     this.activeText = this.list[0].text
+    //bu退出登录后头像和名字无法获取
   }
 }
 </script>

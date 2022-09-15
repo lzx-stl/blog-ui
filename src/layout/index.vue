@@ -11,7 +11,9 @@
 </template>
 
 <script>
-import { Header, AppMain } from './components'
+
+import Header from '@/components/Header'
+import AppMain from './components/AppMain.vue'
 export default {
   name: 'Layout',
   components: {
@@ -24,7 +26,9 @@ export default {
     }
   },
   methods: {},
-  mounted() {}
+  created() {
+    
+  }
 }
 </script>
 

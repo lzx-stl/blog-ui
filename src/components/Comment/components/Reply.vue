@@ -1,13 +1,24 @@
 <template>
   <div class="comment-send">
     <div class="user-local">
-      <el-image :src="avatar"
-                alt=""></el-image>
+      <div class="avatar-img">
+        <el-image :src="avatar"
+                  alt="">
+          <div slot="error"
+               class="image-slot">
+            <i class="iconfont icon-yonghu"></i>
+          </div>
+        </el-image>
+
+      </div>
     </div>
     <div class="textarea-container">
-      <textarea class="ipt-txt"
+      <el-input  type="textarea" class="ipt-txt"
                 :placeholder="hint"
-                v-model="form.content"></textarea>
+                v-model="form.content"
+                rows="5"
+                resize="none"
+                ></el-input>
       <el-button class="comment-submit"
                  @click="submitComment">提交评论</el-button>
     </div>
@@ -26,7 +37,7 @@ export default {
     return {
       form: {
         id: '',
-        content: ``,
+        content: '',
         parentId: this.parentId,
         articleId: this.articleId,
         fromId: this.fromId,
@@ -39,6 +50,8 @@ export default {
   },
   methods: {
     submitComment() {
+      
+      console.log(this.content, this.form.content);
       if (this.form.content == '') {
         this.$alert(`评论内容不能为空!`, '提示', {
           confirmButtonText: '确定'
@@ -82,7 +95,6 @@ export default {
   },
   computed: {
     ...mapState({
-   
       uuid: (state) => state.user.uuid,
       nickname: (state) => state.user.nickname,
       avatar: (state) => state.user.avatar,
@@ -96,7 +108,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .comment-send {
   background-color: #fff;
   width: 100%;
@@ -108,15 +120,31 @@ export default {
     width: 82px;
     height: 65px;
     position: absolute;
-    .el-image,
-    img {
+    .avatar-img {
       width: 48px;
       height: 48px;
       border-radius: 50%;
       position: absolute;
       left: 50%;
       top: 50%;
+      background-color: #f5f5f5;
       transform: translate(-50%, -50%);
+      vertical-align: middle;
+      .el-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        position: relative;
+        .image-slot {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
   }
 
@@ -131,12 +159,14 @@ export default {
     .ipt-txt {
       width: 100%;
       height: 100%;
-      border: 1px solid #e5e9ef;
+      // border: 1px solid #e5e9ef;
       background-color: #f4f5f7;
       resize: none;
       font-size: 16px;
-      padding: 10px;
-
+      // padding: 10px;
+.el-textarea__inner{
+  height: 100%;
+}
       box-sizing: border-box;
       &:focus {
         outline-color: #1e9fff;

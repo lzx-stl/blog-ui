@@ -1,6 +1,6 @@
 <template>
   <div class="category-container">
-    <div class="search-wrapper">
+    <div class="search-wrapper" >
       <Search :keyWord.sync="listQuery.keyWord"
               @search="getList"></Search>
 

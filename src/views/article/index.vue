@@ -1,23 +1,25 @@
 <template>
   <div class="container">
-    <div class="layout">
+    <ToolBar />
+    <div class="layout"
+         v-if="article && author">
+
       <div class="content-zone"
            id="content">
-        <Content v-if="article && author"
+        <Content v-if="article"
                  :options="articleOptions"
                  :author="author"
                  :article="article" />
       </div>
-
       <div class="comment-zone"
            id="comment">
-        <Comment v-if="article && author"
-                 :articleId="article.id"
+        <Comment :articleId="article.id"
                  :authorId="article.authorId"
                  :options="commentOptions" />
       </div>
-      <ToolBar />
+
     </div>
+    <Catalog/>
   </div>
 
 </template>
@@ -26,6 +28,7 @@
 import Content from './components/Content'
 import ToolBar from '@/components/ToolBar'
 import Comment from '@/components/Comment'
+import Catalog from './components/Catalog.vue'
 import { getArticle } from '@/api/article'
 
 import { getInformation } from '@/api/user'
@@ -34,8 +37,10 @@ export default {
   components: {
     Content,
     Comment,
-    ToolBar
+    ToolBar,
+    Catalog
   },
+  props: ['id'],
   computed: {
     commentOptions() {
       let data = {
@@ -61,17 +66,17 @@ export default {
   },
   methods: {
     getDetail() {
-      getArticle(this.$route.params.id)
+      getArticle(this.id)
         .then((res) => {
           this.article = res.article
-          this.getUpAvatar()
+        
+      document.title = res.article.title
+          return getInformation(res.article.authorId)
+          // reslove(getArticle(this.article.authorId))
         })
-        .catch((error) => {})
-    },
-    getUpAvatar() {
-      getInformation(this.article.authorId).then((res) => {
-        this.author = res
-      })
+        .then((res) => {
+          this.author = res.user
+        })
     }
   }
 }

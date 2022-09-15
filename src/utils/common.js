@@ -41,24 +41,11 @@ export function throttle2 (fn, delay) {
 }
 
 
-export function WaterFall (option) {
-  console.log(option)
-  let el = document.querySelector(option.el);
-  let list = el.querySelectorAll('.wf-item')
-  // let column = option.column;
-  // let gap = option.gap;
-  // let itemWidth = (el.offsetWidth - (column - 1) * gap) / column;
-  // console.log(list.length)
-  // for(var i = 0; i < list.length; i++)
-  // {
-  //     // let r = i / column, c = i % column;
-  //     console.log(i)
-  //     // this.list[i].style.top = '0px';
-  //     // this.list[i].style.left = (itemWidth + gap) * i;
-  // }
-  console.log(list)
-
+export function formatStr(str) {
+  return str.replace(/\n/g, '<br>')
 }
+
+
 
 
 

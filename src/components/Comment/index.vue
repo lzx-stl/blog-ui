@@ -1,7 +1,7 @@
 <template>
   <div class="comment-container"
        :style="{ width: options.width }">
-    <div class="comment-cnt">{{sum }} 评论</div>
+    <div class="comment-cnt">{{ sum }} 评论</div>
     <div class="comment-header">
       <el-tabs @tab-click="handleClick"
                v-model="listQuery.sortMode">
@@ -21,12 +21,11 @@
       <div class="comment-list">
         <Item v-for="item in list"
               :key="item.id"
-              :obj="item"
-               />
+              :obj="item" />
       </div>
-      
+
       <div class="loading-state"> {{noMore ? "没有更多评论" : "正在加载中"}} </div>
-      
+
     </div>
   </div>
 </template>
@@ -35,6 +34,7 @@
 import Item from './components/Item'
 import Reply from './components/Reply'
 import { findAllComments, getCommentSum } from '@/api/comment'
+import { mapState } from 'vuex'
 export default {
   name: 'Comment',
   components: { Item, Reply },
@@ -70,12 +70,10 @@ export default {
       },
       loading: false,
       noMore: false,
-      delay: 1000,
-      users: {}
+      delay: 1000
     }
   },
   created() {
-    this.users = JSON.parse(window.localStorage.getItem('users'))
     //通过文章id和评论父id获取
     this.getSum()
     this.getList()
@@ -87,7 +85,10 @@ export default {
   computed: {
     disabled() {
       return this.loading || this.noMore
-    }
+    },
+    ...mapState({
+      users: (state) => state.user.users
+    })
   },
   methods: {
     getSum() {
@@ -101,10 +102,10 @@ export default {
         findAllComments(this.listQuery).then((res) => {
           if (!res.list.length) {
             this.loading = false
-            this.noMore = true;
+            this.noMore = true
             return
           } else {
-            if(!this.listQuery.current) this.list = []
+            if (!this.listQuery.current) this.list = []
             this.list = this.list.concat(res.list)
             this.total = res.total
             this.listQuery.current = this.list.length
@@ -130,7 +131,7 @@ export default {
       }
     },
     handleClick() {
-      this.noMore = false;
+      this.noMore = false
       this.listQuery.current = 0
       // this.list = []
       this.getList()
@@ -138,14 +139,14 @@ export default {
       this.getSum()
     },
     handleAdmit(data) {
-      this.noMore = false;
+      this.noMore = false
       if (this.listQuery.sortMode == 'new') {
         this.list.unshift(data)
         this.listQuery.current = this.list.length
       } else {
         if (this.list.length === this.total) {
           this.list.push(data)
-          this.total = this.list.length;
+          this.total = this.list.length
           this.listQuery.current = this.list.length
         }
       }
@@ -166,15 +167,14 @@ export default {
     color: #222;
     margin: 0 0 20px 0;
   }
-  .comment-list{
-    
+  .comment-list {
   }
 
-  .loading-state{
-        height: 64px;
+  .loading-state {
+    height: 64px;
     line-height: 64px;
     font-size: 12px;
-    color: #99A2AA;
+    color: #99a2aa;
     text-align: center;
     margin-bottom: 80px;
   }

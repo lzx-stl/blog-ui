@@ -14,7 +14,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch('config/getConfig', 1)
-    this.$store.dispatch('user/init')
+    this.$store.dispatch('user/init').then(res => {
+        window.localStorage.setItem("users", JSON.stringify(res));
+    })
   }
 }
 </script>

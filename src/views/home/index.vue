@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <div class="topBg"
-         :style="{ backgroundImage: 'url(' + topImg + ')' }">
+         :style="{ backgroundImage: `url(${topImg})` }">
       <div class="down">
         <i class="iconfont icon-arrow-copy"
            @click="scrollWindow"></i>
@@ -15,7 +15,7 @@
       <!-- <TopCard></TopCard> -->
     </div>
     <div class="main"
-         :style="{backgroundImage: 'url('+ mainImg +')'}">
+         :style="{backgroundImage: `url(${mainImg})`}">
 
       <div class="layout">
         <div class="layout-main">
@@ -37,13 +37,13 @@
             </template>
             <template v-slot:content>
               <div class="hot-articles">
-                <div class="hot-item"
-                     v-for="i in 5"
-                     :key="i">
-                  <img :src="avatar"
+                <div class="hot-item" 
+                     v-for="item of users"
+                     :key="item[0]">
+                  <img :src="item[1].avatar"
                        class="user-avatar"
                        alt="">
-                  <div class="infor">我是老大哥</div>
+                  <div class="infor">{{item[1].nickname}}</div>
                   <el-button type="primary">关注</el-button>
                 </div>
               </div>
@@ -131,11 +131,14 @@ export default {
       show: false,
       url: 'https://upload-bbs.mihoyo.com/upload/2022/05/09/287482956/a1c1d53d6842a703435b5057bd1d8c22_2060042160345570154.png?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,png',
       avatar:
-        'https://img-static.mihoyo.com/communityweb/upload/a17a95fb1724d2d4492987b50c56f7eb.png'
+        'https://img-static.mihoyo.com/communityweb/upload/a17a95fb1724d2d4492987b50c56f7eb.png',
     }
+  },
+  mounted() {
   },
   computed: {
     ...mapState({
+      users: (state) => state.user.users,
       topImg: (state) => state.config.topImg,
       mainImg: (state) => state.config.mainImg
     })

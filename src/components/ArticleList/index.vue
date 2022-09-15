@@ -1,11 +1,11 @@
 <template>
   <div class="list-container">
-    <div class="list-container__body">
+    <div class="list-container__body" v-if="users.size != 0">
 
       <ArticleItem v-for="item in list"
                    :key="item.id"
                    :article="item"
-                   :author="authors[item.authorId]" />
+                   :author="users.get(item.authorId)"  />
 
     </div>
     <div v-if="loading"
@@ -20,7 +20,7 @@
 import ArticleItem from './ArticleItem'
 import { findAll } from '@/api/article'
 import { throttle } from '@/utils/common'
-
+import { mapState } from 'vuex'
 export default {
   name: 'ArticleList',
   components: {
@@ -46,22 +46,21 @@ export default {
       loading: false,
       noMore: false,
       delay: 1500,
-      authors: []
     }
   },
   computed: {
     disabled() {
       return this.loading || this.noMore
-    }
+    },
+    ...mapState({
+      users: (state) => state.user.users
+    })
   },
   created() {},
   mounted() {
     window.addEventListener('scroll', this.scrollHandle, false)
-
     this.listQuery.authorId = this.authorId
     this.getList()
-
-    this.authors = JSON.parse(window.localStorage.getItem('users'))
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.scrollHandle, false)

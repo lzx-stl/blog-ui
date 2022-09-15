@@ -16,7 +16,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    console.log('token', getToken());
+    // console.log('token', getToken());
     config.headers['token'] = getToken()
     if (store.getters.token) {
       // let each request carry token

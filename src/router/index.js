@@ -52,14 +52,19 @@ export const constantRoutes = [
       {
         path: "article/:id",
         name: "Article",
+
         component: () => import("@/views/article/index"),
-        meta: { title: "文章" },
+        meta:{
+          title: window.location.href
+        },
+        props: true
       },
       {
-        path: "accountCenter",
+        path: "accountCenter/:uuid",
         name: "AccountCenter",
         component: () => import("@/views/accountCenter/index"),
         meta: { title: "个人中心" },
+        props: (router) => ({ uuid: router.params.uuid })
       },
     ]
   },
@@ -67,7 +72,7 @@ export const constantRoutes = [
   {
     path: '/authRedirect',
     name: 'AuthRedirect',
-    component: () => import("@/layout/components/Header/components/auth-redirect.vue"),
+    component: () => import("@/components/Header/components/auth-redirect.vue"),
   },
   {
     path: '/403',
@@ -93,18 +98,21 @@ export function resetRouter () {
 router.beforeEach((to, from, next) => {
 
   if (to.path == '/accountCenter' && !getToken()) next({ path: '/403' });
+  
   NProgress.start()
+  
   // let token = localStorage.getItem("token");
   // if (to.path === '/back') {
   //     if (!token) return next('/login')
   // }
-  if (to.meta.title)
-    document.title = to.meta.title
   next();
 });
 
 
 router.afterEach((to, from, next) => {
+
+  if (to.meta.title)
+    document.title = to.meta.title
   NProgress.done()
 })
 

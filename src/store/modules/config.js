@@ -24,6 +24,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       getConfig(id).then(res => {
         const { topImg, mainImg, eventImg } = res.config;
+        
         commit('SET_TOP_IMG', topImg);
         commit('SET_MAIN_IMG', mainImg);
         commit('SET_EVENT_IMG', eventImg);

@@ -1,5 +1,13 @@
 import request from "../utils/request";
 
+export function getData()
+{
+  return request({
+    url: "/data",
+    method: "get",
+  })
+}
+
 export function findAll ({ page, limit, tag, keyWord, all, authorId }) {
 
   return request({
