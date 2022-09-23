@@ -1,11 +1,8 @@
 <template>
   <div class="app-wrapper"
        ref="box">
-    <Header :dialogFormVisible.sync="dialogFormVisible" />
-    <el-dialog style="width: 300px;height: 300px;"
-               v-if="dialogFormVisible">
-      <LoginForm />
-    </el-dialog>
+    <Header/>
+ 
     <app-main></app-main>
   </div>
 </template>
@@ -20,19 +17,12 @@ export default {
     Header,
     AppMain
   },
-  data() {
-    return {
-      dialogFormVisible: false
-    }
-  },
-  methods: {},
-  created() {
-    
-  }
 }
 </script>
 
 <style scoped>
 .app-wrapper {
+  
+
 }
 </style>

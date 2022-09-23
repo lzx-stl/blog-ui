@@ -1,7 +1,6 @@
 <template>
-  <div class="article-container"
-       :style="{ width: options.width }">
-    <div class="article-container-content">
+  <div class="article-container">
+    <div class="article-header">
       <div class="title-container">
         <h1 class="big-title">{{ article.title }}</h1>
         <div class="article-read-info">
@@ -13,6 +12,8 @@
         </div>
       </div>
       <div class="article-up-info">
+            <a :href="`/accountCenter/${author.uuid}`">
+          
         <div class="up-left">
           <div class="avatar-container">
             <el-image v-if="author.avatar"
@@ -20,7 +21,11 @@
           </div>
           <div class="up-name-pannel">{{ author.nickname }}</div>
         </div>
+            </a>
       </div>
+
+    </div>
+    <div class="article-content">
       <div class="article-content">
         <mavon-editor class="md"
                       :value="article.content"
@@ -52,12 +57,6 @@ export default {
     Reply
   },
   props: {
-    options: {
-      Type: Object,
-      default: {
-        witdh: '900px'
-      }
-    },
     article: {
       Type: Object,
       default: () => {}
@@ -70,7 +69,7 @@ export default {
   data() {
     return {
       tags: ['原神', '原神爆料', '八重神子', '神里凌人', '八重神子材料'],
-      codeStyle: 'androidstudio',
+      codeStyle: 'atom-one-dark',
       subfield: false, // 单双栏模式
       defaultOpen: 'preview', //edit： 默认展示编辑区域 ， preview： 默认展示预览区域
       editable: false,
@@ -95,16 +94,16 @@ export default {
 
 <style lang="scss" scoped>
 .article-container {
-  width: 900px;
+  // width: 900px;
   margin: 60px auto;
   padding: 30px 40px 40px;
+
   border-radius: 4px;
   background-color: #fff;
   margin-bottom: 12px;
-
-  .article-container-content {
+  .article-header {
+    padding-left: 25px;
     .title-container {
-      padding: 0 80px;
       .big-title {
         min-height: 39px;
         font-size: 28px;
@@ -113,18 +112,6 @@ export default {
         font-weight: 700;
         line-height: 1.4;
       }
-    }
-
-    .v-note-wrapper.shadow {
-      box-shadow: none !important;
-    }
-    .v-note-wrapper
-      .v-note-panel
-      .v-note-show
-      .v-show-content
-      .scroll-style
-      .scroll-style-border-radius {
-      padding: 0 !important;
     }
     .article-read-info {
       color: #999;
@@ -137,11 +124,11 @@ export default {
     }
 
     .article-up-info {
-      margin: 10px 0;
-      padding: 0 80px;
+      // margin: 10px 0;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 20px;
       .up-left {
         display: flex;
         align-items: center;
@@ -162,29 +149,39 @@ export default {
         }
       }
     }
+  }
 
-    .article-content {
-      padding: 0 55px;
+  .article-content {
+    // padding: 30px 40px;
+
+    .v-note-wrapper.shadow {
+      box-shadow: none !important;
     }
-    .article-footer {
-      padding: 0 55px;
-      .article-tags {
-        .tag-item {
-          cursor: pointer;
-          font-size: 12px;
-          color: #999;
-          margin-right: 10px;
-          transition: 0.3s;
-          &:hover{
-            color: #00a1d6;
-          }
+    .v-note-wrapper
+      .v-note-panel
+      .v-note-show
+      .v-show-content
+      .scroll-style
+      .scroll-style-border-radius {
+      padding: 0 !important;
+    }
+  }
+
+  .article-footer {
+    
+    padding-left: 25px;
+    .article-tags {
+      .tag-item {
+        cursor: pointer;
+        font-size: 12px;
+        color: #999;
+        margin-right: 10px;
+        transition: 0.3s;
+        &:hover {
+          color: #00a1d6;
         }
       }
     }
-  }
-  .markdown-body .highlight pre,
-  .markdown-body pre {
-    background-color: #fff !important;
   }
 }
 </style>

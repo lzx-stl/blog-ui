@@ -57,7 +57,7 @@ export default {
   height: 262px;
   position: fixed;
   bottom: 60px;
-  margin-left: 200px;
+  right: 230px;
   color: #505050;
   background-color: #fff;
 

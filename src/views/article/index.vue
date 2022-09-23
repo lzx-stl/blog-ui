@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <ToolBar />
     <div class="layout"
          v-if="article && author">
 
@@ -19,7 +18,8 @@
       </div>
 
     </div>
-    <Catalog/>
+    
+    <ToolBar />
   </div>
 
 </template>
@@ -69,8 +69,8 @@ export default {
       getArticle(this.id)
         .then((res) => {
           this.article = res.article
-        
-      document.title = res.article.title
+
+          document.title = res.article.title
           return getInformation(res.article.authorId)
           // reslove(getArticle(this.article.authorId))
         })
@@ -88,18 +88,18 @@ export default {
   width: 100%;
   margin: 0 auto;
 
+    display: flex;
+    justify-content: center;
   background-color: #f5f5f5;
   overflow: hidden;
 
   .layout {
     width: 900px;
-    margin: 0 auto;
     min-height: 800px;
     padding-top: 60px;
-    display: flex;
-    flex-direction: column;
     .comment-zone {
-      width: 900px;
+      width: 100%;
+      // width: 900px;
       // padding: 30px 0;
       margin: 40px auto 0 auto;
 

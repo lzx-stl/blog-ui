@@ -20,8 +20,8 @@ export const constantRoutes = [
     redirect: '/home',
     children: [
       {
-        path: 'home',
-        name: "Home",
+        path: '/home',
+        name: "home",
         component: () => import("@/views/home/index"),
         meta: { title: "主页" },
       },
@@ -42,6 +42,12 @@ export const constantRoutes = [
         name: "EventLine",
         component: () => import("../views/eventLine/index"),
         meta: { title: "随笔" },
+      },
+      {
+        path: "project",
+        name: "Project",
+        component: () => import("../views/project/index"),
+        meta: { title: "项目" },
       },
       {
         path: "resources",

@@ -1,5 +1,6 @@
 <template>
   <div class="header-container">
+
     <div class="header-nav">
       <div class="header-nav-menu">
         <div class="header-nav-menu__item"
@@ -136,13 +137,14 @@ export default {
 <style scoped lang="scss">
 .header-container {
   /*color: #409eff;*/
-  width: 100%;
-  height: 60px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  width: 100%;
+
+  height: 60px;
   position: fixed;
   top: 0;
   z-index: 1999;
-  background-color: #fff;
 }
 
 .header-nav {
@@ -194,7 +196,7 @@ export default {
     width: 280px;
     margin-right: 150px;
     margin-left: auto;
-    .el-autocomplete{
+    .el-autocomplete {
       width: 100%;
     }
   }

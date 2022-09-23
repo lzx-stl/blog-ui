@@ -70,8 +70,7 @@ export default {
 
 <style lang="scss" scoped>
 .tag-wrapper {
-  width: 85%;
-  margin: 20px auto;
+  width: 100%;
 }
 .container {
   color: #545c63;

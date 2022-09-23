@@ -1,6 +1,5 @@
 <template>
-  <div class="comment-container"
-       :style="{ width: options.width }">
+  <div class="comment-container">
     <div class="comment-cnt">{{ sum }} 评论</div>
     <div class="comment-header">
       <el-tabs @tab-click="handleClick"
@@ -39,12 +38,6 @@ export default {
   name: 'Comment',
   components: { Item, Reply },
   props: {
-    options: {
-      Type: Object,
-      default: {
-        witdh: '900px'
-      }
-    },
     articleId: {
       Type: Number,
       default: ''
@@ -63,7 +56,7 @@ export default {
       total: 0,
       listQuery: {
         current: 0,
-        limit: 5,
+        limit: 30,
         articleId: this.articleId,
         parentId: 0,
         sortMode: 'hot'

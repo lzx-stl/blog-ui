@@ -1,8 +1,12 @@
 <template>
   <div class="comment-card">
     <div class="reply-face">
+       <a class="name"
+           target="_blank"
+           :href="`/accountCenter/${from.uuid}`">
       <img :src="from.avatar"
            alt="" />
+       </a>
     </div>
     <div class="reply-con">
       <div class="user">
@@ -34,6 +38,7 @@
 import { getComment, like } from '@/api/comment'
 
 import { getTime } from '@/utils/common.js'
+
 export default {
   name: 'Card',
 

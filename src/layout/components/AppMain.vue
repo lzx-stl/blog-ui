@@ -23,6 +23,5 @@ export default {
 
 <style scoped>
 .app-main {
-  
 }
 </style>

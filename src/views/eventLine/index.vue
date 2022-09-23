@@ -39,6 +39,7 @@
 import { findAll } from '@/api/event'
 import { getTime } from '@/utils/common'
 import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -71,7 +72,7 @@ export default {
 .flex-container {
   // background-color: yellow;
   padding-top: 100px;
-
+  min-height: 800px;
   //   display: flex;
   // justify-content: center;
   //   align-items: center;

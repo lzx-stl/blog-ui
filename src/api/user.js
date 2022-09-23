@@ -50,7 +50,10 @@ export function logout (id) {
   });
 }
 
-export function add () { }
+export function add () { 
+
+}
+
 export function del () { }
 
 export function updateUser (data) {

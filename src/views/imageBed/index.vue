@@ -3,8 +3,11 @@
     <div class="content">
 
       <WaterFall :data="list"
-      v-if="list.length" 
-      />
+                 v-if="list.length" />
+      <!-- <div v-if="loading"
+           v-loading="loading"
+           element-loading-text="加载中"></div> -->
+
     </div>
 
   </div>
@@ -36,7 +39,7 @@ export default {
       return {
         column_cnt: 6 //列数
       }
-    },
+    }
   },
   methods: {
     getList() {
@@ -79,8 +82,7 @@ export default {
 <style lang="scss" scoped>
 .main-page {
   padding-top: 60px;
-  position: relative;
-  .content{
+  .content {
     width: 1500px;
     margin: 25px auto;
   }

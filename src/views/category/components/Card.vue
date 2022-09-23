@@ -1,24 +1,46 @@
 <template>
   <div class="card-container">
-       <a :href="'/article/' + article.id" target="_blank">
+    <a :href="`/article/${article.id}`"
+       target="_blank">
+      <div class="card-img">
 
-    <div class="card-img">
-      <img v-lazy="article.titleImg"
-           alt="" />
-    </div>
-    <div class="card-infor">
-      <h3 class="card-title">{{ article.title }}</h3>
-    </div>
-       </a>
-    
+        <img v-lazy="article.titleImg"
+             alt="" />
+      </div>
+
+      <div class="card-footer">
+
+        <div class="card-infor">
+          <a :href="`/accountCenter/${article.authorId}`"
+             target="_blank"
+             class="author-infor">
+
+            <img class="card-infor__avatar"
+                 :src="users.get(article.authorId).avatar" />
+            <div class="card-infor__name">{{users.get(article.authorId).nickname}}</div>
+          </a>
+          <h3 class="card-title">{{ article.title }}</h3>
+
+        </div>
+
+      </div>
+
+    </a>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Card',
   props: ['article'],
-  
+  computed: {
+    ...mapGetters(['users'])
+  },
+  mounted() {
+    this.author = this.users.get(this.article.authorId)
+    console.log(this.author)
+  }
 }
 </script>
 
@@ -48,16 +70,42 @@ export default {
       width: 100%;
       height: 100%;
       transition: all 0.2s ease;
-      
     }
   }
 
   .card-infor {
-    width: 100%;
-    height: 50px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .author-infor {
+      display: flex;
+      align-items: center;
+      max-width: 122px;
+    }
+    .card-infor__name {
+      max-width: 90px;
+      padding-left: 8px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+    .card-infor__avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
     .card-title {
-      line-height: 50px;
+      max-width: 220px;
+      height: 100%;
+      flex: 1;
+      padding: 0 5px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
       color: #000;
+      text-align: right;
       font-style: italic;
     }
   }

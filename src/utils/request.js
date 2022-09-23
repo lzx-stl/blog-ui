@@ -38,12 +38,14 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(res => {
   // 未设置状态码则默认成功状态
+  
   const code = res.data.code || 200;
+  // if(res.data)  return res.data;
   if(code === 200 && res.data.msg){
-    // Message.success({
-    //   offset: '350',
-    //   title: res.data.msg
-    // })
+    Message.success({
+      offset: '350',
+      title: res.data.msg
+    })
     return res.data
   }
   // 获取错误信息

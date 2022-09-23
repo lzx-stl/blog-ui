@@ -1,6 +1,8 @@
 <template>
   <div class="article-card">
     <div class="article-card__header">
+      <a :href="`/accountCenter/${author.uuid}`">
+        
       <div class="article-card__userinfo">
         <div class="artilce-user__avatar">
           <img :src="author.avatar"
@@ -9,22 +11,23 @@
         </div>
         <div class="artilce-user__name">{{author.nickname}}</div>
       </div>
+      </a>
     </div>
 
     <a class="article-card__link"
        :href="'/article/' + article.id "
        target="_blank">
-      <div class="article-card__title">
-        <h3>{{article.title}}</h3>
-      </div>
 
-      <div class="article-card__content">
-
+      <div class="article-card__body">
+        <div class="article-card__title">
+          <h3>{{article.title}}</h3>
+        </div>
         <div class="article-card__preview">
           <img v-lazy="article.titleImg"
                alt="">
         </div>
         <div class="article-card__infor">
+
         </div>
       </div>
     </a>
@@ -41,18 +44,16 @@
 </template>
 
 <script>
-
 export default {
   name: 'articleItem',
-  props: ['article', 'author'],
+  props: ['article', 'author']
 }
 </script>
 
 <style lang="scss">
 .article-card {
-
   width: 100%;
-  padding: 24px 30px;
+  padding: 24px 30px 15px 30px;
   color: #b3b3b3;
 }
 .article-card + .article-card {
@@ -98,13 +99,13 @@ export default {
 .article-card__link {
   .article-card__title {
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: #333;
     &:hover + {
       color: #00c3ff;
     }
   }
-  .article-card__content {
+  .article-card__body {
     // background-color: #00c3ff;
     .article-card__preview {
       display: inline-block;
@@ -119,9 +120,9 @@ export default {
 
     .article-card__infor {
       width: 390px;
-      display: inline-block;
       padding: 0 20px;
-      vertical-align: top;
+      .article-card__content {
+      }
     }
   }
 }

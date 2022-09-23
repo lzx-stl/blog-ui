@@ -37,7 +37,7 @@ export default {
       list: [],
       listQuery: {
         page: 1,
-        limit: 6,
+        limit: 10,
         tag: null,
         keyWord: null,
         all: false,
@@ -70,6 +70,7 @@ export default {
       if (this.disabled) return
       this.loading = true
       findAll(this.listQuery).then((res) => {
+        
         if (!res.list.length) {
           this.noMore = true
           this.loading = false

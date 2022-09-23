@@ -12,8 +12,6 @@ import '@/styles/index.scss' // global css
 import '@/styles/btn.scss' // global css
 import '@/styles/variables.scss' // global css
 
-import moment from "moment";
-Vue.prototype.$moment = moment;
 
 
 ElementUI.Dialog.props.lockScroll.default = false; //解决页面抖动

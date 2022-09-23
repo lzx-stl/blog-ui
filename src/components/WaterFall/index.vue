@@ -9,7 +9,6 @@
           width: o.w + 'px',
           height: o.h + 'px',
       }">
-
       <img v-lazy="o.url"
            alt="">
     </div>

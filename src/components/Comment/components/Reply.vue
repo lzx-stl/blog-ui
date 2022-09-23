@@ -13,12 +13,12 @@
       </div>
     </div>
     <div class="textarea-container">
-      <el-input  type="textarea" class="ipt-txt"
+      <el-input type="textarea"
+                class="ipt-txt"
                 :placeholder="hint"
                 v-model="form.content"
                 rows="5"
-                resize="none"
-                ></el-input>
+                resize="none"></el-input>
       <el-button class="comment-submit"
                  @click="submitComment">提交评论</el-button>
     </div>
@@ -50,14 +50,13 @@ export default {
   },
   methods: {
     submitComment() {
-      
-      console.log(this.content, this.form.content);
-      if (this.form.content == '') {
-        this.$alert(`评论内容不能为空!`, '提示', {
-          confirmButtonText: '确定'
-        })
-      } else {
-        if (this.form.fromId) {
+      if (this.form.fromId) {
+        if (this.form.content == '') {
+          this.$alert(`评论内容不能为空!`, '提示', {
+            confirmButtonText: '确定'
+          })
+          return
+        } else {
           this.form.replyTime = new Date()
           console.log('评论', this.form)
           add(this.form).then((res) => {
@@ -71,26 +70,12 @@ export default {
             this.$emit('admitComment', data)
             this.form.content = ''
           })
-        } else {
-          this.$alert(`登录后才能发表评论!`, '提示', {
-            confirmButtonText: '确定'
-          })
         }
+      } else {
+        this.$alert(`登录后才能发表评论!`, '提示', {
+          confirmButtonText: '确定'
+        })
       }
-    },
-    clone(obj) {
-      if (obj === null) return null
-      if (obj.constructor !== 'object') return obj
-      if (obj.constructor === Date) return new Date(obj)
-      if (obj.constructor === RegExp) return new RegExp(obj)
-      var newObj = new obj.constructor() //保持继承的原型
-      for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          var val = obj[key]
-          newObj[key] = typeof val === 'object' ? arguments.callee(val) : val
-        }
-      }
-      return newObj
     }
   },
   computed: {
@@ -164,9 +149,9 @@ export default {
       resize: none;
       font-size: 16px;
       // padding: 10px;
-.el-textarea__inner{
-  height: 100%;
-}
+      .el-textarea__inner {
+        height: 100%;
+      }
       box-sizing: border-box;
       &:focus {
         outline-color: #1e9fff;

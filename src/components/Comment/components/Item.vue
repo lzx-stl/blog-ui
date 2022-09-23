@@ -29,10 +29,13 @@
             </div>
           </div>
           <div slot="reference">
-
-            <img :src="from.avatar"
-                 alt=""
-                 class="user-avatar-img" />
+            <a class="user-name"
+               :href="`/accountCenter/${from.uuid}`"
+               target="_blank">
+              <img :src="from.avatar"
+                   alt=""
+                   class="user-avatar-img" />
+            </a>
           </div>
         </el-popover>
       </div>
@@ -93,7 +96,7 @@ import Reply from './Reply'
 import { mapState } from 'vuex'
 import Pagination from '@/components/Pagination'
 
-import { getTime,formatStr } from '@/utils/common.js'
+import { getTime, formatStr } from '@/utils/common.js'
 export default {
   name: 'Item',
   components: {

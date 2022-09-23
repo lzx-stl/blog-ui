@@ -37,12 +37,14 @@
             </template>
             <template v-slot:content>
               <div class="hot-articles">
-                <div class="hot-item" 
+                <div class="hot-item"
                      v-for="item of users"
                      :key="item[0]">
-                  <img :src="item[1].avatar"
-                       class="user-avatar"
-                       alt="">
+                  <a :href="`/accountCenter/${item[1].uuid}`"
+                     target="_blank"><img :src="item[1].avatar"
+                         class="user-avatar"
+                         alt="">
+                  </a>
                   <div class="infor">{{item[1].nickname}}</div>
                   <el-button type="primary">关注</el-button>
                 </div>
@@ -63,7 +65,7 @@
                      v-for="i in 5"
                      :key="i">
 
-                  <div class="infor">你滴勋宗</div>
+                  <div class="infor">咕咕咕</div>
                   <div class="hot-num">1185448</div>
                 </div>
               </div>
@@ -82,7 +84,7 @@
                 <div class="hot-item"
                      v-for="i in 5"
                      :key="i">
-                  <div class="infor">你滴勋宗</div>
+                  <div class="infor">咕咕咕</div>
                 </div>
               </div>
             </template>
@@ -131,11 +133,10 @@ export default {
       show: false,
       url: 'https://upload-bbs.mihoyo.com/upload/2022/05/09/287482956/a1c1d53d6842a703435b5057bd1d8c22_2060042160345570154.png?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,png',
       avatar:
-        'https://img-static.mihoyo.com/communityweb/upload/a17a95fb1724d2d4492987b50c56f7eb.png',
+        'https://img-static.mihoyo.com/communityweb/upload/a17a95fb1724d2d4492987b50c56f7eb.png'
     }
   },
-  mounted() {
-  },
+  mounted() {},
   computed: {
     ...mapState({
       users: (state) => state.user.users,
@@ -162,7 +163,6 @@ export default {
 
   background-attachment: fixed;
   // background-color: #f5f5f5;
-  min-height: 1000px;
   .home-header {
     width: 700px;
     margin-bottom: 30px;
@@ -237,7 +237,7 @@ export default {
 
 .layout {
   width: 1000px;
-  min-height: 700px;
+  // min-height: 700px;
   margin: 0 auto;
   padding: 0 100px;
   // background-color: #f5f5f5;
