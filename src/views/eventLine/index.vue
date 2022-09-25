@@ -49,7 +49,6 @@ export default {
   methods: {
     getList() {
       findAll().then((res) => {
-        console.log(res)
         this.list = res.list
       })
     },

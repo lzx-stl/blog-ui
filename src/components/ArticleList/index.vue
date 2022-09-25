@@ -91,7 +91,6 @@ export default {
         document.body.scrollTop || document.documentElement.scrollTop
       const clientHeight = document.documentElement.clientHeight
       const dist = scrollHeight - scrollTop - clientHeight
-      // console.log('dist', dist)
       if (dist <= 20) {
         this.getList()
       }

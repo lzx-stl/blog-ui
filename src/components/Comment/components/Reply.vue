@@ -58,7 +58,6 @@ export default {
           return
         } else {
           this.form.replyTime = new Date()
-          console.log('评论', this.form)
           add(this.form).then((res) => {
             this.$store.dispatch('comment/change', {
               rootId: '',
@@ -66,7 +65,6 @@ export default {
             })
             let data = JSON.parse(JSON.stringify(this.form))
             data.id = res.id
-            console.log(res, 'data', data)
             this.$emit('admitComment', data)
             this.form.content = ''
           })

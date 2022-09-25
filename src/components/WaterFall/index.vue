@@ -88,7 +88,6 @@ export default {
     'data'(val){
       let data = val.slice(this.imgList.length);
       this.init(data)
-      console.log(this.data.length);
     }
   },
   mounted() {

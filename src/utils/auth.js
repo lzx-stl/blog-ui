@@ -1,30 +1,37 @@
 import Cookies from 'js-cookie'
 
 const TokenKey = 'token'
+const BackKey = 'back'
 
-
-// let Store = window.localStorage
-// export function getToken() {
-//   return Store.getItem(TokenKey)
-// }
-
-// export function setToken(token) {
-//   return Store.setItem(TokenKey, token)
-// }
-
-// export function removeToken() {
-//   return Store.removeItem(TokenKey)
-// }
-
-
-export function getToken() {
-  return Cookies.get(TokenKey)
-}
-
-export function setToken(token) {
+export function setToken (token) {
   return Cookies.set(TokenKey, token)
 }
 
-export function removeToken() {
+
+
+export function getToken () {
+  return Cookies.get(TokenKey)
+}
+
+
+export function removeToken () {
   return Cookies.remove(TokenKey)
 }
+
+
+
+export function setBack (back) {
+  return Cookies.set(BackKey, back)
+}
+
+
+
+export function getBack () {
+  return Cookies.get(BackKey)
+}
+
+
+export function removeBack () {
+  return Cookies.remove(BackKey)
+}
+

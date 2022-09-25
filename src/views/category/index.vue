@@ -61,7 +61,6 @@ export default {
     ...mapGetters(['users'])
   },
   created() {
-    console.log(this.users)
     this.getList()
   },
   methods: {

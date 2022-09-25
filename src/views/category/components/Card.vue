@@ -39,7 +39,6 @@ export default {
   },
   mounted() {
     this.author = this.users.get(this.article.authorId)
-    console.log(this.author)
   }
 }
 </script>

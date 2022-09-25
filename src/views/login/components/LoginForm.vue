@@ -62,7 +62,7 @@
 import { login } from '@/api/user'
 
 import Cookies from 'js-cookie'
-import { setToken } from '@/utils/auth'
+import { setBack, setToken } from '@/utils/auth'
 import { encrypt, decrypt } from '@/utils/jsencrypt'
 import openWindow from '@/utils/open-window'
 
@@ -120,19 +120,18 @@ export default {
       window.open(href, '_blank')
     },
     login(source) {
-      console.log('source', source)
       login(source).then((res) => {
-        let son = openWindow(res, '', 600, 400)
-        let that = this
-        var loop = setInterval(function () {
-          if (son.closed) {
-            clearInterval(loop)
-            //判读登录状态
-            window.location.reload()
-          }
-        }, 1000)
+        window.location.href = res
+        // let son = openWindow(res, '', 600, 400)
+        // let that = this
+        // var loop = setInterval(function () {
+        //   if (son.closed) {
+        //     clearInterval(loop)
+        //     //判读登录状态
+        //     window.location.reload()
+        //   }
+        // }, 1000)
       })
-      // console.log(this.form)
       // this.$refs.loginFormRef.validate(async (valid) => {
       //   if (!valid) return
       //   login(this.form).then((res) => {
@@ -147,7 +146,6 @@ export default {
       //       Cookies.remove('rememberMe')
       //     }
       //     window.localStorage.setItem('token', JSON.stringify(res.token))
-      //     console.log(res)
       //     window.localStorage.setItem('uid', res.user.id)
       //     this.$router.replace('/back')
       //   })
@@ -159,11 +157,27 @@ export default {
 
 <style lang="scss">
 .login-form-container {
+  background-color: #fff;
+  opacity: 0.95;
+  border-radius: 5px;
+  
+    padding: 50px 40px;
   .login-box {
     display: flex;
     justify-content: center;
-    width: 100%;
+
     background-color: #fff;
+
+    .login-form {
+      // width: 380px;
+      width: 100%;
+      .el-form-item {
+        .el-input,
+        .el-button {
+          width: 100%;
+        }
+      }
+    }
   }
 
   .login-box-bottom {
@@ -196,16 +210,6 @@ export default {
       font-size: 30px;
       cursor: pointer;
       // margin-right: 30px;
-    }
-  }
-}
-
-.login-form {
-  width: 380px;
-  .el-form-item {
-    .el-input,
-    .el-button {
-      width: 100%;
     }
   }
 }

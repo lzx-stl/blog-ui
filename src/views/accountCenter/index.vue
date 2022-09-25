@@ -115,8 +115,6 @@ export default {
   computed: {
   },created()
   {
-    console.log(`this`, this);
-    console.log(`this.uuid`, this.uuid);
     getInformation(this.uuid).then(res => {
       this.user = res.user;
     })

@@ -60,7 +60,7 @@ export const constantRoutes = [
         name: "Article",
 
         component: () => import("@/views/article/index"),
-        meta:{
+        meta: {
           title: window.location.href
         },
         props: true
@@ -76,9 +76,15 @@ export const constantRoutes = [
   },
 
   {
+    path: '/login',
+    name: 'Login',
+    meta: { title: "登录" },
+    component: () => import("@/views/login/index.vue"),
+  },
+  {
     path: '/authRedirect',
     name: 'AuthRedirect',
-    component: () => import("@/components/Header/components/auth-redirect.vue"),
+    component: () => import("@/views/login/components/auth-redirect.vue"),
   },
   {
     path: '/403',
@@ -102,11 +108,14 @@ export function resetRouter () {
 }
 
 router.beforeEach((to, from, next) => {
-
+  console.log(from);
   if (to.path == '/accountCenter' && !getToken()) next({ path: '/403' });
-  
+  // if (getToken() && to.path == '/login') {
+  //   // next(from)
+  //   // debugger;
+  // }
   NProgress.start()
-  
+
   // let token = localStorage.getItem("token");
   // if (to.path === '/back') {
   //     if (!token) return next('/login')
