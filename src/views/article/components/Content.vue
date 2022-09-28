@@ -12,7 +12,7 @@
         </div>
       </div>
       <div class="article-up-info">
-            <a :href="`/accountCenter/${author.uuid}`">
+            <a :href="`/accountCenter/${author.id}`">
           
         <div class="up-left">
           <div class="avatar-container">

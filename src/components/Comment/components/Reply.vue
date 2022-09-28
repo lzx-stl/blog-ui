@@ -78,7 +78,7 @@ export default {
   },
   computed: {
     ...mapState({
-      uuid: (state) => state.user.uuid,
+      id: (state) => state.user.id,
       nickname: (state) => state.user.nickname,
       avatar: (state) => state.user.avatar,
       username: (state) => state.user.username,

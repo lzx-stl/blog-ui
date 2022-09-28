@@ -9,12 +9,12 @@ export function getUserList () {
 }
 
 
-export function getInformation (uuid) {
+export function getInformation (id) {
   return request({
     url: "/user/getUser",
     method: "get",
     params: {
-      uuid,
+      id,
     },
   });
 }

@@ -15,7 +15,8 @@
             </div>
             <div class="form-button">
               <button class="form-button__button"
-                      @click="activeText = '编辑资料'">编辑</button>
+                      @click="activeText = '编辑资料'"
+                      v-if="$store.getters.id === user.id">编辑</button>
             </div>
 
           </div>
@@ -36,29 +37,21 @@
       <div class="side-menu container">
         <div class="side-menu__header">个人中心</div>
         <ul class="side-menu__list">
-          <li v-for="o in list"
-              :key="o.text">
-            <a href="javascript:;"
-               @click="activeText = o.text"
-               class="side-menu__item"
-               :class="{'active': activeText == o.text}">
-              <i :class="'iconfont ' + o.icon"></i>
-
-              <span>{{ o.text }}</span></a>
-          </li>
+          <!-- <li v-for="route in list"
+              :key="route.path"
+              @click="handleClick(route, id)"
+              class="side-menu__item"
+              :class="{'active': activeText == route.meta.name}">
+            <i :class="'iconfont ' + route.meta.icon"></i>
+            <span>{{ route.meta.name }}</span>
+          </li> -->
         </ul>
       </div>
       <div class="account-center-content container">
         <div class="account-center__subheader">{{ activeText }}</div>
-        <ArticleList v-if="activeText == '我的收藏'"
-                     :authorId="uuid" />
-        <AccountComments v-if="activeText == '我的评论'"
-                         :fromId="uuid"
-                         key="我的评论" />
-        <AccountComments v-if="activeText == '回复我的'"
-                         :toId="uuid"
-                         key="回复我的" />
-        <AcountInfor v-if="activeText == '编辑资料'" />
+        <div class="acount-subbody">
+          <router-view></router-view>
+        </div>
 
       </div>
 
@@ -71,55 +64,42 @@
 </template>
 
 <script>
-import ArticleList from '@/components/ArticleList'
 import BackToTop from '@/components/BackToTop'
-import AcountInfor from './components/AccountInfo.vue'
-import AccountComments from './components/AccountComments.vue'
-import {getInformation} from '@/api/user'
-import { mapState } from 'vuex'
+
+import CommentList from './components/CommentList'
+import { getInformation } from '@/api/user'
+import { mapState, mapGetters } from 'vuex'
+import { userRoutes } from '@/router'
 export default {
   name: 'accountCenter',
-  components: { ArticleList, AcountInfor, BackToTop, AccountComments },
-  props: ['uuid'],
+  props: ['id'],
+  components: {
+    BackToTop
+  },
   data() {
     return {
       user: {},
       activeText: '',
       url: 'http://thirdqq.qlogo.cn/g?b=oidb&k=wI8yLs7abh13VwaTQBic9NA&s=100&t=1613243338',
-      list: [
-        {
-          icon: 'icon-yonghu',
-          text: '我的收藏'
-        },
-        {
-          icon: 'icon-yonghu',
-          text: '我的评论'
-        },
-        {
-          icon: 'icon-yonghu',
-          text: '回复我的'
-        },
-
-        { icon: 'icon-yonghu', text: '我的粉丝' },
-
-        { icon: 'icon-yonghu', text: '我的关注' },
-        { icon: 'icon-yonghu', text: '编辑资料' },
-
-        {
-          icon: 'icon-yonghu',
-          text: '退出登录'
-        }
-      ],
+      list: []
     }
   },
-  computed: {
-  },created()
-  {
-    getInformation(this.uuid).then(res => {
-      this.user = res.user;
+  computed: {},
+  created() {
+    getInformation(this.id).then((res) => {
+      this.user = res.user
     })
+  },methods:{
+      handleClick(route, id)
+      {
+        this.$router.push({path: route.path, query: {
+          id
+        }})
+      }
   },
   mounted() {
+    console.log(userRoutes)
+    this.list = userRoutes
     this.activeText = this.list[0].text
     //bu退出登录后头像和名字无法获取
   }

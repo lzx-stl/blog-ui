@@ -40,17 +40,6 @@
             </svg>
           </div>
 
-          <!-- <svg class="icon"
-               @click="login('gitee')"
-               aria-hidden="true">
-            <use xlink:href="#icon-gitee"></use>
-          </svg>
-          <svg class="icon"
-               @click="login('qq')"
-               aria-hidden="true">
-            <use xlink:href="#icon-QQ"></use>
-          </svg> -->
-
         </div>
 
       </div>

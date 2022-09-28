@@ -6,6 +6,7 @@ function resolve (dir) {
 
 
 const port = 80// 端口
+const target = 'http://localhost:8080'
 const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
@@ -34,7 +35,7 @@ module.exports = {
     proxy: {
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://localhost:8080`,
+        target,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''

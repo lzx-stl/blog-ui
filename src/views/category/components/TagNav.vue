@@ -5,22 +5,25 @@
       <div class="tag-block">分类</div>
       <div class="tag-list">
 
-        <div @click="handleTagChange('')"
+        <div @click="currentTag = ''"
              :class="{'active-color': currentTag == ''}">全部</div>
-        <div v-for="item in tagList"
-             :key="item.value"
-             @click="handleTagChange(item.value)"
-             :class="{'active-color': currentTag == item.value}">{{ item.value }}
+        <div v-for="tag in tagList"
+             :key="tag.name"
+             @click="currentTag = tag.name"
+             :class="{'active-color': currentTag == tag.name}">{{ tag.name }}
         </div>
       </div>
     </div>
     <div class="container">
       <div class="tag-block">排序</div>
       <div class="tag-list">
-        <div v-for="item in sortType"
-             :key="item"
-             @click="handleTagChange(item)"
-             :class="{'active-color': currentTag == item}">{{ item}}
+        <div @click="currentMode = 'release_time DESC'"
+             :class="{'active-color': currentMode == 'release_time DESC'}">更新时间
+        </div>
+        <div v-for="mode in sortMode"
+             :key="mode.text"
+             @click="currentMode = mode.field"
+             :class="{'active-color': currentMode == mode.field}">{{ mode.text}}
         </div>
       </div>
     </div>
@@ -34,11 +37,17 @@ import { findAllTag } from '@/api/tag'
 
 export default {
   name: 'TagNav',
-  props: ['tag'],
+  props: ['tag', 'mode'],
   data() {
     return {
       tagList: [],
-      sortType: ['发布时间', '浏览量', '点赞数']
+      sortMode: [
+        { field: 'readings DESC', text: '浏览量' },
+        {
+          field: 'likes DESC',
+          text: '点赞数'
+        }
+      ]
     }
   },
   created() {
@@ -52,18 +61,22 @@ export default {
       set(val) {
         this.$emit('update:tag', val)
       }
+    },
+    currentMode: {
+      get() {
+        return this.mode
+      },
+      set(val) {
+        this.$emit('update:mode', val)
+      }
     }
   },
   methods: {
     getList() {
       findAllTag('').then((res) => {
-        this.tagList = res.list
+        this.tagList = res.tagList
       })
     },
-    handleTagChange(val) {
-      this.currentTag = val
-      this.$emit('tagChange', val)
-    }
   }
 }
 </script>
@@ -86,7 +99,6 @@ export default {
     margin: 4px 0 0 4px;
   }
   .tag-list {
-    
     list-style: none;
     border-radius: 10px;
     display: inline-block;

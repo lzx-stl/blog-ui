@@ -40,7 +40,7 @@
                 <div class="hot-item"
                      v-for="item of users"
                      :key="item[0]">
-                  <a :href="`/accountCenter/${item[1].uuid}`"
+                  <a :href="`/accountCenter/${item[1].id}`"
                      target="_blank"><img :src="item[1].avatar"
                          class="user-avatar"
                          alt="">

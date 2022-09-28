@@ -3,7 +3,7 @@
     <div class="reply-face">
        <a class="name"
            target="_blank"
-           :href="`/accountCenter/${from.uuid}`">
+           :href="`/accountCenter/${from.id}`">
       <img :src="from.avatar"
            alt="" />
        </a>
@@ -12,12 +12,12 @@
       <div class="user">
         <a class="name"
            target="_blank"
-           :href="`/accountCenter/${from.uuid}`">{{from.nickname}}</a>
+           :href="`/accountCenter/${from.id}`">{{from.nickname}}</a>
 
         <span class="text-con">
           回复
           <a target="_blank"
-             :href="`/accountCenter/${to.uuid}`"> @{{to.nickname}}</a>:
+             :href="`/accountCenter/${to.id}`"> @{{to.nickname}}</a>:
           {{ obj.content }}
         </span>
       </div>
@@ -59,7 +59,7 @@ export default {
     handleReply() {
       this.$store.dispatch('comment/change', {
         rootId: this.obj.parentId ? this.obj.parentId : this.obj.id,
-        toId: this.from.uuid
+        toId: this.from.id
       })
     },
     handleUp() {

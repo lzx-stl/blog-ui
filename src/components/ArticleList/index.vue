@@ -2,10 +2,10 @@
   <div class="list-container">
     <div class="list-container__body" v-if="users.size != 0">
 
-      <ArticleItem v-for="item in list"
-                   :key="item.id"
-                   :article="item"
-                   :author="users.get(item.authorId)"  />
+      <ArticleItem v-for="article in list"
+                   :key="article.id"
+                   :article="article"
+                   :author="users.get(article.authorId)"  />
 
     </div>
     <div v-if="loading"
@@ -35,13 +35,15 @@ export default {
   data() {
     return {
       list: [],
+      tagList: [],
       listQuery: {
         page: 1,
         limit: 10,
         tag: null,
         keyWord: null,
         all: false,
-        authorId: this.authorId
+        authorId: this.authorId,
+        mode: 'release_time DESC',
       },
       loading: false,
       noMore: false,
@@ -85,6 +87,7 @@ export default {
         }
       })
     },
+
     scrollHandle() {
       const scrollHeight = document.body.scrollHeight
       const scrollTop =

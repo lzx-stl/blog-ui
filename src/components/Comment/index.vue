@@ -13,7 +13,7 @@
     <div class="comment-main">
       <Reply v-if="articleId && authorId"
              :articleId="articleId"
-             :fromId="$store.state.user.uuid"
+             :fromId="$store.state.user.id"
              :toId="authorId"
              :parentId="0"
              @admitComment="handleAdmit"></Reply>

@@ -16,7 +16,7 @@
             <div class="infor">
               <div class="user">
                 <a class="name"
-                   :href="`/accountCenter/${from.uuid}`"
+                   :href="`/accountCenter/${from.id}`"
                    target="_blank">{{from.nickname}}</a>
               </div>
               <div class="social">社交</div>
@@ -30,7 +30,7 @@
           </div>
           <div slot="reference">
             <a class="user-name"
-               :href="`/accountCenter/${from.uuid}`"
+               :href="`/accountCenter/${from.id}`"
                target="_blank">
               <img :src="from.avatar"
                    alt=""
@@ -41,7 +41,7 @@
       </div>
       <div class="con">
         <a class="user-name"
-           :href="`/accountCenter/${from.uuid}`"
+           :href="`/accountCenter/${from.id}`"
            target="_blank">
           {{ from.nickname }}
         </a>
@@ -80,7 +80,7 @@
     <div class="comment-send"
          v-if="obj.id == rootId">
       <Reply :articleId="obj.articleId"
-             :fromId="$store.state.user.uuid"
+             :fromId="$store.state.user.id"
              :parentId="rootId"
              :toId="toId"
              @admitComment="handleAdmit" />
@@ -144,7 +144,7 @@ export default {
     handleReply() {
       this.$store.dispatch('comment/change', {
         rootId: this.obj.id,
-        toId: this.from.uuid
+        toId: this.from.id
       })
     },
     handleUp() {

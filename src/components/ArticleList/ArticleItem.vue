@@ -1,16 +1,16 @@
 <template>
   <div class="article-card">
     <div class="article-card__header">
-      <a :href="`/accountCenter/${author.uuid}`">
-        
-      <div class="article-card__userinfo">
-        <div class="artilce-user__avatar">
-          <img :src="author.avatar"
-               alt="">
+      <a :href="`/accountCenter/${author.id}`">
 
+        <div class="article-card__userinfo">
+          <div class="artilce-user__avatar">
+            <img :src="author.avatar"
+                 alt="">
+
+          </div>
+          <div class="artilce-user__name">{{author.nickname}}</div>
         </div>
-        <div class="artilce-user__name">{{author.nickname}}</div>
-      </div>
       </a>
     </div>
 
@@ -23,7 +23,7 @@
           <h3>{{article.title}}</h3>
         </div>
         <div class="article-card__preview">
-          <img v-lazy="article.titleImg"
+          <img v-lazy="article.mainImg"
                alt="">
         </div>
         <div class="article-card__infor">
@@ -32,11 +32,15 @@
       </div>
     </a>
     <div class="article-card__footer">
-      <el-tag type="info">{{article.tag}}</el-tag>
+
+      <el-tag class="tag"
+              type="info"
+              v-for="tag in tags"
+              :key="tag.tagName">{{tag.tagName}}</el-tag>
       <div class="article-card__data">
-        <i class="iconfont icon-liulanliang1"> {{article.readCnt}}</i>
-        <i class="iconfont icon-pinglun4"> {{article.replyCnt}}</i>
-        <i class="iconfont icon-zhichi"> {{article.thumbCnt}}</i>
+        <i class="iconfont icon-liulanliang1"> {{article.readings}}</i>
+        <i class="iconfont icon-pinglun4"> {{article.replys}}</i>
+        <i class="iconfont icon-zhichi"> {{article.likes}}</i>
       </div>
     </div>
   </div>
@@ -44,9 +48,22 @@
 </template>
 
 <script>
+
+import {getTags} from '@/api/tag'
 export default {
   name: 'articleItem',
-  props: ['article', 'author']
+  props: ['article', 'author'],
+  data() {
+    return {
+      tags: []
+    }
+  },
+  created() {
+    
+    getTags(this.article.id).then((res) => {
+      this.tags = res.tags
+    })
+  }
 }
 </script>
 
@@ -128,6 +145,10 @@ export default {
 }
 
 .article-card__footer {
+  height: 32px;
+  .tag {
+    margin: 0 8px;
+  }
   margin-top: 10px;
   // display: flex;
   // justify-content: flex-end;

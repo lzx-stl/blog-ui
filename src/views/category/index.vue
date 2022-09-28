@@ -8,7 +8,8 @@
     <div class="list-nav">
 
       <TagNav @tagChange="getList"
-              :tag.sync="listQuery.tag" />
+              :tag.sync="listQuery.tag"
+              :mode.sync="listQuery.mode" />
     </div>
     <el-empty :image-size="200"
               v-if="!total"></el-empty>
@@ -53,6 +54,7 @@ export default {
         limit: 12,
         tag: '',
         keyWord: '',
+        mode: 'release_time DESC',
         all: false
       }
     }
@@ -75,6 +77,14 @@ export default {
     handleSearch() {
       this.getList()
     }
+  },
+  watch: {
+    listQuery: {
+      handler(newVal, oldVal) {
+        this.getList()
+      },
+      deep: true
+    }
   }
 }
 </script>
@@ -85,8 +95,8 @@ export default {
   padding-top: 60px;
   .list-nav {
     width: 1400px;
-    
-  margin: 20px auto;
+
+    margin: 20px auto;
   }
   .card-list {
     display: grid;

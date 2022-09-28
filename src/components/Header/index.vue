@@ -6,14 +6,14 @@
     <div class="header-nav">
       <div class="header-nav-menu">
         <div class="header-nav-menu__item"
-             v-for="item in routers"
-             :key="item.name"
-             :class="{ 'menu-active': $route.path == item.path }">
-          <router-link :to="item.path">
-            {{ item.text }}
+             v-for="route in routes"
+             :key="route.name"
+             :class="{ 'menu-active': route.path === $router.path}">
+          <router-link :to="route.path">
+            {{ route.meta.title}}
           </router-link>
           <div class="line"
-               v-show="$route.path == item.path"></div>
+               v-show="$route.path == route.path"></div>
         </div>
       </div>
 
@@ -43,7 +43,7 @@
               <div class="nick-name"> {{nickname}}
               </div>
               <div class="pannel-menu">
-                <a :href="`/accountCenter/${uuid}`">
+                <a :href="`/accountCenter/${id}`">
 
                   <div class="pannel-menu-item">
                     个人中心
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div slot="reference">
-              <a :href="`/accountCenter/${uuid}`">
+              <a :href="`/accountCenter/${id}`">
 
                 <el-image class="avatar"
                           :src="avatar"
@@ -73,7 +73,7 @@
 
 <script>
 import { getToken, setBack } from '@/utils/auth'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import Search from '@/components/Search'
 
 export default {
@@ -84,13 +84,6 @@ export default {
   data() {
     return {
       // 这里应该是从动态中获取的
-      routers: [
-        { text: '首页', path: '/home' },
-        { text: '专栏', path: '/category' },
-        { text: '图床', path: '/imagebed' },
-        { text: '随笔', path: '/eventline' }
-        // { text: '资源', path: '/resources' }
-      ],
       visible: false,
       pannelVisable: false,
       activeIndex: -1,
@@ -111,16 +104,22 @@ export default {
       this.isLogin = false
     }
   },
+  created() {
+    this.$store.dispatch('permission/generateRoutes', [])
+  },
   computed: {
+  
     ...mapState({
-      uuid: (state) => state.user.uuid,
+      id: (state) => state.user.id,
       nickname: (state) => state.user.nickname,
       avatar: (state) => state.user.avatar,
       username: (state) => state.user.username,
       token: (state) => state.user.token
-    })
+    }),
+    ...mapGetters(['routes'])
   },
   mounted() {
+    console.log(`this.routes`, this.routes)
     if (getToken()) {
       this.$store.dispatch('user/getInfor', getToken())
       this.isLogin = true
@@ -150,7 +149,7 @@ export default {
     background-color: #32ca99;
     background-image: url('@/assets/logo.png');
     background-size: 100% 100%;
-    a{
+    a {
       display: block;
       width: 100%;
       height: 100%;

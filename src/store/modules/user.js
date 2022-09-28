@@ -6,7 +6,7 @@ import { removeToken } from "../../utils/auth";
 
 const state = {
   token: '',
-  uuid: '',
+  id: '',
   avatar: '',
   nickname: '',
   username: '',
@@ -18,23 +18,23 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_USER: (state, { uuid, nickname, avatar, username, information }) => {
-    state.uuid = uuid
+  SET_USER: (state, { id, nickname, avatar, username, information }) => {
+    state.id = id
     state.nickname = nickname
     state.avatar = avatar
     state.username = username
     state.information = information
-    window.localStorage.setItem("uuid", uuid)
-    // if (state.users.has(uuid)) {
-    //   state.users[uuid].nickname = nickname;
-    //   state.users[uuid].avatar = avatar;
+    window.localStorage.setItem("id", id)
+    // if (state.users.has(id)) {
+    //   state.users[id].nickname = nickname;
+    //   state.users[id].avatar = avatar;
     //   window.localStorage.setItem("users", JSON.stringify(state.users));
     // }
   },
   SET_USERS (state, users) {
     let m = new Map()
     for (let o of users) {
-      m.set(o.uuid, o);
+      m.set(o.id, o);
     }
 
     window.localStorage.setItem("users", m)

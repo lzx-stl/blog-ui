@@ -26,6 +26,7 @@
 </template>
 
 <script>
+// localstorage 存储最近的20个历史记录 search_history  < 20 unshift
 export default {
   name: "Search",
   props: {

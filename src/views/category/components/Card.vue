@@ -4,7 +4,7 @@
        target="_blank">
       <div class="card-img">
 
-        <img v-lazy="article.titleImg"
+        <img v-lazy="article.mainImg"
              alt="" />
       </div>
 

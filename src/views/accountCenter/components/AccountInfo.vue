@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       form: {
-        uuid: '',
+        id: '',
         nickname: '',
         avatar: '',
         information: ''
@@ -86,7 +86,7 @@ export default {
     })
   },
   mounted() {
-    this.form.uuid = this.uuid
+    this.form.id = this.id
     this.form.nickname = this.nickname
     this.form.avatar = this.avatar
     this.form.username = this.username

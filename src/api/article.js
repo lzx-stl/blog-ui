@@ -1,14 +1,13 @@
 import request from "../utils/request";
 
-export function getData()
-{
+export function getData () {
   return request({
     url: "/data",
     method: "get",
   })
 }
 
-export function findAll ({ page, limit, tag, keyWord, all, authorId }) {
+export function findAll ({ page, limit, tag, keyWord, all, authorId, mode }) {
 
   return request({
     url: "/article/findAll",
@@ -19,7 +18,8 @@ export function findAll ({ page, limit, tag, keyWord, all, authorId }) {
       tag,
       keyWord,
       all,
-      authorId
+      authorId,
+      mode
     },
   });
 }
