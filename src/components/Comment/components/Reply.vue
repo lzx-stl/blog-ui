@@ -44,7 +44,8 @@ export default {
         toId: this.toId,
         replyTime: '',
         up: 0,
-        down: 0
+        down: 0,
+        del: false
       }
     }
   },

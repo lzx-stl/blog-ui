@@ -22,7 +22,7 @@ export const constantRoutes =
       meta: { title: "主页" },
     },
     {
-      path: 'category',
+      path: '/category',
       name: "Category",
 
       hidden: false,
@@ -30,7 +30,7 @@ export const constantRoutes =
       meta: { title: "分类" },
     },
     {
-      path: "imagebed",
+      path: "/imagebed",
       name: "ImageBed",
 
       hidden: false,
@@ -38,7 +38,7 @@ export const constantRoutes =
       meta: { title: "图床" },
     },
     {
-      path: "eventLine",
+      path: "/eventLine",
       name: "EventLine",
 
       hidden: false,
@@ -46,7 +46,7 @@ export const constantRoutes =
       meta: { title: "随笔" },
     },
     {
-      path: "project",
+      path: "/project",
       name: "Project",
 
       hidden: false,
@@ -54,14 +54,14 @@ export const constantRoutes =
       meta: { title: "项目" },
     },
     {
-      path: "resources",
+      path: "/resources",
       name: "Resources",
       hidden: false,
       component: () => import("../views/resources/index"),
       meta: { title: "资源" },
     },
     {
-      path: "article/:id",
+      path: "/article/:id",
       name: "Article",
       hidden: true,
       component: () => import("@/views/article/index"),
@@ -71,7 +71,7 @@ export const constantRoutes =
       props: true
     },
     {
-      path: "accountCenter/:id",
+      path: "/accountCenter/:id",
       name: "AccountCenter",
       hidden: true,
       component: () => import("@/views/accountCenter/index"),

@@ -8,7 +8,7 @@
         <div class="header-nav-menu__item"
              v-for="route in routes"
              :key="route.name"
-             :class="{ 'menu-active': route.path === $router.path}">
+             :class="{ 'menu-active': route.path === $route.path}">
           <router-link :to="route.path">
             {{ route.meta.title}}
           </router-link>
