@@ -12,16 +12,16 @@
         </div>
       </div>
       <div class="article-up-info">
-            <a :href="`/accountCenter/${author.id}`">
-          
-        <div class="up-left">
-          <div class="avatar-container">
-            <el-image v-if="author.avatar"
-                      :src="author.avatar"></el-image>
+        <a :href="`/accountCenter/${author.id}`">
+
+          <div class="up-left">
+            <div class="avatar-container">
+              <el-image v-if="author.avatar"
+                        :src="author.avatar"></el-image>
+            </div>
+            <div class="up-name-pannel">{{ author.nickname }}</div>
           </div>
-          <div class="up-name-pannel">{{ author.nickname }}</div>
-        </div>
-            </a>
+        </a>
       </div>
 
     </div>
@@ -39,15 +39,14 @@
       </div>
 
       <div class="article-footer">
-        <div class="article-tags">
-          <a class="tag-item"
-             href="">{{article.tag}}</a>
 
-        </div>
+        <!-- <div class="article-tags"> -->
+        <!-- </div> -->
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import Reply from '@/components/Comment/components/Reply'
@@ -78,7 +77,9 @@ export default {
       previewBackground: '#fff'
     }
   },
-  mounted() {},
+  mounted() {
+
+  },
   methods: {},
   computed: {
     prop() {
@@ -168,7 +169,6 @@ export default {
   }
 
   .article-footer {
-    
     padding-left: 25px;
     .article-tags {
       .tag-item {

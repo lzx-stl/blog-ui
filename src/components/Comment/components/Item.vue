@@ -121,6 +121,7 @@ export default {
   },
   created() {
     this.getList()
+    console.log(this.obj);
     this.from = this.users.get(this.obj.fromId)
     this.to = this.users.get(this.obj.toId)
   },

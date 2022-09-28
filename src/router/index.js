@@ -49,14 +49,15 @@ export const constantRoutes =
       path: "/project",
       name: "Project",
 
-      hidden: false,
+      hidden: true,
       component: () => import("../views/project/index"),
       meta: { title: "项目" },
     },
     {
       path: "/resources",
       name: "Resources",
-      hidden: false,
+      
+      hidden: true,
       component: () => import("../views/resources/index"),
       meta: { title: "资源" },
     },
