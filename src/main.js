@@ -8,6 +8,7 @@ import mavonEditor from "mavon-editor";
 
 import "mavon-editor/dist/css/index.css";
 import '@/assets/fonts/index.css'
+import '@/assets/fonts/iconfont'
 import '@/styles/index.scss' // global css
 import '@/styles/btn.scss' // global css
 import '@/styles/variables.scss' // global css

@@ -38,6 +38,7 @@
                  aria-hidden="true">
               <use :xlink:href="icon.class"></use>
             </svg>
+         
           </div>
 
         </div>
