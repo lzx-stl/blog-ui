@@ -16,41 +16,51 @@
             <div class="form-button">
               <button class="form-button__button"
                       @click="activeText = '编辑资料'"
-                      v-if="$store.getters.id === user.id">编辑</button>
+                      v-if="$store.getters.id === id">编辑</button>
             </div>
 
           </div>
           <div class="account-center-user__intro">
-            <span>个性签名</span>
+            <span style="margin-right: 20px;">个性签名</span>
             <p>{{user.information}}</p>
           </div>
-          <div class="account-center-user__intro">IP</div>
+          <!-- <div class="account-center-user__intro">IP</div>
           <div class="account-center-header__data">
 
-            <div class="account-center-header__data-item">粉丝</div>
-            <div class="account-center-header__data-item">关注</div>
+            <div class="account-center-header__data-item"><a href=""
+                 class="data-num">{{fansCount}}</a>
+              <div class="label">粉丝</div>
+            </div>
+            <div class="account-center-header__data-item"><a href=""
+                 class="data-num">{{followsCount}}</a>
+              <div class="label">关注</div>
+            </div>
             <div class="account-center-header__data-item">获赞</div>
-          </div>
+          </div> -->
         </div>
 
       </div>
       <div class="side-menu container">
         <div class="side-menu__header">个人中心</div>
         <ul class="side-menu__list">
-          <!-- <li v-for="route in list"
-              :key="route.path"
-              @click="handleClick(route, id)"
-              class="side-menu__item"
-              :class="{'active': activeText == route.meta.name}">
-            <i :class="'iconfont ' + route.meta.icon"></i>
-            <span>{{ route.meta.name }}</span>
-          </li> -->
+          <router-link v-for="item in userRoutes.children"
+                       :key="item.path"
+                       :to="{path: resolvePath(item.path), query: {id}}"
+                       class="side-menu__item"
+                       :class="{'active': item.meta.name == $route.meta.name}">
+            <i :class="'iconfont ' + item.meta.icon"></i>
+            <span>{{ item.meta.name }}</span>
+          </router-link>
         </ul>
       </div>
       <div class="account-center-content container">
-        <div class="account-center__subheader">{{ activeText }}</div>
+        <div class="account-center__subheader">{{ $route.meta.name }}</div>
         <div class="acount-subbody">
-          <router-view></router-view>
+          <keep-alive>
+
+            <router-view :key="key" />
+          </keep-alive>
+
         </div>
 
       </div>
@@ -64,43 +74,74 @@
 </template>
 
 <script>
+import path from 'path'
 import BackToTop from '@/components/BackToTop'
 
 import CommentList from './components/CommentList'
-import { getInformation } from '@/api/user'
+import { getInformation, getFansCount, getFollowsCount } from '@/api/user'
 import { mapState, mapGetters } from 'vuex'
 import { userRoutes } from '@/router'
+import { isExternal } from '@/utils/validate'
+import { log } from 'console'
 export default {
   name: 'accountCenter',
-  props: ['id'],
   components: {
-    BackToTop
+    BackToTop,
+    CommentList
   },
+  props: ['id'],
   data() {
     return {
+      basePath: '',
       user: {},
       activeText: '',
+      fansCount: 0,
+      followsCount: 0,
+      likesCount: 0,
       url: 'http://thirdqq.qlogo.cn/g?b=oidb&k=wI8yLs7abh13VwaTQBic9NA&s=100&t=1613243338',
       list: []
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['userRoutes']),
+    key() {
+      return this.$route.path
+    }
+  },
   created() {
     getInformation(this.id).then((res) => {
       this.user = res.user
     })
-  },methods:{
-      handleClick(route, id)
-      {
-        this.$router.push({path: route.path, query: {
+    getFansCount(this.id).then((res) => {
+      this.fansCount = res.count
+    })
+
+    getFollowsCount(this.id).then((res) => {
+      this.followCount = res.count
+    })
+  },
+  methods: {
+    handleClick(path, id) {
+      this.$router.push({
+        path: path,
+        query: {
           id
-        }})
+        }
+      })
+    },
+    resolvePath(routePath) {
+      if (isExternal(routePath)) {
+        return routePath
       }
+      if (isExternal(this.basePath)) {
+        return this.basePath
+      }
+      return path.resolve(this.basePath, routePath)
+    }
   },
   mounted() {
-    console.log(userRoutes)
-    this.list = userRoutes
-    this.activeText = this.list[0].text
+    this.basePath = userRoutes.path
+    console.log('refresh', userRoutes)
     //bu退出登录后头像和名字无法获取
   }
 }
@@ -198,6 +239,13 @@ export default {
             -ms-flex-align: center;
             align-items: center;
             padding-right: 40px;
+            .data-num {
+              color: #333;
+              font-size: 20px;
+            }
+            .label {
+              margin-left: 10px;
+            }
           }
         }
       }

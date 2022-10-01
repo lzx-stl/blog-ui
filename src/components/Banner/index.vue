@@ -1,8 +1,11 @@
 <template>
   <div class="banner-container">
-      <el-carousel trigger="click" height="350px">
-      <el-carousel-item v-for="item in imgs" :key="item">
-        <img v-lazy="item" alt="">
+    <el-carousel trigger="click"
+                 height="320px">
+      <el-carousel-item v-for="item in imgs"
+                        :key="item">
+        <img v-lazy="item"
+             alt="">
       </el-carousel-item>
     </el-carousel>
     <!-- <div class="banner-wrapper"
@@ -55,7 +58,7 @@ export default {
   },
   mounted() {
     setInterval(() => {
-      this.next();
+      this.next()
     }, 2000)
   }
 }
@@ -65,14 +68,14 @@ export default {
 .banner-container {
   position: relative;
   overflow: hidden;
-  
-    border-radius: 4px;
+
+  border-radius: 4px;
   .banner-wrapper {
     width: 3500px;
     height: 100%;
     position: relative;
     left: 0;
-    transition: all ease .6s;
+    transition: all ease 0.6s;
   }
   .banner-prev,
   .banner-next {
@@ -98,11 +101,8 @@ export default {
     right: 20px;
   }
   .banner-slide {
-
     position: absolute;
     overflow: hidden;
-    width: 700px;
-    height: 100%;
     z-index: 1;
     border-radius: 8px;
   }

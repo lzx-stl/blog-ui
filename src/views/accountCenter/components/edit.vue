@@ -24,24 +24,24 @@
         <div class="account-info-edit__label">昵称</div>
 
         <div class="account-info-edit__value">
-          <el-input  type="text"
+          <el-input type="text"
                     placeholder="开始取一个有趣的名字吧～"
                     v-model="form.nickname"
                     maxlength="20"
                     show-word-limit></el-input>
         </div>
       </div>
-            <div class="account-info-edit__item">
+      <div class="account-info-edit__item">
 
         <div class="account-info-edit__label">个人签名</div>
 
         <div class="account-info-edit__value">
-          <el-input  type="textarea"
+          <el-input type="textarea"
                     placeholder="系统默认签名"
                     v-model="form.information"
                     maxlength="48"
                     show-word-limit>
-                    </el-input>
+          </el-input>
         </div>
       </div>
     </div>
@@ -56,41 +56,25 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getInformation } from '@/api/user'
 export default {
+  props: ['id'],
   data() {
     return {
-      form: {
-        id: '',
-        nickname: '',
-        avatar: '',
-        information: ''
-      }
+      form: {}
     }
   },
   methods: {
     handleClick() {
-      this.$store
-        .dispatch('user/updateInfor', this.form)
-        .then(({ nickname, avatar,information }) => {
-
-          this.form.nickname = nickname
-          this.form.avatar = avatar
-          this.form.information = information;
-          this.$store.dispatch('user/init')
-        })
+      this.$store.dispatch('user/updateInfor', this.form)
     }
   },
-  computed: {
-    ...mapState({
-      user: (state) => state.user
+  computed: {},
+  created() {
+    console.log('edit')
+    getInformation(this.id).then((res) => {
+      this.form = res.user
     })
-  },
-  mounted() {
-    this.form.id = this.id
-    this.form.nickname = this.nickname
-    this.form.avatar = this.avatar
-    this.form.username = this.username
-    this.form.information = this.information
   }
 }
 </script>

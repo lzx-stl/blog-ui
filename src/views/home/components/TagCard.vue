@@ -18,7 +18,7 @@ export default {
   name: 'TagCard',
   data() {
     return {
-      keyWord: '',
+      keyword: '',
       tags: []
     }
   },
@@ -28,7 +28,7 @@ export default {
     }
   },
   mounted() {
-    findAllTag(this.keyWord).then((res) => {
+    findAllTag(this.keyword).then((res) => {
       this.tags = res
     })
   }

@@ -12,6 +12,74 @@ const originalPush = Router.prototype.push;
 Router.prototype.push = function push (location) {
   return originalPush.call(this, location).catch((err) => err);
 };
+
+
+export const userRoutes =
+{
+
+  path: "/accountCenter",
+  name: "AccountCenter",
+  hidden: true,
+  component: () => import("@/views/accountCenter/index"),
+  meta: { title: "个人中心" },
+  props: (router) => ({ id: router.query.id }),
+  children: [
+    {
+      path: 'bookList',
+      name: 'BookList',
+      hidden: true,
+      component: () => import('@/views/accountCenter/components/bookList')
+      , meta: {
+        icon: 'icon-yonghu',
+        name: '我的收藏'
+      },
+      props: (router) => ({ id: router.query.id }),
+    },
+    {
+      path: 'commentList',
+      hidden: true,
+      component: () => import('@/views/accountCenter/components/CommentList')
+      , meta: {
+        icon: 'icon-yonghu',
+        name: '我的评论'
+      },
+      props: (router) => ({ id: router.query.id }),
+    },
+    // {
+    //   path: 'followList',
+
+    //   hidden: true,
+    //   component: () => import('@/views/accountCenter/components/followList')
+    //   , meta: {
+    //     icon: 'icon-yonghu',
+    //     name: '我的关注'
+    //   }
+    // },
+    // {
+    //   path: 'fanList',
+
+    //   hidden: true,
+    //   component: () => import('@/views/accountCenter/components/fanList')
+    //   , meta: {
+    //     icon: 'icon-yonghu',
+    //     name: '我的粉丝'
+    //   }
+    // },
+
+    {
+      path: 'edit',
+      name: 'Edit',
+      hidden: false,
+      component: () => import('@/views/accountCenter/components/edit')
+      , meta: {
+        icon: 'icon-yonghu',
+        name: '编辑资料'
+      },
+      props: (router) => ({ id: router.query.id }),
+    }
+  ]
+}
+
 export const constantRoutes =
   [
     {
@@ -40,8 +108,7 @@ export const constantRoutes =
     {
       path: "/eventLine",
       name: "EventLine",
-
-      hidden: false,
+      hidden: true,
       component: () => import("../views/eventLine/index"),
       meta: { title: "随笔" },
     },
@@ -56,7 +123,7 @@ export const constantRoutes =
     {
       path: "/resources",
       name: "Resources",
-      
+
       hidden: true,
       component: () => import("../views/resources/index"),
       meta: { title: "资源" },
@@ -72,69 +139,14 @@ export const constantRoutes =
       props: true
     },
     {
-      path: "/accountCenter/:id",
-      name: "AccountCenter",
+      path: '/search',
+      name: "Search",
       hidden: true,
-      component: () => import("@/views/accountCenter/index"),
-      meta: { title: "个人中心" },
-      props: (router) => ({ id: router.params.id })
+      component: () => import("@/components/Search/index"),
+      meta: { title: "主页" },
     },
+    userRoutes
   ]
-
-export const userRoutes = [
-  {
-    path: "/",
-    component: Layout,
-    children: [
-      {
-        path: '/commentList',
-        component: () => import('@/views/accountCenter/components/CommentList')
-        , meta: {
-          icon: 'icon-yonghu',
-          name: '我的评论'
-        }
-      },
-      {
-        path: '/followList',
-        component: () => import('@/views/accountCenter/components/followList')
-        , meta: {
-          icon: 'icon-yonghu',
-          name: '我的关注'
-        }
-      },
-      {
-        path: '/fanList',
-        component: () => import('@/views/accountCenter/components/fanList')
-        , meta: {
-          icon: 'icon-yonghu',
-          name: '我的粉丝'
-        }
-      },
-      {
-        path: '/bookList',
-        component: () => import('@/views/accountCenter/components/bookList')
-        , meta: {
-          icon: 'icon-yonghu',
-          name: '我的收藏'
-        }
-      }, {
-        path: '/replyList',
-        component: () => import('@/views/accountCenter/components/replyList')
-        , meta: {
-          icon: 'icon-yonghu',
-          name: '我的评论'
-        }
-      },
-      {
-        path: '/edit',
-        component: () => import('@/views/accountCenter/components/CommentList')
-        , meta: {
-          icon: 'icon-yonghu',
-          name: '编辑资料'
-        }
-      }]
-  }
-]
 
 
 export const defaultRoutes = [
@@ -180,7 +192,7 @@ export function resetRouter () {
 }
 
 router.beforeEach((to, from, next) => {
-  console.log(from);
+
   if (to.path == '/accountCenter' && !getToken()) next({ path: '/403' });
   // if (getToken() && to.path == '/login') {
   //   // next(from)

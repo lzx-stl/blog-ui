@@ -20,11 +20,14 @@ export default {
 .login-container {
   height: 100vh;
   overflow: hidden;
-  background-image: url('https://w.wallhaven.cc/full/l3/wallhaven-l3r3zr.jpg');
+  background-color: #283443;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-size: 100% 100%;
   .login-zone {
-    float: right;
-    margin: 150px;
+    // float: right;
+    // margin: 150px;
     width: 450px;
     box-sizing: content-box;
     // padding: 20px;

@@ -6,13 +6,13 @@
         <div class="article-read-info">
           <span class="publish-text"
                 data-v-0735ec40="">2022-07-08 20:06</span>
-          <span>{{ article.readCnt }}阅读</span>
-          <span>{{ article.thumbCnt }}点赞</span>
-          <span>{{ article.replyCnt }}评论</span>
+          <span>{{ article.readings }} 阅读</span>
+          <span>{{ article.likes }} 点赞</span>
+          <span>{{ article.replys }} 评论</span>
         </div>
       </div>
       <div class="article-up-info">
-        <a :href="`/accountCenter/${author.id}`">
+        <a :href="`/accountCenter/bookList?id=${author.id}`">
 
           <div class="up-left">
             <div class="avatar-container">

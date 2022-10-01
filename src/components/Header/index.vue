@@ -17,15 +17,15 @@
         </div>
       </div>
 
-      <!-- <div class="header-search">
-        <el-autocomplete v-model="state"
-                         :fetch-suggestions="querySearchAsync"
-                         placeholder="请输入内容"
-                         @select="handleSelect"
-                         suffix-icon="el-icon-search">
-          tm
-        </el-autocomplete>
-      </div> -->
+      <div class="header-search">
+        <el-input v-model="keyword"
+                  v-show="this.$route.path!='/search'"
+                  placeholder="请输入内容"
+                  @keyup.enter.native="handleSearch"
+                  suffix-icon="el-icon-search">
+
+        </el-input>
+      </div>
 
       <div class="user-zone">
         <button class="login-btn"
@@ -43,7 +43,7 @@
               <div class="nick-name"> {{nickname}}
               </div>
               <div class="pannel-menu">
-                <a :href="`/accountCenter/${id}`">
+                <a :href="`/accountCenter/bookList?id=${id}`">
 
                   <div class="pannel-menu-item">
                     个人中心
@@ -54,7 +54,7 @@
               </div>
             </div>
             <div slot="reference">
-              <a :href="`/accountCenter/${id}`">
+              <a :href="`/accountCenter/bookList?id=${id}`">
 
                 <el-image class="avatar"
                           :src="avatar"
@@ -75,6 +75,7 @@
 import { getToken, setBack } from '@/utils/auth'
 import { mapState, mapGetters } from 'vuex'
 import Search from '@/components/Search'
+import { getInformation } from '@/api/user'
 
 export default {
   name: 'Header',
@@ -83,12 +84,14 @@ export default {
   },
   data() {
     return {
+      user: {},
       // 这里应该是从动态中获取的
       visible: false,
       pannelVisable: false,
       activeIndex: -1,
       isLogin: false,
-      isHover: false
+      isHover: false,
+      keyword: ''
     }
   },
   methods: {
@@ -102,26 +105,28 @@ export default {
     logout() {
       this.$store.dispatch('user/logout')
       this.isLogin = false
-    }
+    },
+    handleSearch() {
+      this.$router.push({
+        path: '/search',
+        query: {
+          keyword: this.keyword
+        }
+      })
+    },
+    querySearchAsync() {},
+    handleSelect() {}
   },
   created() {
     this.$store.dispatch('permission/generateRoutes', [])
   },
   computed: {
-  
-    ...mapState({
-      id: (state) => state.user.id,
-      nickname: (state) => state.user.nickname,
-      avatar: (state) => state.user.avatar,
-      username: (state) => state.user.username,
-      token: (state) => state.user.token
-    }),
-    ...mapGetters(['routes'])
+    ...mapGetters(['routes', 'id', 'avatar', 'nickname'])
   },
   mounted() {
     console.log(`this.routes`, this.routes)
     if (getToken()) {
-      this.$store.dispatch('user/getInfor', getToken())
+      this.$store.dispatch('user/getInfor', [])
       this.isLogin = true
     }
   }

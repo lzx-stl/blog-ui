@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper"
        ref="box">
-    <Header/>
+    <Header />
  
     <app-main></app-main>
   </div>
@@ -16,7 +16,12 @@ export default {
   components: {
     Header,
     AppMain
-  },
+  },computed:{
+    key()
+    {
+      return this.$route.path
+    }
+  }
 }
 </script>
 

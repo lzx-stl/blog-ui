@@ -5,8 +5,9 @@ import store from "./store";
 import "element-ui/lib/theme-chalk/index.css";
 import ElementUI from "element-ui";
 import mavonEditor from "mavon-editor";
-import "mavon-editor/dist/css/index.css";
 
+import "mavon-editor/dist/css/index.css";
+import '@/assets/fonts/index.css'
 import '@/styles/index.scss' // global css
 import '@/styles/btn.scss' // global css
 import '@/styles/variables.scss' // global css

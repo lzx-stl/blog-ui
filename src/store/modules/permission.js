@@ -1,13 +1,20 @@
-import { constantRoutes,userRoutes } from "@/router"
+import { constantRoutes, userRoutes } from "@/router"
+import { getToken } from "@/utils/auth"
 const state = {
   routes: [],
-  addRoutes: []
+  addRoutes: [],
+  userRoutes: []
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
     // state.addRoutes = routes
     state.routes = routes
+  },
+
+  SET_USER_ROUTES: (state, userRoutes) => {
+    // state.addRoutes = routes
+    state.userRoutes = userRoutes
   }
 }
 
@@ -28,6 +35,9 @@ const actions = {
     for (let route of constantRoutes)
       if (!route.hidden) res.push(route)
     commit('SET_ROUTES', res)
+    res = [];
+    commit('SET_USER_ROUTES', userRoutes)
+
   }
 }
 

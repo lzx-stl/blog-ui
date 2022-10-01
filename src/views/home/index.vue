@@ -1,28 +1,15 @@
 <template>
   <div class="home-container">
-    <div class="topBg"
-         :style="{ backgroundImage: `url(${topImg})` }">
-      <div class="down">
-        <i class="iconfont icon-arrow-copy"
-           @click="scrollWindow"></i>
-      </div>
-      <!--      <carousel :list="list"/>-->
-      <!-- <el-button @click="down"
-                 style="margin:0 auto">
-        <i class="iconfont icon-arrow-copy"></i>
-      </el-button> -->
 
-      <!-- <TopCard></TopCard> -->
-    </div>
-    <div class="main"
-         :style="{backgroundImage: `url(${mainImg})`}">
+    <div class="main">
 
       <div class="layout">
-        <div class="layout-main">
 
-          <!-- <div class="home-header">
-          <Banner />
-        </div> -->
+        <div class="layout-main">
+          <div class="banner-box">
+            <banner />
+          </div>
+
           <div class="article-list">
             <ArticleList></ArticleList>
           </div>
@@ -40,13 +27,18 @@
                 <div class="hot-item"
                      v-for="item of users"
                      :key="item[0]">
-                  <a :href="`/accountCenter/${item[1].id}`"
-                     target="_blank"><img :src="item[1].avatar"
+                  <a :href="`/accountCenter/bookList?id=${item[1].id}`"
+                     target="_blank"
+                     class="user-card__link"><img :src="item[1].avatar"
                          class="user-avatar"
                          alt="">
                   </a>
-                  <div class="infor">{{item[1].nickname}}</div>
-                  <el-button type="primary">关注</el-button>
+                  <div class="infor">
+                    <a :href="`/accountCenter/bookList?id=${item[1].id}`"
+                       class="user-card__link">{{item[1].nickname}}
+                    </a>
+                  </div>
+                  <button class="user-follow">关注</button>
                 </div>
               </div>
             </template>
@@ -107,21 +99,18 @@ import ArticleList from '@/components/ArticleList/index'
 
 import TagCard from './components/TagCard'
 import MyCard from './components/MyCard'
-import SideMenu from './components/SideMenu'
+import SideMenu from '@/components/SideMenu'
 
-import Search from '../../components/HeaderSearch/index'
 import Footer from '@/components/Footer'
 import BackToTop from '@/components/BackToTop'
 
 import { mapState } from 'vuex'
-import { Avatar } from 'element-ui'
 
 export default {
   name: 'Home',
   components: {
     Banner,
     ArticleList,
-    Search,
     TagCard,
     MyCard,
     Footer,
@@ -129,13 +118,9 @@ export default {
     SideMenu
   },
   data() {
-    return {
-      show: false,
-      url: 'https://upload-bbs.mihoyo.com/upload/2022/05/09/287482956/a1c1d53d6842a703435b5057bd1d8c22_2060042160345570154.png?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,png',
-      avatar:
-        'https://img-static.mihoyo.com/communityweb/upload/a17a95fb1724d2d4492987b50c56f7eb.png'
-    }
+    return {}
   },
+  created() {},
   mounted() {},
   computed: {
     ...mapState({
@@ -160,9 +145,9 @@ export default {
 .home-container {
   padding-top: 60px;
   background-size: 100% 100%;
-
+  background-color: #f5f5f5;
   background-attachment: fixed;
-  // background-color: #f5f5f5;
+  
   .home-header {
     width: 700px;
     margin-bottom: 30px;
@@ -191,6 +176,10 @@ export default {
   padding-top: 20px;
   background-size: 100% 100%;
   background-attachment: fixed;
+}
+.article-list{
+  
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .down {
@@ -242,6 +231,10 @@ export default {
   padding: 0 100px;
   // background-color: #f5f5f5;
   box-sizing: content-box;
+
+  .banner-box {
+    margin-bottom: 20px;
+  }
   &::after {
     content: '';
     display: block;
@@ -269,12 +262,24 @@ export default {
       .infor {
         margin-left: 10px;
         flex-grow: 1;
-        color: #666;
       }
       .user-avatar {
         width: 44px;
         height: 44px;
         border-radius: 50%;
+      }
+      .user-follow {
+        background-color: #00c3ff;
+        border-radius: 13px;
+        height: 26px;
+        line-height: 26px;
+        font-size: 14px;
+        width: 70px;
+        display: inline-block;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+        border: none;
       }
     }
 

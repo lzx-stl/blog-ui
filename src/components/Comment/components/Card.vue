@@ -3,7 +3,7 @@
     <div class="reply-face">
        <a class="name"
            target="_blank"
-           :href="`/accountCenter/${from.id}`">
+           :href="`/accountCenter/bookList?id=${from.id}`">
       <img :src="from.avatar"
            alt="" />
        </a>
@@ -12,12 +12,12 @@
       <div class="user">
         <a class="name"
            target="_blank"
-           :href="`/accountCenter/${from.id}`">{{from.nickname}}</a>
+           :href="`/accountCenter/bookList?id=${from.id}`">{{from.nickname}}</a>
 
         <span class="text-con">
           回复
           <a target="_blank"
-             :href="`/accountCenter/${to.id}`"> @{{to.nickname}}</a>:
+             :href="`/accountCenter/bookList?id=${to.id}`"> @{{to.nickname}}</a>:
           {{ obj.content }}
         </span>
       </div>
@@ -119,7 +119,6 @@ export default {
     }
     .text-con {
       white-space: pre-wrap;
-      margin-left: 16px;
     }
   }
   .user-name {

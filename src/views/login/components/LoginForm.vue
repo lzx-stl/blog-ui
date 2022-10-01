@@ -1,6 +1,6 @@
 <template>
   <div class="login-form-container">
-    <div class="login-box">
+    <!-- <div class="login-box">
       <el-form :model="form"
                class="login-form">
         <el-form-item>
@@ -23,12 +23,12 @@
         </el-form-item>
       </el-form>
 
-    </div>
+    </div> -->
     <div class="login-box-bottom">
 
       <div class="login-third">
 
-        <p>其他登录方式</p>
+        <p>登录方式</p>
         <div class="login-third-items">
           <div class="login-third-item"
                v-for="icon in icons"
@@ -148,7 +148,7 @@ export default {
 .login-form-container {
   background-color: #fff;
   opacity: 0.95;
-  border-radius: 5px;
+  border-radius: 3px;
   
     padding: 50px 40px;
   .login-box {

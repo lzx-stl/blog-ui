@@ -17,26 +17,35 @@
              :toId="authorId"
              :parentId="0"
              @admitComment="handleAdmit"></Reply>
-      <div class="comment-list">
-        <Item v-for="item in list"
-              :key="item.id"
-              :obj="item" />
-      </div>
 
-      <div class="loading-state"> {{noMore ? "没有更多评论" : "正在加载中"}} </div>
+      <InfiniteScroll @scrollHandle="getList"
+                      :disabled="disabled">
+        <template v-slot:list>
+          <div class="comment-list">
+            <Item v-for="item in list"
+                  :key="item.id"
+                  :obj="item" />
+          </div>
+        </template>
+        <template v-slot:footer>
+
+          <div class="loading-state"> {{noMore ? "没有更多评论" : "正在加载中"}} </div>
+        </template>
+      </InfiniteScroll>
 
     </div>
   </div>
 </template>
 
 <script>
+import InfiniteScroll from '@/components/InfiniteScroll'
 import Item from './components/Item'
 import Reply from './components/Reply'
 import { findAllComments, getCommentSum } from '@/api/comment'
 import { mapState } from 'vuex'
 export default {
   name: 'Comment',
-  components: { Item, Reply },
+  components: { Item, Reply, InfiniteScroll },
   props: {
     articleId: {
       Type: Number,
@@ -56,7 +65,7 @@ export default {
       total: 0,
       listQuery: {
         current: 0,
-        limit: 30,
+        limit: 1,
         articleId: this.articleId,
         parentId: 0,
         sortMode: 'hot'
@@ -73,7 +82,6 @@ export default {
     // this.$bus.$on("add", () => {
     //   this.getList();
     // });
-    window.addEventListener('scroll', this.scrollHandle, false)
   },
   computed: {
     disabled() {
@@ -112,16 +120,6 @@ export default {
     },
     to(obj) {
       return this.users[obj.toId]
-    },
-    scrollHandle() {
-      const scrollHeight = document.body.scrollHeight
-      const scrollTop =
-        document.body.scrollTop || document.documentElement.scrollTop
-      const clientHeight = document.documentElement.clientHeight
-      const dist = scrollHeight - scrollTop - clientHeight
-      if (dist <= 20) {
-        this.getList()
-      }
     },
     handleClick() {
       this.noMore = false

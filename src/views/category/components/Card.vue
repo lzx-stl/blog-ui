@@ -1,5 +1,6 @@
 <template>
-  <div class="card-container">
+  <div class="card-container"
+       v-if="item!=null">
     <a :href="`/article/${article.id}`"
        target="_blank">
       <div class="card-img">
@@ -11,13 +12,13 @@
       <div class="card-footer">
 
         <div class="card-infor">
-          <a :href="`/accountCenter/${article.authorId}`"
+          <a :href="`/accountCenter/bookList?id=${article.authorId}`"
              target="_blank"
              class="author-infor">
 
             <img class="card-infor__avatar"
-                 :src="users.get(article.authorId).avatar" />
-            <div class="card-infor__name">{{users.get(article.authorId).nickname}}</div>
+                 :src="user.avatar" />
+            <div class="card-infor__name">{{user.nickname}}</div>
           </a>
           <h3 class="card-title">{{ article.title }}</h3>
 
@@ -30,16 +31,16 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
   name: 'Card',
-  props: ['article'],
-  computed: {
-    ...mapGetters(['users'])
+  props: ['item'],
+  data() {
+    return {
+      article: this.item.article,
+      user: this.item.user
+    }
   },
-  mounted() {
-    this.author = this.users.get(this.article.authorId)
-  }
+  created() {}
 }
 </script>
 

@@ -30,7 +30,7 @@
           </div>
           <div slot="reference">
             <a class="user-name"
-               :href="`/accountCenter/${from.id}`"
+               :href="`/accountCenter/bookList?id=${from.id}`"
                target="_blank">
               <img :src="from.avatar"
                    alt=""
@@ -41,7 +41,7 @@
       </div>
       <div class="con">
         <a class="user-name"
-           :href="`/accountCenter/${from.id}`"
+           :href="`/accountCenter/bookList?id=${from.id}`"
            target="_blank">
           {{ from.nickname }}
         </a>

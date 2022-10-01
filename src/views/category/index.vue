@@ -1,10 +1,10 @@
 <template>
   <div class="category-container">
-    <div class="search-wrapper">
-      <Search :keyWord.sync="listQuery.keyWord"
+    <!-- <div class="search-wrapper">
+      <Search :keyword.sync="listQuery.keyword"
               @search="getList"></Search>
 
-    </div>
+    </div> -->
     <div class="list-nav">
 
       <TagNav @tagChange="getList"
@@ -13,12 +13,10 @@
     </div>
     <el-empty :image-size="200"
               v-if="!total"></el-empty>
-    <div class="card-list"
-         v-if="users.size != 0">
+    <div class="card-list">
       <Card v-for="item in list"
             :key="item.id"
-            :article="item"
-            :author="users.get(item.authorId)"> </Card>
+            :item="item"> </Card>
 
     </div>
     <div class="pagination-box">
@@ -39,7 +37,6 @@ import TagNav from './components/TagNav'
 import Card from './components/Card'
 import Pagination from '@/components/Pagination'
 
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'Category',
@@ -53,14 +50,13 @@ export default {
         page: 1,
         limit: 12,
         tag: '',
-        keyWord: '',
+        keyword: '',
         mode: 'release_time DESC',
         all: false
       }
     }
   },
   computed: {
-    ...mapGetters(['users'])
   },
   created() {
     this.getList()
@@ -96,7 +92,7 @@ export default {
   .list-nav {
     width: 1400px;
 
-    margin: 20px auto;
+    margin: 50px auto 55px auto;
   }
   .card-list {
     display: grid;

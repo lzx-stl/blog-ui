@@ -1,7 +1,7 @@
 <template>
   <div class="flex-container"
        :style="{backgroundImage: `url(${eventImg})`}">
-    <el-timeline class="container">
+    <!-- <el-timeline class="container">
       <el-timeline-item v-for="item in list"
                         :key="item.id"
                         placement="top">
@@ -20,7 +20,7 @@
         </el-card>
       </el-timeline-item>
 
-    </el-timeline>
+    </el-timeline> -->
     <!-- <div class="flex-item"
          v-for="item in list"
          :key="item.id">

@@ -1,17 +1,19 @@
 <template>
   <div class="article-card">
     <div class="article-card__header">
-      <a :href="`/accountCenter/${author.id}`">
 
-        <div class="article-card__userinfo">
+      <div class="article-card__userinfo">
+        <a :href="`/accountCenter/bookList?id=${author.id}`">
+
           <div class="artilce-user__avatar">
             <img :src="author.avatar"
                  alt="">
 
           </div>
           <div class="artilce-user__name">{{author.nickname}}</div>
-        </div>
-      </a>
+        </a>
+
+      </div>
     </div>
 
     <a class="article-card__link"
@@ -33,10 +35,10 @@
     </a>
     <div class="article-card__footer">
 
-      <el-tag class="tag"
+      <!-- <el-tag class="tag"
               type="info"
               v-for="tag in tags"
-              :key="tag.tagName">{{tag.tagName}}</el-tag>
+              :key="tag.tagName">{{tag.tagName}}</el-tag> -->
       <div class="article-card__data">
         <i class="iconfont icon-liulanliang1"> {{article.readings}}</i>
         <i class="iconfont icon-pinglun4"> {{article.replys}}</i>
@@ -48,22 +50,18 @@
 </template>
 
 <script>
-
-import {getTags} from '@/api/tag'
+import { getTags } from '@/api/tag'
 export default {
   name: 'articleItem',
-  props: ['article', 'author'],
+  props: ['item'],
   data() {
     return {
+      article: this.item.article,
+      author: this.item.user,
       tags: []
     }
   },
-  created() {
-    
-    getTags(this.article.id).then((res) => {
-      this.tags = res.tags
-    })
-  }
+  created() {}
 }
 </script>
 

@@ -1,6 +1,34 @@
-
-@import './btn.scss';
+@import "./btn.scss";
 @import "./variables.scss";
+
+.el-loading-parent--relative {
+  height: 70px;
+}
+.el-loading-spinner {
+  margin-top: -35px;
+  color: #ccc;
+  background-color: #fff;
+  border-top: 1px solid #ebebeb;
+}
+
+.loading-end {
+  width: 100%;
+  height: 70px;
+  background-color: #fff;
+  border-top: 1px solid #ebebeb;
+  color: #ccc;
+  line-height: 70px;
+  text-align: center;
+}
+
+.user-card__link {
+  cursor: default;
+  color: #666;
+  &:hover {
+    color: #00c3ff;
+  }
+}
+
 body {
   height: 100%;
   min-width: 1400px;
@@ -8,7 +36,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Arial, sans-serif;
 }
 
 .hljs {
@@ -61,7 +90,8 @@ body {
   border-radius: 4px;
 }
 
-ol, ul {
+ol,
+ul {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -72,38 +102,38 @@ a {
   color: inherit;
 }
 
-.global{
+.global {
   background-color: red;
 }
 
 #app {
   height: 100%;
-  a{
+  a {
     text-decoration: none;
-    &:visited{
+    &:visited {
       text-decoration: none;
     }
   }
 }
-.el-dialog{
+.el-dialog {
   border-radius: 12px;
 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-.el-dialog__wrapper{
+.el-dialog__wrapper {
   overflow: hidden;
 }
-.clear{
+.clear {
   clear: both;
 }
 
-.markdown-body .highlight pre, .markdown-body pre {
-  background-color: transparent!important;
+.markdown-body .highlight pre,
+.markdown-body pre {
+  background-color: transparent !important;
 }
-.markdown-body pre code{
-  font-size: 14px!important;
+.markdown-body pre code {
+  font-size: 14px !important;
 }
-
 
 .markdown-body .highlight pre,
 .markdown-body pre {

@@ -1,145 +1,328 @@
 <template>
-  <div class="search-container" :style="{ backgroundColor: bgColor }">
-    <div class="search-icon">
-      <i class="iconfont icon-icon-test3"></i>
-    </div>
-    <el-input
-      placeholder="请输入关键字搜索"
-      v-model="currentKeyWord"
-      @mouseover.native="handleMouseOver"
-      @mouseleave.native="handleMouseLeave"
-      @click.native="focus = true"
-      @blur="focus = false"
-      @keyup.enter.native="handleSearch"
-      clearable
-    >
-    </el-input>
+  <div class="search-page">
 
-    <button class="search-btn" @click="handleSearch">搜索</button>
-    <!-- <div class="history"
-         v-if="focus">
-      <div class="header">
-        <div class="title">搜索历史</div>
+    <div class="layout">
+      <div class="layout-main">
+        <div class="search-bar">
+          <input type="text"
+                 v-model="keyword"
+                 @keyup.enter="handleSearch"
+                 class="search-input">
+          <div class="search-submit">
+            <button class="search-btn"
+                    @click="handleSearch">搜索</button>
+
+          </div>
+        </div>
+        <div class="search-page__header">
+          <div class="tab">
+            <div class="tab-list">
+              <div class="tab-item tab-item--active">全部</div>
+
+              <div class="tab-item">话题</div>
+
+              <div class="tab-item">随笔</div>
+              <div class="tab-item">用户</div>
+            </div>
+          </div>
+
+        </div>
+        <div class="container search-section">
+          <div class="search-section__header">
+            <h3 class="section-title">文章</h3>
+          </div>
+          <div class="search-section__body">
+
+            <InfiniteScroll @scrollHandle="getList"
+                            :disabled="disabled">
+              <template v-slot:list>
+                <ArticleItem v-for="item in list"
+                             :key="item.id"
+                             :item="item" />
+              </template>
+              <template v-slot:footer>
+                <div v-if="loading"
+                     v-loading="loading"
+                     element-loading-text="加载中"></div>
+                <div class="loading-end"
+                     v-if="noMore">没有更多了</div>
+              </template>
+            </InfiniteScroll>
+
+          </div>
+        </div>
       </div>
-    </div> -->
+      <div class="layout-sub">
+        <side-menu class="search-history-section">
+          <template v-slot:header>
+            <h2 class="side-section__title">搜索历史</h2>
+            <div class="side-section__link">
+              <span href=""
+                    @click="clear">清空</span>
+            </div>
+          </template>
+          <template v-slot:content>
+            <div class="search-history-list">
+
+              <div class="search-history-list__card"
+                   v-for="item in history"
+                   :key="item">{{item}}
+              </div>
+            </div>
+          </template>
+        </side-menu>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// localstorage 存储最近的20个历史记录 search_history  < 20 unshift
+import InfiniteScroll from '@/components/InfiniteScroll'
+import ArticleItem from '@/components/ArticleList/ArticleItem.vue'
+
+import SideMenu from '@/components/SideMenu'
+import { MessageBox } from 'element-ui'
+import { findAll } from '@/api/article'
 export default {
-  name: "Search",
-  props: {
-    keyWord: {
-      Type: String,
-      default: "",
-    },
+  components: {
+    ArticleItem,
+    SideMenu,
+    InfiniteScroll
   },
   data() {
     return {
-      val: "",
-      hover: false,
-      focus: false,
-      bgColor: "#f6f7f8",
-    };
+      history: [],
+      list: [],
+      total: 0,
+      listQuery: {
+        page: 1,
+        limit: 5,
+        tag: null,
+        keyword: '',
+        all: false,
+        authorId: null,
+        mode: 'release_time DESC'
+      },
+      keyword: '',
+      loading: false,
+      noMore: false
+    }
   },
+  created() {
+    this.keyword = this.$route.query.keyword
+    let data = JSON.parse(window.localStorage.getItem('search-history'))
+    if (data) this.history = data
+    this.handleSearch()
+  },
+  mounted() {},
   computed: {
-    currentKeyWord: {
-      get() {
-        return this.keyWord;
-      },
-      set(val) {
-        this.$emit("update:keyWord", val);
-      },
-    },
+    disabled() {
+      return this.loading || this.noMore
+    }
   },
   methods: {
-    handleMouseOver() {
-      this.hover = true;
-      this.bgColor = "#fff";
+    getList() {
+      if (this.disabled) return
+      this.loading = true
+      findAll(this.listQuery).then((res) => {
+        if (this.list.length == res.total) {
+          this.noMore = true
+        } else {
+          // debugger;
+          console.log(`res.list`, res.list)
+          this.listQuery.page++
+          this.list = this.list.concat(res.list)
+        }
+        this.loading = false
+      })
     },
-    handleMouseLeave() {
-      this.bgColor = "#f6f7f8";
+    add(data) {
+      if (data === '') return
+      console.log(`data`, data)
+      let n = this.history.length
+      if (n == 0) this.history.push(data)
+      else if (n == 1) {
+        if (data == this.history[0]) return
+        this.history.unshift(data)
+      } else if (n < 20) {
+        // 1< n < limit
+        let index = this.history.indexOf(data)
+        if (index != -1) this.history.splice(index, 1)
+        this.history.unshift(data)
+      } else {
+        this.history.pop()
+        this.history.push(data)
+      }
+      window.localStorage.setItem(
+        'search-history',
+        JSON.stringify(this.history)
+      )
+    },
+    clear() {
+      this.history = []
+      window.localStorage.removeItem('search-history')
     },
     handleSearch() {
-      this.$emit("search");
-    },
-  },
-};
+      this.keyword = this.keyword.trim()
+
+      this.listQuery.keyword = this.keyword
+      this.list = []
+      this.noMore = false
+      this.listQuery.page = 1
+
+      this.getList()
+      this.add(this.keyword)
+      this.$router.push({
+        path: this.$route.path,
+        query: {
+          keyword: this.keyword
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss">
-.search-container {
-  position: relative;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  border-radius: 6px;
+.search-page {
+  padding: 100px 0;
+  background-color: #f5f5f5;
 
-  line-height: 36px;
-  /* align-items: center;
-  justify-content: center; */
-
-  .search-icon {
-    position: absolute;
-    width: 28px;
-    text-align: center;
-    line-height: 48px;
-    color: #00aeec;
-    margin: 0 15px;
-    i {
-      font-size: 28px;
+  .layout {
+    width: 1000px;
+    min-height: 600px;
+    padding-left: 100px;
+    padding-right: 100px;
+    box-sizing: content-box;
+    margin: 0 auto;
+    &::after {
+      content: '';
+      display: block;
+      visibility: hidden;
+      height: 0;
+      clear: both;
+      font-size: 0;
     }
-  }
+    .layout-main {
+      float: left;
+      width: 700px;
+      // background-color: red;
+      .search-bar {
+        display: flex;
+        height: 50px;
 
-  .el-input {
-    width: 100%;
-    font-size: 18px;
+        border-radius: 4px;
+        background-color: pink;
+        .search-input {
+          display: inline-block;
+          height: 100%;
+          border: none;
+          padding: 0 30px;
+          flex: 1;
 
-    .el-input__inner {
-      height: 48px;
-      padding-left: 58px;
-      border-radius: 6px;
-      background-color: transparent;
+          outline: none;
+        }
+        .search-submit {
+          width: 120px;
+          height: 100%;
+          font-size: 16px;
+          flex-shrink: 0;
+
+          .search-btn {
+            width: 100%;
+            background-color: #ffe14c;
+
+            font-size: 16px;
+            color: #663c00;
+            font-weight: 600;
+            height: 50px;
+            display: inline-flex;
+            align-items: center;
+            border: 0;
+            justify-content: center;
+          }
+        }
+      }
+      .search-page__header {
+        padding: 0 30px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        background-color: #fff;
+        .tab {
+          height: 50px;
+          .tab-list {
+            .tab-item {
+              display: inline-block;
+              line-height: 50px;
+
+              font-size: 16px;
+              position: relative;
+              & + .tab-item {
+                margin-left: 40px;
+              }
+            }
+            .tab-item--active {
+              color: #00c3ff;
+              font-weight: 600;
+              &::before {
+                content: ' ';
+                position: absolute;
+                width: 100%;
+                bottom: 0;
+                left: 0;
+                border-bottom: 3px solid #00c3ff;
+              }
+            }
+          }
+        }
+      }
+      .search-section {
+        
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .search-section__header {
+          display: flex;
+          padding: 0 30px;
+          height: 50px;
+          .section-title {
+            margin-top: 22px;
+            font-size: 16px;
+          }
+        }
+        .search-section__body {
+        
+        }
+      }
     }
-    .el-input__suffix {
-      right: 120px;
-    }
-  }
+    .layout-sub {
+      float: right;
+      width: 280px;
+      .search-history-section {
+        & .side-section__body {
+          padding-right: 0;
+          padding-bottom: 0;
+        }
+      }
+      .search-history-list {
+        display: flex;
+        padding-bottom: 18px;
+        padding-right: 8px;
+        flex-wrap: wrap;
+        .search-history-list__card {
+          margin-bottom: 12px;
+          margin-right: 12px;
+          padding: 0 12px;
+          height: 30px;
+          line-height: 28px;
+          border-radius: 15px;
+          border: 1px solid #ebebeb;
+          cursor: pointer;
+          overflow: hidden;
 
-  .search-btn {
-    position: absolute;
-    right: 10px;
-    border: 0;
-    margin: 5px auto;
-    border-radius: 6px;
-    height: 38px;
-    width: 100px;
-
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 600;
-    background-color: #00aeec;
-    color: #fff;
-  }
-
-  .history {
-    width: 640px;
-    height: 350px;
-    position: absolute;
-    z-index: 100;
-    margin: 50px auto;
-    background-color: #fff;
-    border-radius: 0 0 8px 8px;
-    border: 1px solid #e3e5e7;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  }
-
-  .header {
-    .title {
-      height: 24px;
-      font-size: 16px;
-      line-height: 24px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
     }
   }
 }

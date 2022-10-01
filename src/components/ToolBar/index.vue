@@ -2,7 +2,8 @@
   <div class="toolbar-container">
     <div class="toolbar-item"
          v-for="o in arr"
-         :key="o.icon_name">
+         :key="o.icon_name"
+         @click="handleClick">
       <div @click="top">
         <i :class="`iconfont ${o.icon_name}`"></i>
       </div>
@@ -24,7 +25,9 @@ export default {
         {
           icon_name: 'icon-shoucang1',
           icon_num: 11,
-          href: ''
+          href: '',
+
+          event: this.like
         },
         {
           icon_name: 'icon-pinglun3',
@@ -34,7 +37,8 @@ export default {
         {
           icon_name: 'icon-xiangshang',
           icon_num: undefined,
-          href: '#content'
+          href: '#content',
+          event: this.like
         }
       ]
     }
@@ -45,30 +49,14 @@ export default {
         top: 0,
         behavior: 'smooth'
       })
+    },
+    like() {
+      console.log(`like`, like);
     }
   }
 }
 </script>
 
 <style lang="scss">
-.toolbar-container {
 
-  width: 62px;
-  height: 262px;
-  position: fixed;
-  bottom: 60px;
-  right: 230px;
-  color: #505050;
-  background-color: #fff;
-
-  .toolbar-item {
-    width: 62px;
-    height: 62px;
-    text-align: center;
-    line-height: 62px;
-    .iconfont {
-      font-size: 28px;
-    }
-  }
-}
 </style>

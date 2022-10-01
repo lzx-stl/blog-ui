@@ -15,10 +15,12 @@
     <div class="textarea-container">
       <el-input type="textarea"
                 class="ipt-txt"
-                :placeholder="hint"
                 v-model="form.content"
                 rows="5"
-                resize="none"></el-input>
+                resize="none">
+
+      </el-input>
+
       <el-button class="comment-submit"
                  @click="submitComment">提交评论</el-button>
     </div>
@@ -28,11 +30,13 @@
 <script>
 import { empty } from '@/api/notify'
 import { add, getFirsts } from '@/api/comment.js'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'Reply',
   props: ['articleId', 'parentId', 'fromId', 'toId'],
-  created() {},
+  created() {
+    console.log(this.nickname);
+  },
   data() {
     return {
       form: {
@@ -46,7 +50,8 @@ export default {
         up: 0,
         down: 0,
         del: false
-      }
+      },
+      active: false
     }
   },
   methods: {
@@ -85,6 +90,7 @@ export default {
       username: (state) => state.user.username,
       token: (state) => state.user.token
     }),
+    ...mapGetters(['users']),
     hint() {
       return '发一条友善的评论'
     }
@@ -144,18 +150,23 @@ export default {
       width: 100%;
       height: 100%;
       // border: 1px solid #e5e9ef;
-      background-color: #f4f5f7;
       resize: none;
       font-size: 16px;
-      // padding: 10px;
-      .el-textarea__inner {
-        height: 100%;
-      }
+
       box-sizing: border-box;
+      .el-textarea__inner {
+        color: #555;
+
+        background-color: #f4f5f7;
+        height: 100%;
+        &:focus {
+          background-color: #fff;
+        }
+      }
       &:focus {
         outline-color: #1e9fff;
-        background-color: #fff;
         border-color: #409eff;
+        background-color: red;
       }
     }
 

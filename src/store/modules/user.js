@@ -18,13 +18,14 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_USER: (state, { id, nickname, avatar, username, information }) => {
+  SET_USER: (state, user) => {
+    const { id, nickname, avatar, username, information } = user;
     state.id = id
     state.nickname = nickname
     state.avatar = avatar
     state.username = username
     state.information = information
-    window.localStorage.setItem("id", id)
+    window.localStorage.setItem("user", JSON.stringify(user))
     // if (state.users.has(id)) {
     //   state.users[id].nickname = nickname;
     //   state.users[id].avatar = avatar;
@@ -47,7 +48,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       getUserList().then(res => {
         commit('SET_USERS', res.list);
-      
+
         resolve()
       })
     })
@@ -65,6 +66,7 @@ const actions = {
   }, updateInfor ({ commit }, user) {
     return new Promise((resolve, reject) => {
       updateUser(user).then(res => {
+
         commit('SET_USER', res.user);
         resolve(res.user);
       }).catch(error => {
@@ -78,7 +80,7 @@ const actions = {
   logout ({ commit }) {
     commit('SET_TOKEN', '');
     commit('SET_USER', {});
-    // window.localStorageNaNpxoveItem("")
+
     removeToken();
   }
 }

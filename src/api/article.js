@@ -1,5 +1,16 @@
 import request from "../utils/request";
 
+export function getSettings (userId, articleId) {
+  return request({
+    url: "/article/settings",
+    method: "get",
+    params:{
+      userId, articleId
+    }
+  })
+}
+
+
 export function getData () {
   return request({
     url: "/data",
@@ -7,7 +18,7 @@ export function getData () {
   })
 }
 
-export function findAll ({ page, limit, tag, keyWord, all, authorId, mode }) {
+export function findAll ({ page, limit, tag, keyword, all, authorId, mode }) {
 
   return request({
     url: "/article/findAll",
@@ -16,9 +27,25 @@ export function findAll ({ page, limit, tag, keyWord, all, authorId, mode }) {
       page,
       limit,
       tag,
-      keyWord,
+      keyword,
       all,
       authorId,
+      mode
+    },
+  });
+}
+
+export function findBookAll ({ page, limit, tag, keyword, all, userId, mode }) {
+  return request({
+    url: "/article/findBookAll",
+    method: "get",
+    params: {
+      page,
+      limit,
+      tag,
+      keyword,
+      all,
+      userId,
       mode
     },
   });
@@ -81,3 +108,23 @@ export function getArticle (id) {
 }
 
 
+export function like (userId, articleId) {
+  return request({
+    url: "/article/like",
+    method: "post",
+    params: {
+      userId, articleId
+    }
+  })
+}
+
+
+export function book (userId, articleId) {
+  return request({
+    url: "/article/book",
+    method: "post",
+    params: {
+      userId, articleId
+    }
+  })
+}

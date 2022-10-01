@@ -1,11 +1,11 @@
 import request from "@/utils/request";
 
-export function findAllTag (keyWord) {
+export function findAllTag (keyword) {
   return request({
     url: "/tag/findAll",
     method: "get",
     params: {
-      keyWord
+      keyword
     }
   });
 }

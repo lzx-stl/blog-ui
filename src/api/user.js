@@ -64,3 +64,24 @@ export function updateUser (data) {
   });
 }
 
+
+export function getFansCount (followId) {
+  return request({
+    url: "/user/getFansCount",
+    method: "get",
+    params: {
+      followId
+    }
+  });
+}
+
+export function getFollowsCount (fanId) {
+  return request({
+    url: "/user/getFollowsCount",
+    method: "get",
+    params: {
+      fanId
+    }
+  });
+}
+
