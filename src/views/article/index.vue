@@ -155,7 +155,7 @@ export default {
   overflow: hidden;
 
   .layout {
-    width: 900px;
+    width: 820px;
     min-height: 800px;
     padding-top: 60px;
     .comment-zone {
@@ -167,8 +167,8 @@ export default {
   .toolbar-container {
     width: 62px;
     position: fixed;
-    bottom: 60px;
-    right: 230px;
+    top: 200px;
+    left: 230px;
     color: #505050;
     background-color: #fff;
 

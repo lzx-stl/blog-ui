@@ -2,7 +2,8 @@
   <div class="article-container">
     <div class="article-header">
       <div class="title-container">
-        <h1 class="big-title">{{ article.title }}</h1>
+        <h1 class="big-title"
+            @click="get">{{ article.title }}</h1>
         <div class="article-read-info">
           <span class="publish-text"
                 data-v-0735ec40="">2022-07-08 20:06</span>
@@ -37,9 +38,12 @@
                       :previewBackground="previewBackground">
         </mavon-editor>
       </div>
+      <div class="catalog">
+
+        <Catalog />
+      </div>
 
       <div class="article-footer">
-
         <!-- <div class="article-tags"> -->
         <!-- </div> -->
       </div>
@@ -50,10 +54,12 @@
 
 <script>
 import Reply from '@/components/Comment/components/Reply'
+import Catalog from './Catalog'
 export default {
   name: 'Content',
   components: {
-    Reply
+    Reply,
+    Catalog
   },
   props: {
     article: {
@@ -65,8 +71,11 @@ export default {
       default: () => {}
     }
   },
+  created() {
+  },
   data() {
     return {
+      mdStr: '',
       tags: ['原神', '原神爆料', '八重神子', '神里凌人', '八重神子材料'],
       codeStyle: 'atom-one-dark',
       subfield: false, // 单双栏模式
@@ -74,13 +83,15 @@ export default {
       editable: false,
       toolbarsFlag: false,
       scrollStyle: true,
-      previewBackground: '#fff'
+      previewBackground: '#fff',
+
     }
   },
   mounted() {
-
   },
-  methods: {},
+  methods: {
+    get() {}
+  },
   computed: {
     prop() {
       let data = {
@@ -94,6 +105,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.catalog {
+  position: fixed;
+  width: 280px;
+  top: 150px;
+  right: 40px;
+}
 .article-container {
   // width: 900px;
   margin: 60px auto;
