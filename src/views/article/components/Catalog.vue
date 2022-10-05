@@ -67,7 +67,7 @@ export default {
 }
 .blog-content-anchor {
 }
-.el-scroller {
+.el-scroller { 
 }
 .catalog-container {
   width: 100%;

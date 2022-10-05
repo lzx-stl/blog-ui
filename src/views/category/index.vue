@@ -16,14 +16,15 @@
     <div class="card-list">
       <Card v-for="item in list"
             :key="item.id"
-            :item="item"> </Card>
+            :article="item.article"
+            :author="item.author"> </Card>
 
     </div>
     <div class="pagination-box">
       <Pagination v-show="total > 0"
                   :total="total"
                   :pageSizes="[12, 24, 36, 48]"
-                  :page.sync="listQuery.page"
+                  :page.sync="listQuery.curr"
                   :limit.sync="listQuery.limit"
                   @pagination="getList" />
     </div>
@@ -37,7 +38,6 @@ import TagNav from './components/TagNav'
 import Card from './components/Card'
 import Pagination from '@/components/Pagination'
 
-
 export default {
   name: 'Category',
   components: { Search, TagNav, Card, Pagination },
@@ -47,17 +47,17 @@ export default {
       total: 0,
       loading: false,
       listQuery: {
-        page: 1,
+        curr: 1,
         limit: 12,
         tag: '',
-        keyword: '',
-        mode: 'release_time DESC',
-        all: false
+        keyword: null,
+        isPublish: true,
+        authorId: this.authorId,
+        mode: 'release_time'
       }
     }
   },
-  computed: {
-  },
+  computed: {},
   created() {
     this.getList()
   },

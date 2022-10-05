@@ -1,5 +1,5 @@
 <template>
-  <div class="search-page">
+  <div class="search-curr">
 
     <div class="layout">
       <div class="layout-main">
@@ -14,7 +14,7 @@
 
           </div>
         </div>
-        <div class="search-page__header">
+        <div class="search-curr__header">
           <div class="tab">
             <div class="tab-list">
               <div class="tab-item tab-item--active">全部</div>
@@ -33,25 +33,23 @@
           </div>
           <div class="search-section__body">
 
-            <InfiniteScroll @scrollHandle="getList"
-                            :disabled="disabled">
-              <template v-slot:list>
-                <ArticleItem v-for="item in list"
-                             :key="item.id"
-                             :item="item" />
-              </template>
-              <template v-slot:footer>
-                <div v-if="loading"
-                     v-loading="loading"
-                     element-loading-text="加载中"></div>
-                <div class="loading-end"
-                     v-if="noMore">没有更多了</div>
-              </template>
-            </InfiniteScroll>
-
+            <ArticleItem v-for="item in list"
+                         :key="item.id"
+                         :article="item.article"
+                         :author="item.author"
+                         :tagList="item.tagList" />
           </div>
+
+        </div>
+        <div class="pagination-box">
+          <Pagination :total="total"
+                      :pageSizes="[5, 10, 20, 30]"
+                      :page.sync="listQuery.curr"
+                      :limit.sync="listQuery.limit"
+                      @pagination="getList" />
         </div>
       </div>
+
       <div class="layout-sub">
         <side-menu class="search-history-section">
           <template v-slot:header>
@@ -66,18 +64,21 @@
 
               <div class="search-history-list__card"
                    v-for="item in history"
-                   :key="item">{{item}}
+                   :key="item"
+                   @click="listQuery.keyword = item">{{item}}
               </div>
             </div>
           </template>
         </side-menu>
       </div>
     </div>
+
   </div>
+
 </template>
 
 <script>
-import InfiniteScroll from '@/components/InfiniteScroll'
+import Pagination from '@/components/Pagination'
 import ArticleItem from '@/components/ArticleList/ArticleItem.vue'
 
 import SideMenu from '@/components/SideMenu'
@@ -87,7 +88,7 @@ export default {
   components: {
     ArticleItem,
     SideMenu,
-    InfiniteScroll
+    Pagination
   },
   data() {
     return {
@@ -95,13 +96,13 @@ export default {
       list: [],
       total: 0,
       listQuery: {
-        page: 1,
+        curr: 1,
         limit: 5,
         tag: null,
         keyword: '',
-        all: false,
+        isPublish: true,
         authorId: null,
-        mode: 'release_time DESC'
+        mode: 'release_time'
       },
       keyword: '',
       loading: false,
@@ -115,25 +116,11 @@ export default {
     this.handleSearch()
   },
   mounted() {},
-  computed: {
-    disabled() {
-      return this.loading || this.noMore
-    }
-  },
   methods: {
     getList() {
-      if (this.disabled) return
-      this.loading = true
       findAll(this.listQuery).then((res) => {
-        if (this.list.length == res.total) {
-          this.noMore = true
-        } else {
-          // debugger;
-          console.log(`res.list`, res.list)
-          this.listQuery.page++
-          this.list = this.list.concat(res.list)
-        }
-        this.loading = false
+        this.total = res.total
+        this.list = res.list
       })
     },
     add(data) {
@@ -168,7 +155,7 @@ export default {
       this.listQuery.keyword = this.keyword
       this.list = []
       this.noMore = false
-      this.listQuery.page = 1
+      this.listQuery.curr = 1
 
       this.getList()
       this.add(this.keyword)
@@ -179,12 +166,22 @@ export default {
         }
       })
     }
+  },
+  watch: {
+    'listQuery.keyword': {
+      handler(newVal, oldVal) {
+        console.log(newVal)
+        this.handleSearch()
+      },
+      immediate: true,
+      deep: true // 可以深度检测到 person 对象的属性值的变化
+    }
   }
 }
 </script>
 
 <style lang="scss">
-.search-page {
+.search-curr {
   padding: 100px 0;
   background-color: #f5f5f5;
 
@@ -243,7 +240,7 @@ export default {
           }
         }
       }
-      .search-page__header {
+      .search-curr__header {
         padding: 0 30px;
         margin-top: 20px;
         margin-bottom: 20px;
@@ -278,8 +275,7 @@ export default {
         }
       }
       .search-section {
-        
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         .search-section__header {
           display: flex;
           padding: 0 30px;
@@ -290,7 +286,6 @@ export default {
           }
         }
         .search-section__body {
-        
         }
       }
     }

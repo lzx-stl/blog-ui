@@ -1,6 +1,13 @@
 @import "./btn.scss";
 @import "./variables.scss";
-
+.pagination-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  background-color: #fff;
+  margin: 50px 0 100px 0;
+}
 .icon {
   width: 1em; height: 1em;
   vertical-align: -0.15em;

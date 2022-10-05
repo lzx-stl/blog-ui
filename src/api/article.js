@@ -18,17 +18,17 @@ export function getData () {
   })
 }
 
-export function findAll ({ page, limit, tag, keyword, all, authorId, mode }) {
+export function findAll ({ curr, limit, tag, keyword, isPublish, authorId, mode }) {
 
   return request({
     url: "/article/findAll",
     method: "get",
     params: {
-      page,
+      curr,
       limit,
       tag,
       keyword,
-      all,
+      isPublish,
       authorId,
       mode
     },

@@ -29,21 +29,21 @@ export function getComment (id) {
   });
 }
 
-export function findAllComments ({ current, limit, articleId, parentId, sortMode }) {
+export function getFirstList ({ curr, limit, articleId, parentId, mode }) {
   return request({
-    url: "/comment/findAll",
+    url: "/comment/getFirstList",
     method: "get",
     params: {
-      current, limit, articleId, parentId, sortMode
+      curr, limit, articleId, parentId, mode
     },
   });
 }
-export function findAllCommentsByPage ({ page, limit, articleId, parentId }) {
+export function getSecondList ({ page, limit, articleId, parentId, mode}) {
   return request({
-    url: "/comment/findAllByPage",
+    url: "/comment/getSecondList",
     method: "get",
     params: {
-      page, limit, articleId, parentId
+      page, limit, articleId, parentId, mode
     },
   });
 }

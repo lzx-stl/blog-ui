@@ -1,12 +1,9 @@
 import request from "@/utils/request";
 
-export function findAllTag (keyword) {
+export function findAllTag () {
   return request({
     url: "/tag/findAll",
     method: "get",
-    params: {
-      keyword
-    }
   });
 }
 export function getTags (articleId) {

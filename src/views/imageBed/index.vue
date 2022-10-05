@@ -39,8 +39,9 @@ export default {
       loading: false,
       noMore: false,
       listQuery: {
-        page: 1,
-        limit: 15
+        curr: 1,
+        limit: 15,
+        mode: 'add_time'
       }
     }
   },
@@ -58,7 +59,7 @@ export default {
     getList() {
       if (this.disabled) return
       this.loading = true
-      findAllImage(this.listQuery.page, this.listQuery.limit).then((res) => {
+      findAllImage(this.listQuery).then((res) => {
         if (!res.list.length) {
           this.noMore = true
           this.loading = false
@@ -66,7 +67,7 @@ export default {
           return
         }
         this.list = this.list.concat(res.list)
-        this.listQuery.page++
+        this.listQuery.curr++
         this.loading = false
       })
     },

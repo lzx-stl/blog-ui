@@ -5,9 +5,9 @@
       <el-tabs @tab-click="handleClick"
                v-model="listQuery.sortMode">
         <el-tab-pane label="按热度排序"
-                     name="hot"></el-tab-pane>
+                     name="up"></el-tab-pane>
         <el-tab-pane label="按时间排序"
-                     name="new"></el-tab-pane>
+                     name="reply_time"></el-tab-pane>
       </el-tabs>
     </div>
     <div class="comment-main">
@@ -24,7 +24,9 @@
           <div class="comment-list">
             <Item v-for="item in list"
                   :key="item.id"
-                  :obj="item" />
+                  :from="item.from"
+                  :to="item.to"
+                  :comment="item.comment" />
           </div>
         </template>
         <template v-slot:footer>
@@ -41,7 +43,7 @@
 import InfiniteScroll from '@/components/InfiniteScroll'
 import Item from './components/Item'
 import Reply from './components/Reply'
-import { findAllComments, getCommentSum } from '@/api/comment'
+import { getFirstList, getCommentSum } from '@/api/comment'
 import { mapState } from 'vuex'
 export default {
   name: 'Comment',
@@ -64,11 +66,11 @@ export default {
       list: [],
       total: 0,
       listQuery: {
-        current: 0,
-        limit: 1,
+        curr: 0,
+        limit: 10,
         articleId: this.articleId,
         parentId: 0,
-        sortMode: 'hot'
+        mode: 'up'
       },
       loading: false,
       noMore: false,
@@ -94,36 +96,30 @@ export default {
   methods: {
     getSum() {
       getCommentSum(this.articleId).then((res) => {
-        this.sum = res
+        this.sum = res.sum
       })
     },
     getList() {
       if (!this.loading) {
         this.loading = true
-        findAllComments(this.listQuery).then((res) => {
+        getFirstList(this.listQuery).then((res) => {
           if (!res.list.length) {
             this.loading = false
             this.noMore = true
             return
           } else {
-            if (!this.listQuery.current) this.list = []
+            if (!this.listQuery.curr) this.list = []
             this.list = this.list.concat(res.list)
             this.total = res.total
-            this.listQuery.current = this.list.length
+            this.listQuery.curr = this.list.length
             this.loading = false
           }
         })
       }
     },
-    from(obj) {
-      return this.users[obj.fromId]
-    },
-    to(obj) {
-      return this.users[obj.toId]
-    },
     handleClick() {
       this.noMore = false
-      this.listQuery.current = 0
+      this.listQuery.curr = 0
       // this.list = []
       this.getList()
 
@@ -131,14 +127,14 @@ export default {
     },
     handleAdmit(data) {
       this.noMore = false
-      if (this.listQuery.sortMode == 'new') {
+      if (this.listQuery.sortMode == 'reply_time') {
         this.list.unshift(data)
-        this.listQuery.current = this.list.length
+        this.listQuery.curr = this.list.length
       } else {
         if (this.list.length === this.total) {
           this.list.push(data)
           this.total = this.list.length
-          this.listQuery.current = this.list.length
+          this.listQuery.curr = this.list.length
         }
       }
     }

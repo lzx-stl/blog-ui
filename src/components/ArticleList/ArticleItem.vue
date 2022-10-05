@@ -35,10 +35,10 @@
     </a>
     <div class="article-card__footer">
 
-      <!-- <el-tag class="tag"
+      <el-tag class="tag"
               type="info"
-              v-for="tag in tags"
-              :key="tag.tagName">{{tag.tagName}}</el-tag> -->
+              v-for="tag in tagList"
+              :key="tag">{{tag}}</el-tag>
       <div class="article-card__data">
         <i class="iconfont icon-liulanliang1"> {{article.readings}}</i>
         <i class="iconfont icon-pinglun4"> {{article.replys}}</i>
@@ -53,15 +53,9 @@
 import { getTags } from '@/api/tag'
 export default {
   name: 'articleItem',
-  props: ['item'],
-  data() {
-    return {
-      article: this.item.article,
-      author: this.item.user,
-      tags: []
-    }
-  },
-  created() {}
+  props: ['article', 'author', 'tagList'],
+  created() {
+  }
 }
 </script>
 

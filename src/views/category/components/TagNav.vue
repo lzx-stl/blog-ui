@@ -17,8 +17,8 @@
     <div class="container">
       <div class="tag-block">排序</div>
       <div class="tag-list">
-        <div @click="currentMode = 'release_time DESC'"
-             :class="{'active-color': currentMode == 'release_time DESC'}">更新时间
+        <div @click="currentMode = 'release_time'"
+             :class="{'active-color': currentMode == 'release_time'}">更新时间
         </div>
         <div v-for="mode in sortMode"
              :key="mode.text"
@@ -42,9 +42,9 @@ export default {
     return {
       tagList: [],
       sortMode: [
-        { field: 'readings DESC', text: '浏览量' },
+        { field: 'readings', text: '浏览量' },
         {
-          field: 'likes DESC',
+          field: 'likes',
           text: '点赞数'
         }
       ]

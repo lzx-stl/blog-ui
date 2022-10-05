@@ -7,7 +7,9 @@
 
           <ArticleItem v-for="item in list"
                        :key="item.id"
-                       :item="item" />
+                       :article="item.article" 
+                       :author="item.author"
+                       :tagList="item.tagList"/>
         </template>
         <template v-slot:footer>
           <div v-if="loading"
@@ -45,13 +47,13 @@ export default {
       users: [],
       tagList: [],
       listQuery: {
-        page: 1,
+        curr: 1,
         limit: 10,
         tag: null,
         keyword: null,
-        all: false,
+        isPublish: true,
         authorId: this.authorId,
-        mode: 'release_time DESC'
+        mode: 'release_time'
       },
       loading: false,
       noMore: false,
@@ -76,10 +78,9 @@ export default {
           this.loading = false
           return
         } else {
-          debugger;
-          this.listQuery.page++
+          // debugger;
+          this.listQuery.curr++
           this.list = this.list.concat(res.list)
-
           this.loading = false
         }
       })

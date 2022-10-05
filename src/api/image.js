@@ -1,11 +1,11 @@
 import request from "@/utils/request";
 
-export function findAllImage (page, limit) {
+export function findAllImage ({curr, limit, mode}) {
   return request({
     url: "/image/findAll",
     method: "get",
     params: {
-      page, limit
+      curr, limit, mode
     }
   });
 }

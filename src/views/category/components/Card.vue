@@ -1,6 +1,5 @@
 <template>
-  <div class="card-container"
-       v-if="item!=null">
+  <div class="card-container">
     <a :href="`/article/${article.id}`"
        target="_blank">
       <div class="card-img">
@@ -17,8 +16,8 @@
              class="author-infor">
 
             <img class="card-infor__avatar"
-                 :src="user.avatar" />
-            <div class="card-infor__name">{{user.nickname}}</div>
+                 :src="author.avatar" />
+            <div class="card-infor__name">{{author.nickname}}</div>
           </a>
           <h3 class="card-title">{{ article.title }}</h3>
 
@@ -33,12 +32,9 @@
 <script>
 export default {
   name: 'Card',
-  props: ['item'],
+  props: ['article', 'author'],
   data() {
-    return {
-      article: this.item.article,
-      user: this.item.user
-    }
+    return {}
   },
   created() {}
 }

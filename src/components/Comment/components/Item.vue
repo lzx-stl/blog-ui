@@ -52,17 +52,17 @@
         <div class="con-msg">
           <span>{{ getTime }}</span>
           <span @click="handleUp"><i class="iconfont icon-zhichi"></i>
-            {{ obj.up }}
+            {{ comment.up }}
           </span>
-          <span><i class="iconfont icon-buzhichi"></i> {{ obj.down }}</span>
+          <span><i class="iconfont icon-buzhichi"></i> {{ comment.down }}</span>
           <span @click="handleReply">回复</span>
         </div>
 
-        <div class="reply-box">
+        <!-- <div class="reply-box">
           <div>
             <Card v-for="item in list"
                   :key="item.id"
-                  :obj="item"
+                  :comment="item"
                   :users="users" />
           </div>
           <div>
@@ -74,12 +74,12 @@
                         @pagination="handlePageChange" />
 
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="comment-send"
-         v-if="obj.id == rootId">
-      <Reply :articleId="obj.articleId"
+         v-if="comment.id == rootId">
+      <Reply :articleId="comment.articleId"
              :fromId="$store.state.user.id"
              :parentId="rootId"
              :toId="toId"
@@ -104,7 +104,7 @@ export default {
     Reply,
     Pagination
   },
-  props: ['obj'],
+  props: ['from', 'to', 'comment'],
   data() {
     return {
       list: [],
@@ -112,25 +112,20 @@ export default {
       listQuery: {
         page: 1,
         limit: 5,
-        articleId: this.obj.articleId,
-        parentId: this.obj.id
-      },
-      from: null,
-      to: null
+        articleId: this.comment.articleId,
+        parentId: this.comment.id
+      }
     }
   },
   created() {
-    this.getList()
-    console.log(this.obj);
-    this.from = this.users.get(this.obj.fromId)
-    this.to = this.users.get(this.obj.toId)
+    // this.getList()
   },
   methods: {
     getList() {
-      findAllCommentsByPage(this.listQuery).then((res) => {
-        this.total = res.total
-        this.list = res.list
-      })
+      // findAllCommentsByPage(this.listQuery).then((res) => {
+      //   this.total = res.total
+      //   this.list = res.list
+      // })
     },
 
     handlePageChange(val) {
@@ -144,13 +139,13 @@ export default {
     },
     handleReply() {
       this.$store.dispatch('comment/change', {
-        rootId: this.obj.id,
+        rootId: this.comment.id,
         toId: this.from.id
       })
     },
     handleUp() {
-      like(this.obj.id, this.obj.up + 1).then((res) => {
-        this.obj.up++
+      like(this.comment.id, this.comment.up + 1).then((res) => {
+        this.comment.up++
       })
     }
   },
@@ -162,10 +157,10 @@ export default {
       users: (state) => state.user.users
     }),
     formatContent() {
-      return formatStr(this.obj.content)
+      return formatStr(this.comment.content)
     },
     getTime() {
-      return getTime(this.obj.replyTime)
+      return getTime(this.comment.replyTime)
     }
   }
 }
