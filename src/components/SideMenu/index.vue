@@ -45,6 +45,7 @@ export default {
       font-weight: 600;
     }
     .side-section__link {
+      cursor: pointer;
       color: #999;
     }
   }

@@ -1,13 +1,14 @@
 <template>
   <div class="container">
     <div class="layout"
-         v-if="article && author">
+         v-if="article && status">
 
-      <div class="content-zone"
+      <div class="
+         content-zone"
            id="content">
         <Content :options="articleOptions"
-                 :author="author"
-                 :article="article" />
+                 :article="article"
+                 :status="status" />
       </div>
       <div class="comment-zone"
            id="reply">
@@ -18,29 +19,30 @@
 
     </div>
 
-    <div class="toolbar-container">
+    <div class="toolbar-container"
+         v-if="status != null">
       <div class="toolbar-item"
            @click="like"
-           :class="{'item__active':  isLike}">
+           :class="{'item__active':  relation.isLike}">
 
         <div class="toolbar-item__icon">
 
           <i class="iconfont icon-zhichi"></i>
         </div>
         <div class="toolbar-item__num">
-          {{likeNum}}
+          {{status.likes}}
         </div>
       </div>
       <div class="toolbar-item"
            @click="book"
-           :class="{'item__active':  isBook}">
+           :class="{'item__active':  relation.isBook}">
         <div class="toolbar-item__icon">
 
           <i class="iconfont icon-shoucang1"></i>
 
         </div>
         <div class="toolbar-item__num">
-          {{bookNum}}
+          {{status.books}}
         </div>
       </div>
       <a href="#reply"
@@ -51,12 +53,14 @@
 
         </div>
         <div class="toolbar-item__num">
-          {{replyNum}}
+          {{status.replys}}
         </div>
       </a>
       <div class="toolbar-item"
            @click="top">
-        <i class="iconfont icon-xiangshang"></i>
+        <div class="toolbar-item__icon">
+          <i class="iconfont icon-xiangshang"></i>
+        </div>
       </div>
     </div>
   </div>
@@ -68,9 +72,15 @@ import Content from './components/Content'
 import ToolBar from '@/components/ToolBar'
 import Comment from '@/components/Comment'
 import Catalog from './components/Catalog.vue'
-import { getArticle, getSettings, like, book } from '@/api/article'
+import {
+  getArticle,
+  getRelation,
+  getArticleStatus,
+  updateRelation
+} from '@/api/article'
 
 import { getInformation } from '@/api/user'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Article',
   components: {
@@ -92,52 +102,82 @@ export default {
         width: '900px'
       }
       return data
-    }
+    },
+    ...mapGetters({
+      userId: 'id'
+    })
   },
   data() {
     return {
-      isLike: false,
-      isBook: false,
       likeNum: 0,
+      relation: {
+        isBook: false,
+        isLike: false,
+        userId: null,
+        articleId: null
+      },
       bookNum: 0,
       replyNum: 0,
+
       article: null,
-      author: null,
+
+      status: null,
       settings: null
     }
   },
   created() {
-    console.log(this.id)
-    getArticle(this.id).then((res) => {
-      this.article = res.article
-      this.author = res.author
-      // this.replyNum = res.replyNum
-      document.title = res.article.title
-      getSettings(this.$store.state.user.id, this.id).then((res) => {
-        const { isLike, likeNum, isBook, bookNum } = res
-        this.isLike = isLike
-        this.likeNum = likeNum
-        this.isBook = isBook
-        this.bookNum = bookNum
-      })
-    })
+    this.init()
   },
   methods: {
+    async init() {
+      let res = await getArticle(this.id)
+      this.article = res.article
+      this.tags = res.tags
+      document.title = res.article.title
+      console.log(this.userId)
+      if (this.userId) {
+        res = await getRelation(this.id, this.userId)
+        this.relation = res.relation
+      }
+      res = await getArticleStatus(this.id)
+      this.status = res.status
+    },
     top() {
       window.scrollTo({
         top: 0
       })
     },
-    like() {
-      this.isLike = !this.isLike
-      this.likeNum += this.isLike ? 1 : -1
-      like(this.$store.state.user.id, this.article.id).then((res) => {})
-    },
-    book() {
-      this.isBook = !this.isBook
 
-      this.bookNum += this.isBook ? 1 : -1
-      book(this.$store.state.user.id, this.article.id).then((res) => {})
+    async like() {
+      if (this.relation.userId == null) {
+        this.$alert(`请先登录`, '提示', {
+          confirmButtonText: '确定'
+        })
+      } else {
+        this.relation.isLike = !this.relation.isLike
+
+        this.status.likes += this.relation.isLike ? 1 : -1
+        this.relation.updateTime = new Date()
+        let res = await updateRelation(this.relation)
+        this.relation = res.relation
+        res = await getArticleStatus(this.id)
+        this.status = res.status
+      }
+    },
+    async book() {
+      if (this.relation.userId == null) {
+        this.$alert(`请先登录`, '提示', {
+          confirmButtonText: '确定'
+        })
+      } else {
+        this.relation.isBook = !this.relation.isBook
+        this.status.books += this.relation.isBook ? 1 : -1
+        this.relation.updateTime = new Date()
+        let res = await updateRelation(this.relation)
+        this.relation = res.relation
+        res = await getArticleStatus(this.id)
+        this.status = res.status
+      }
     }
   }
 }
@@ -178,11 +218,19 @@ export default {
     flex-direction: column;
     .toolbar-item {
       width: 62px;
-      height: 62px;
       text-align: center;
+      cursor: pointer;
       .toolbar-item__icon {
+        height: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .toolbar-item__num {
+        height: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .iconfont {
         font-size: 28px;

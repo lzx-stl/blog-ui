@@ -58,13 +58,12 @@
           <span @click="handleReply">回复</span>
         </div>
 
-        <!-- <div class="reply-box">
-          <div>
-            <Card v-for="item in list"
-                  :key="item.id"
-                  :comment="item"
-                  :users="users" />
-          </div>
+        <div class="reply-box">
+          <Card v-for="item in list"
+                :key="item.id"
+                :comment="item.comment"
+                :from="item.from"
+                :to="item.to" />
           <div>
             <Pagination :background="false"
                         v-if="total > listQuery.limit"
@@ -74,7 +73,7 @@
                         @pagination="handlePageChange" />
 
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
     <div class="comment-send"
@@ -90,7 +89,7 @@
 
 <script>
 import { getComment, like } from '@/api/comment'
-import { findAllCommentsByPage, getCommentSum } from '@/api/comment'
+import { getSecondList, getCommentSum } from '@/api/comment'
 import Card from './Card'
 import Reply from './Reply'
 import { mapState } from 'vuex'
@@ -110,26 +109,27 @@ export default {
       list: [],
       total: 0,
       listQuery: {
-        page: 1,
+        curr: 1,
         limit: 5,
         articleId: this.comment.articleId,
-        parentId: this.comment.id
+        parentId: this.comment.id,
+        mode: 'up'
       }
     }
   },
   created() {
-    // this.getList()
+    this.getList()
   },
   methods: {
     getList() {
-      // findAllCommentsByPage(this.listQuery).then((res) => {
-      //   this.total = res.total
-      //   this.list = res.list
-      // })
+      getSecondList(this.listQuery).then((res) => {
+        this.total = res.total
+        this.list = res.list
+      })
     },
 
     handlePageChange(val) {
-      this.listQuery.page = val.page
+      this.listQuery.curr = val.page
       this.list = []
       this.getList()
     },
@@ -245,7 +245,10 @@ export default {
       }
     }
   }
-
+  .hasSub {
+    min-height: 200px;
+    background-color: red;
+  }
   .comment-send {
     width: 100%;
     .comment-user {

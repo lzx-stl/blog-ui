@@ -29,7 +29,7 @@
 
 <script>
 import { empty } from '@/api/notify'
-import { add, getFirsts } from '@/api/comment.js'
+import { addComment, getFirsts } from '@/api/comment.js'
 import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'Reply',
@@ -64,14 +64,12 @@ export default {
           return
         } else {
           this.form.replyTime = new Date()
-          add(this.form).then((res) => {
+          addComment(this.form).then((res) => {
             this.$store.dispatch('comment/change', {
               rootId: '',
               toId: ''
             })
-            let data = JSON.parse(JSON.stringify(this.form))
-            data.id = res.id
-            this.$emit('admitComment', data)
+            this.$emit('admitComment', res.model)
             this.form.content = ''
           })
         }

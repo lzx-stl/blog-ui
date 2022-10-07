@@ -18,16 +18,16 @@
           回复
           <a target="_blank"
              :href="`/accountCenter/bookList?id=${to.id}`"> @{{to.nickname}}</a>:
-          {{ obj.content }}
+          {{ comment.content }}
         </span>
       </div>
 
       <div class="con-msg">
         <span>{{ getTime }}</span>
         <span @click="handleUp"><i class="iconfont icon-zhichi"></i>
-          {{ obj.up }}
+          {{ comment.up }}
         </span>
-        <span><i class="iconfont icon-buzhichi"></i> {{ obj.down }}</span>
+        <span><i class="iconfont icon-buzhichi"></i> {{ comment.down }}</span>
         <span @click="handleReply">回复</span>
       </div>
     </div>
@@ -42,29 +42,23 @@ import { getTime } from '@/utils/common.js'
 export default {
   name: 'Card',
 
-  props: ['obj', 'users'],
-  data() {
-    return {
-      from: this.users.get(this.obj.fromId),
-      to: this.users.get(this.obj.toId)
-    }
-  },
+  props: ['comment','from', 'to'],
 
   computed: {
     getTime() {
-      return getTime(this.obj.replyTime)
+      return getTime(this.comment.replyTime)
     }
   },
   methods: {
     handleReply() {
       this.$store.dispatch('comment/change', {
-        rootId: this.obj.parentId ? this.obj.parentId : this.obj.id,
+        rootId: this.comment.parentId ? this.comment.parentId : this.comment.id,
         toId: this.from.id
       })
     },
     handleUp() {
-      like(this.obj.id, this.obj.up + 1).then((res) => {
-        this.obj.up++
+      like(this.comment.id, this.comment.up + 1).then((res) => {
+        this.comment.up++
       })
     }
   }

@@ -8,7 +8,7 @@
           <ArticleItem v-for="item in list"
                        :key="item.id"
                        :article="item.article" 
-                       :author="item.author"
+                       :status="item.status"
                        :tagList="item.tagList"/>
         </template>
         <template v-slot:footer>

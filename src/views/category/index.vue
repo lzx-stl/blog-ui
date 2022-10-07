@@ -16,8 +16,7 @@
     <div class="card-list">
       <Card v-for="item in list"
             :key="item.id"
-            :article="item.article"
-            :author="item.author"> </Card>
+            :article="item.article"> </Card>
 
     </div>
     <div class="pagination-box">

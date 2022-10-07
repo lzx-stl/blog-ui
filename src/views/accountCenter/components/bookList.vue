@@ -1,12 +1,13 @@
 <template>
   <div>
-
     <InfiniteScroll @scrollHandle="getList"
                     :disabled="disabled">
       <template v-slot:list>
         <ArticleItem v-for="item in list"
                      :key="item.id"
-                     :item="item" />
+                     :article="item.article"
+                     :status="item.status"
+                     :tagList="item.tagList" />
       </template>
       <template v-slot:footer>
         <div v-if="loading"
@@ -24,7 +25,7 @@
 import InfiniteScroll from '@/components/InfiniteScroll'
 import ArticleItem from '@/components/ArticleList/ArticleItem.vue'
 
-import { findBookAll } from '@/api/article'
+import { getBookList } from '@/api/article'
 export default {
   components: {
     ArticleItem,
@@ -35,13 +36,9 @@ export default {
       list: [],
       total: 0,
       listQuery: {
-        page: 1,
+        curr: 1,
         limit: 5,
-        tag: null,
-        keyword: '',
-        all: false,
-        userId: this.$route.query.id,
-        mode: 'release_time DESC'
+        userId: this.$route.query.id
       },
       loading: false,
       noMore: false
@@ -56,13 +53,13 @@ export default {
     getList() {
       if (this.disabled) return
       this.loading = true
-      findBookAll(this.listQuery).then((res) => {
+      getBookList(this.listQuery).then((res) => {
         if (this.list.length == res.total) {
           this.noMore = true
+
         } else {
-          // debugger;
-          console.log(`res.list`, res.list)
-          this.listQuery.page++
+          this.listQuery.curr++
+          this.total = res.total
           this.list = this.list.concat(res.list)
         }
         this.loading = false

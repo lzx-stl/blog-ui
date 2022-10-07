@@ -73,10 +73,17 @@ export default {
   },
   methods: {
     getList() {
-      findAllTag('').then((res) => {
-        this.tagList = res.tagList
-      })
-    },
+      let localList = JSON.parse(window.localStorage.getItem('tagList'))
+      console.log(`localList`, localList);
+      if (localList != null) {
+        this.tagList = localList
+      } else {
+        this.list = findAllTag('').then((res) => {
+          this.tagList = res.tagList
+          window.localStorage.setItem('tagList', JSON.stringify(this.tagList))
+        })
+      }
+    }
   }
 }
 </script>

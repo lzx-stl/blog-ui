@@ -1,8 +1,8 @@
 import request from "@/utils/request";
 
-export function add (data) {
+export function addComment (data) {
   return request({
-    url: "/comment/add",
+    url: "/comment/addComment",
     method: "post",
     data,
   });
@@ -38,12 +38,12 @@ export function getFirstList ({ curr, limit, articleId, parentId, mode }) {
     },
   });
 }
-export function getSecondList ({ page, limit, articleId, parentId, mode}) {
+export function getSecondList ({ curr, limit, articleId, parentId, mode }) {
   return request({
     url: "/comment/getSecondList",
     method: "get",
     params: {
-      page, limit, articleId, parentId, mode
+      curr, limit, articleId, parentId, mode
     },
   });
 }
@@ -87,12 +87,23 @@ export function getCommentSum (articleId) {
 }
 
 
-export function getRelativeComments ({ page, limit, fromId, toId }) {
+export function getCommentsFrom ({ curr, limit, fromId }) {
   return request({
-    url: "/comment/getRelativeComments",
+    url: "/comment/getCommentsFrom",
     method: "get",
     params: {
-      page, limit, fromId, toId
+      curr, limit, fromId
+    },
+  });
+}
+
+
+export function getCommentsTo ({ curr, limit, toId }) {
+  return request({
+    url: "/comment/getCommentsTo",
+    method: "get",
+    params: {
+      curr, limit, toId
     },
   });
 }

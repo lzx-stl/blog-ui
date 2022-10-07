@@ -27,7 +27,7 @@ export const userRoutes =
     {
       path: 'bookList',
       name: 'BookList',
-      hidden: true,
+      hidden: false,
       component: () => import('@/views/accountCenter/components/bookList')
       , meta: {
         icon: 'icon-yonghu',
@@ -37,39 +37,41 @@ export const userRoutes =
     },
     {
       path: 'commentList',
-      hidden: true,
+      hidden: false,
       component: () => import('@/views/accountCenter/components/CommentList')
       , meta: {
         icon: 'icon-yonghu',
+
+        hidden: false,
         name: '我的评论'
       },
       props: (router) => ({ id: router.query.id }),
     },
-    // {
-    //   path: 'followList',
+    {
+      path: 'followList',
 
-    //   hidden: true,
-    //   component: () => import('@/views/accountCenter/components/followList')
-    //   , meta: {
-    //     icon: 'icon-yonghu',
-    //     name: '我的关注'
-    //   }
-    // },
-    // {
-    //   path: 'fanList',
+      hidden: true,
+      component: () => import('@/views/accountCenter/components/followList')
+      , meta: {
+        icon: 'icon-yonghu',
+        name: '我的关注'
+      }
+    },
+    {
+      path: 'fanList',
 
-    //   hidden: true,
-    //   component: () => import('@/views/accountCenter/components/fanList')
-    //   , meta: {
-    //     icon: 'icon-yonghu',
-    //     name: '我的粉丝'
-    //   }
-    // },
+      hidden: true,
+      component: () => import('@/views/accountCenter/components/fanList')
+      , meta: {
+        icon: 'icon-yonghu',
+        name: '我的粉丝'
+      }
+    },
 
     {
       path: 'edit',
       name: 'Edit',
-      hidden: false,
+      hidden: true,
       component: () => import('@/views/accountCenter/components/edit')
       , meta: {
         icon: 'icon-yonghu',
@@ -133,9 +135,7 @@ export const constantRoutes =
       name: "Article",
       hidden: true,
       component: () => import("@/views/article/index"),
-      meta: {
-        title: window.location.href
-      },
+
       props: true
     },
     {

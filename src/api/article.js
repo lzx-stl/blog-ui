@@ -1,12 +1,21 @@
 import request from "../utils/request";
 
-export function getSettings (userId, articleId) {
+export function getRelation (articleId, userId) {
   return request({
-    url: "/article/settings",
+    url: "/article/getRelation",
     method: "get",
-    params:{
+    params: {
       userId, articleId
     }
+  })
+}
+
+
+export function updateRelation (data) {
+  return request({
+    url: "/article/updateRelation",
+    method: "post",
+    data
   })
 }
 
@@ -35,18 +44,16 @@ export function findAll ({ curr, limit, tag, keyword, isPublish, authorId, mode 
   });
 }
 
-export function findBookAll ({ page, limit, tag, keyword, all, userId, mode }) {
+export function getBookList ({ curr, limit, userId }) {
   return request({
-    url: "/article/findBookAll",
+    url: "/article/getBookList",
     method: "get",
     params: {
-      page,
+      curr,
       limit,
-      tag,
-      keyword,
-      all,
+
       userId,
-      mode
+
     },
   });
 }
@@ -70,11 +77,13 @@ export function del (id) {
   });
 }
 
-export function updateArticle (data) {
+export function getArticleStatus (articleId) {
   return request({
-    url: "/article/update",
-    method: "post",
-    data,
+    url: "/article/getArticleStatus",
+    method: "get",
+    params:{
+      articleId
+    },
   });
 }
 

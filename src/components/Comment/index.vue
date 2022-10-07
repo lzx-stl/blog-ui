@@ -3,7 +3,7 @@
     <div class="comment-cnt">{{ sum }} 评论</div>
     <div class="comment-header">
       <el-tabs @tab-click="handleClick"
-               v-model="listQuery.sortMode">
+               v-model="listQuery.mode">
         <el-tab-pane label="按热度排序"
                      name="up"></el-tab-pane>
         <el-tab-pane label="按时间排序"
@@ -127,7 +127,7 @@ export default {
     },
     handleAdmit(data) {
       this.noMore = false
-      if (this.listQuery.sortMode == 'reply_time') {
+      if (this.listQuery.mode == 'reply_time') {
         this.list.unshift(data)
         this.listQuery.curr = this.list.length
       } else {

@@ -4,23 +4,23 @@
       <div class="title-container">
         <h1 class="big-title"
             @click="get">{{ article.title }}</h1>
-        <div class="article-read-info">
+        <div class="article-read-info" v-if="status">
           <span class="publish-text"
                 data-v-0735ec40="">2022-07-08 20:06</span>
-          <span>{{ article.readings }} 阅读</span>
-          <span>{{ article.likes }} 点赞</span>
-          <span>{{ article.replys }} 评论</span>
+          <span>{{ status.readings }} 阅读</span>
+          <span>{{ status.likes }} 点赞</span>
+          <span>{{ status.replys }} 评论</span>
         </div>
       </div>
       <div class="article-up-info">
-        <a :href="`/accountCenter/bookList?id=${author.id}`">
+        <a :href="`/accountCenter/bookList?id=${article.authorId}`">
 
           <div class="up-left">
             <div class="avatar-container">
-              <el-image v-if="author.avatar"
-                        :src="author.avatar"></el-image>
+              <el-image v-if="article.authorAvatar"
+                        :src="article.authorAvatar"></el-image>
             </div>
-            <div class="up-name-pannel">{{ author.nickname }}</div>
+            <div class="up-name-pannel">{{ article.authorNickname }}</div>
           </div>
         </a>
       </div>
@@ -66,13 +66,12 @@ export default {
       Type: Object,
       default: () => {}
     },
-    author: {
+    status: {
       Type: Object,
       default: () => {}
     }
   },
-  created() {
-  },
+  created() {},
   data() {
     return {
       mdStr: '',
@@ -83,12 +82,10 @@ export default {
       editable: false,
       toolbarsFlag: false,
       scrollStyle: true,
-      previewBackground: '#fff',
-
+      previewBackground: '#fff'
     }
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     get() {}
   },

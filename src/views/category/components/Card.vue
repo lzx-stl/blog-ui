@@ -16,8 +16,8 @@
              class="author-infor">
 
             <img class="card-infor__avatar"
-                 :src="author.avatar" />
-            <div class="card-infor__name">{{author.nickname}}</div>
+                 :src="article.authorAvatar" />
+            <div class="card-infor__name">{{article.authorNickname}}</div>
           </a>
           <h3 class="card-title">{{ article.title }}</h3>
 
@@ -32,7 +32,7 @@
 <script>
 export default {
   name: 'Card',
-  props: ['article', 'author'],
+  props: ['article'],
   data() {
     return {}
   },

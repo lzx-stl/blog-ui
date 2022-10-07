@@ -7,7 +7,8 @@
           <input type="text"
                  v-model="keyword"
                  @keyup.enter="handleSearch"
-                 class="search-input">
+                 clearable
+                 class="search-input" />
           <div class="search-submit">
             <button class="search-btn"
                     @click="handleSearch">搜索</button>
@@ -33,10 +34,12 @@
           </div>
           <div class="search-section__body">
 
+            <el-empty :image-size="200"
+                      v-if="!total"></el-empty>
             <ArticleItem v-for="item in list"
                          :key="item.id"
                          :article="item.article"
-                         :author="item.author"
+                         :status="item.status"
                          :tagList="item.tagList" />
           </div>
 
@@ -65,7 +68,7 @@
               <div class="search-history-list__card"
                    v-for="item in history"
                    :key="item"
-                   @click="listQuery.keyword = item">{{item}}
+                   @click="handleClick(item)">{{item}}
               </div>
             </div>
           </template>
@@ -165,13 +168,17 @@ export default {
           keyword: this.keyword
         }
       })
+    },
+    handleClick(item) {
+      this.keyword = item
+      this.handleSearch()
     }
   },
   watch: {
     'listQuery.keyword': {
       handler(newVal, oldVal) {
         console.log(newVal)
-        this.handleSearch()
+        // this.handleSearch()
       },
       immediate: true,
       deep: true // 可以深度检测到 person 对象的属性值的变化
@@ -300,6 +307,7 @@ export default {
       }
       .search-history-list {
         display: flex;
+        min-height: 50px;
         padding-bottom: 18px;
         padding-right: 8px;
         flex-wrap: wrap;

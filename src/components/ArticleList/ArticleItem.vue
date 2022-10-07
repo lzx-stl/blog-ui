@@ -3,14 +3,14 @@
     <div class="article-card__header">
 
       <div class="article-card__userinfo">
-        <a :href="`/accountCenter/bookList?id=${author.id}`">
+        <a :href="`/accountCenter/bookList?id=${article.id}`">
 
           <div class="artilce-user__avatar">
-            <img :src="author.avatar"
+            <img :src="article.authorAvatar"
                  alt="">
 
           </div>
-          <div class="artilce-user__name">{{author.nickname}}</div>
+          <div class="artilce-user__name">{{article.authorNickname}}</div>
         </a>
 
       </div>
@@ -40,9 +40,9 @@
               v-for="tag in tagList"
               :key="tag">{{tag}}</el-tag>
       <div class="article-card__data">
-        <i class="iconfont icon-liulanliang1"> {{article.readings}}</i>
-        <i class="iconfont icon-pinglun4"> {{article.replys}}</i>
-        <i class="iconfont icon-zhichi"> {{article.likes}}</i>
+        <i class="iconfont icon-liulanliang1"> {{status.readings}}</i>
+        <i class="iconfont icon-pinglun4"> {{status.replys}}</i>
+        <i class="iconfont icon-zhichi"> {{status.likes}}</i>
       </div>
     </div>
   </div>
@@ -53,9 +53,8 @@
 import { getTags } from '@/api/tag'
 export default {
   name: 'articleItem',
-  props: ['article', 'author', 'tagList'],
-  created() {
-  }
+  props: ['article', 'status', 'tagList'],
+  created() {}
 }
 </script>
 

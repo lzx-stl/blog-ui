@@ -45,6 +45,7 @@
         <ul class="side-menu__list">
           <router-link v-for="item in userRoutes.children"
                        :key="item.path"
+                        v-show="!item.hidden"
                        :to="{path: resolvePath(item.path), query: {id}}"
                        class="side-menu__item"
                        :class="{'active': item.meta.name == $route.meta.name}">
@@ -112,13 +113,13 @@ export default {
     getInformation(this.id).then((res) => {
       this.user = res.user
     })
-    getFansCount(this.id).then((res) => {
-      this.fansCount = res.count
-    })
+    // getFansCount(this.id).then((res) => {
+    //   this.fansCount = res.count
+    // })
 
-    getFollowsCount(this.id).then((res) => {
-      this.followCount = res.count
-    })
+    // getFollowsCount(this.id).then((res) => {
+    //   this.followCount = res.count
+    // })
   },
   methods: {
     handleClick(path, id) {
