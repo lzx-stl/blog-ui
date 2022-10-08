@@ -1,5 +1,10 @@
 @import "./btn.scss";
 @import "./variables.scss";
+
+.v-note-wrapper.shadow {
+  z-index: 10;
+}
+
 .pagination-box {
   display: flex;
   justify-content: center;
@@ -9,7 +14,8 @@
   margin: 50px 0 100px 0;
 }
 .icon {
-  width: 1em; height: 1em;
+  width: 1em;
+  height: 1em;
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;

@@ -1,7 +1,8 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from './router'
+import router from './permission'
 import store from "./store";
+
 import "element-ui/lib/theme-chalk/index.css";
 import ElementUI from "element-ui";
 import mavonEditor from "mavon-editor";
@@ -12,7 +13,6 @@ import '@/assets/fonts/iconfont'
 import '@/styles/index.scss' // global css
 import '@/styles/btn.scss' // global css
 import '@/styles/variables.scss' // global css
-
 
 
 ElementUI.Dialog.props.lockScroll.default = false; //解决页面抖动

@@ -191,28 +191,5 @@ export function resetRouter () {
   router.matcher = newRouter.matcher // reset router
 }
 
-router.beforeEach((to, from, next) => {
-
-  if (to.path == '/accountCenter' && !getToken()) next({ path: '/403' });
-  // if (getToken() && to.path == '/login') {
-  //   // next(from)
-  //   // debugger;
-  // }
-  NProgress.start()
-
-  // let token = localStorage.getItem("token");
-  // if (to.path === '/back') {
-  //     if (!token) return next('/login')
-  // }
-  next();
-});
-
-
-router.afterEach((to, from, next) => {
-
-  if (to.meta.title)
-    document.title = to.meta.title
-  NProgress.done()
-})
 
 export default router

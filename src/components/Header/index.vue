@@ -119,17 +119,15 @@ export default {
   },
   created() {
     this.$store.dispatch('permission/generateRoutes', [])
-  },
-  computed: {
-    ...mapGetters(['routes', 'id', 'avatar', 'nickname'])
-  },
-  mounted() {
-    console.log(`this.routes`, this.routes)
     if (getToken()) {
       this.$store.dispatch('user/getInfor', [])
       this.isLogin = true
     }
-  }
+  },
+  computed: {
+    ...mapGetters(['routes', 'id', 'avatar', 'nickname'])
+  },
+  mounted() {}
 }
 </script>
 
@@ -143,7 +141,7 @@ export default {
   height: 60px;
   position: fixed;
   top: 0;
-  z-index: 1999;
+  z-index: 100;
   .logo {
     float: left;
     margin-left: 50px;

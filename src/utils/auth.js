@@ -1,10 +1,10 @@
 import Cookies from 'js-cookie'
-
 const TokenKey = 'token'
 const BackKey = 'back'
+const time = new Date(new Date().getTime() + 3 * 60 * 1000)
 
 export function setToken (token) {
-  return Cookies.set(TokenKey, token)
+  return Cookies.set(TokenKey, token, { expires: time })
 }
 
 
