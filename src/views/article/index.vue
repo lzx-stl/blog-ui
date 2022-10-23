@@ -134,7 +134,6 @@ export default {
       this.article = res.article
       this.tags = res.tags
       document.title = res.article.title
-      console.log(this.userId)
       if (this.userId) {
         res = await getRelation(this.id, this.userId)
         this.relation = res.relation

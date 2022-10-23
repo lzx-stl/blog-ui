@@ -6,7 +6,7 @@
       :show-file-list="false"
       :http-request="upload"
     >
-      <img class="avatar" v-if="currentUrl" :src="currentUrl" />
+      <img class="avatar" v-if="currentUrl" v-lazy="currentUrl" />
       <i v-else class="el-icon-plus avatar-uploader-icon"></i>
     </el-upload>
   </div>

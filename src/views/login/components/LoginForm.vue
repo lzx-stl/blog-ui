@@ -1,6 +1,6 @@
 <template>
   <div class="login-form-container">
-    <!-- <div class="login-box">
+    <div class="login-box">
       <el-form :model="form"
                class="login-form">
         <el-form-item>
@@ -17,18 +17,26 @@
                     show-password
                     style="user-select:none"></el-input>
         </el-form-item>
-        <el-form-item>
+        <div class="login-form-item-tips">
           <el-checkbox v-model="form.rememberMe">记住我</el-checkbox>
+        </div>
+
+        <el-form-item>
           <el-button type="primary">登录</el-button>
         </el-form-item>
+
+        <div class="login-form-item-tips">
+          <span>注册账户</span>
+          <span>忘记密码</span>
+        </div>
       </el-form>
 
-    </div> -->
+    </div>
     <div class="login-box-bottom">
 
       <div class="login-third">
 
-        <p>登录方式</p>
+        <p>其他登录方式</p>
         <div class="login-third-items">
           <div class="login-third-item"
                v-for="icon in icons"
@@ -38,7 +46,7 @@
                  aria-hidden="true">
               <use :xlink:href="icon.class"></use>
             </svg>
-         
+
           </div>
 
         </div>
@@ -110,18 +118,8 @@ export default {
       window.open(href, '_blank')
     },
     login(source) {
-      login(source).then((res) => {
-        window.location.href = res
-        // let son = openWindow(res, '', 600, 400)
-        // let that = this
-        // var loop = setInterval(function () {
-        //   if (son.closed) {
-        //     clearInterval(loop)
-        //     //判读登录状态
-        //     window.location.reload()
-        //   }
-        // }, 1000)
-      })
+      this.$store.dispatch('user/loginByThird', source)
+
       // this.$refs.loginFormRef.validate(async (valid) => {
       //   if (!valid) return
       //   login(this.form).then((res) => {
@@ -149,9 +147,8 @@ export default {
 .login-form-container {
   background-color: #fff;
   opacity: 0.95;
-  border-radius: 3px;
-  
-    padding: 50px 40px;
+  border-radius: 5px;
+  padding: 0 40px;
   .login-box {
     display: flex;
     justify-content: center;
@@ -166,6 +163,11 @@ export default {
         .el-button {
           width: 100%;
         }
+      }
+      .login-form-item-tips {
+        display: flex;
+        margin: 7px 0 15px 0;
+        justify-content: space-between;
       }
     }
   }

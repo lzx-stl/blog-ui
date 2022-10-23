@@ -1,10 +1,12 @@
 <template>
   <div class="banner-container">
     <el-carousel trigger="click"
-                 height="320px">
-      <el-carousel-item v-for="item in imgs"
-                        :key="item">
-        <img v-lazy="item"
+                 height="350px"
+                 :interval="3000"
+                 arrow="hover">
+      <el-carousel-item v-for="item in list"
+                        :key="item.id">
+        <img v-lazy="item.src"
              alt="">
       </el-carousel-item>
     </el-carousel>
@@ -14,7 +16,7 @@
            v-for="(item,index) in imgs"
            :key="item"
            :style="{left:  700 * index + 'px'}">
-        <img :src="item"
+        <img v-lazy="item"
              alt="">
       </div>
     </div>
@@ -33,27 +35,21 @@
 
 <script>
 export default {
+  props:['list'],
   data() {
     return {
       curr: 0,
-      url: 'https://upload-bbs.mihoyo.com/upload/2022/08/18/73715441/03cc2dc5d34aae585d515ca77943d2c3_3053093435832116764.jpg',
-      imgs: [
-        'https://upload-bbs.mihoyo.com/upload/2022/08/18/73715441/03cc2dc5d34aae585d515ca77943d2c3_3053093435832116764.jpg',
-        'https://upload-bbs.mihoyo.com/upload/2022/05/25/112338446/3a166ade192b29580764d91ef4703d50_6534370283051785360.jpg',
-        'https://upload-bbs.mihoyo.com/upload/2021/08/18/73715441/e732f197e09b367f0a20b79dfba2c784_7240066876530027930.jpg?x-oss-process=image/resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg',
-        'https://upload-bbs.mihoyo.com/upload/2022/02/08/73491413/51df9519bdcdb4f42a630497f19b1485_4543259733633110045.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg',
-        'https://w.wallhaven.cc/full/l3/wallhaven-l3r3zr.jpg'
-      ]
+     
     }
   },
   methods: {
     prev() {
       this.curr--
-      if (this.curr === -1) this.curr = this.imgs.length - 1
+      if (this.curr === -1) this.curr = this.list.length - 1
     },
     next() {
       this.curr++
-      if (this.curr === this.imgs.length) this.curr = 0
+      if (this.curr === this.list.length) this.curr = 0
     }
   },
   mounted() {

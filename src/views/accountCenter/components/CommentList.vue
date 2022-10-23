@@ -8,7 +8,7 @@
              :key="item.id">
           <div class="left-box">
             <img class="avatar"
-                 :src="item.from.avatar"
+                 v-lazy="item.from.avatar"
                  alt="">
           </div>
           <div class="center-box">

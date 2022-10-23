@@ -2,7 +2,7 @@
   <div>
     <div class="user-card">
       <img class="user-avatar"
-           :src="url" />
+           v-lazy="url" />
       <div class="user-infor">
         <span class="user-name">
           <a :href="`/accountCenter/bookList?id=${2}`"

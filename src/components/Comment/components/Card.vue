@@ -4,7 +4,7 @@
        <a class="name"
            target="_blank"
            :href="`/accountCenter/bookList?id=${from.id}`">
-      <img :src="from.avatar"
+      <img v-lazy="from.avatar"
            alt="" />
        </a>
     </div>

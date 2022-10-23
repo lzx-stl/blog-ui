@@ -1,6 +1,6 @@
 <template>
   <div class="mycard-container">
-    <img :src="user.headImg"
+    <img v-lazy="user.headImg"
          alt="" />
 
 <!--    <div class="information">-->

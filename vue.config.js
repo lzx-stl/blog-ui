@@ -45,14 +45,13 @@ module.exports = {
 
   },
   configureWebpack: {
-    // provide the app's title in webpack's name field, so that
-    // it can be accessed in index.html to inject the correct title.
-
     resolve: {
-
       alias: {
         '@': resolve('src')
       },
+    },
+    externals: {
+      qc: 'QC'
     },
     plugins: [new NodePolyfillPlugin(), new CompressionWebpackPlugin({
       filename: '[path][base].gz',
@@ -103,6 +102,7 @@ module.exports = {
             })
           // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
           config.optimization.runtimeChunk('single')
+
         }
       )
   }

@@ -11,9 +11,8 @@ export default {
     const params = new URLSearchParams(window.location.search)
     const token = params.get('token')
     setToken(token)
-    setTimeout(() => {
-      this.$router.replace(getBack())
-    }, 500)
+    window.opener.postMessage('closed', '*')
+    window.close()
   },
   render: function (h) {
     return h() // avoid warning message

@@ -1,15 +1,12 @@
 <template>
   <div class="comment-send">
     <div class="user-local">
-      <div class="avatar-img">
-        <el-image :src="avatar"
-                  alt="">
-          <div slot="error"
-               class="image-slot">
-            <i class="iconfont icon-yonghu"></i>
-          </div>
-        </el-image>
-
+      <img class="avatar-img"
+           v-if="avatar"
+           v-lazy="avatar"
+           alt="" />
+      <div class="avatar-error"
+           v-else>
       </div>
     </div>
     <div class="textarea-container">
@@ -24,6 +21,9 @@
       <el-button class="comment-submit"
                  @click="submitComment">提交评论</el-button>
     </div>
+    <div>
+      <Emoji @addEmoji="handleEmojiClick" />
+    </div>
   </div>
 </template>
 
@@ -31,11 +31,15 @@
 import { empty } from '@/api/notify'
 import { addComment, getFirsts } from '@/api/comment.js'
 import { mapState, mapGetters } from 'vuex'
+import Emoji from '@/components/Emoji'
 export default {
+  components: {
+    Emoji
+  },
   name: 'Reply',
   props: ['articleId', 'parentId', 'fromId', 'toId'],
   created() {
-    console.log(this.nickname);
+    console.log(this.nickname)
   },
   data() {
     return {
@@ -55,6 +59,9 @@ export default {
     }
   },
   methods: {
+    handleEmojiClick(val) {
+      this.form.content += val
+    },
     submitComment() {
       if (this.form.fromId) {
         if (this.form.content == '') {
@@ -101,14 +108,15 @@ export default {
   background-color: #fff;
   width: 100%;
   height: 90px;
-  margin: 10px 0;
+  margin: 10px 0 30px 0;
   box-sizing: content-box;
 
   .user-local {
     width: 82px;
     height: 65px;
     position: absolute;
-    .avatar-img {
+    .avatar-img,
+    .avatar-error {
       width: 48px;
       height: 48px;
       border-radius: 50%;
@@ -117,22 +125,8 @@ export default {
       top: 50%;
       background-color: #f5f5f5;
       transform: translate(-50%, -50%);
-      vertical-align: middle;
-      .el-image {
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        position: relative;
-        .image-slot {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          border-radius: 50%;
-          width: 100%;
-          height: 100%;
-        }
-      }
+      background-image: url('@/assets/avatar.png');
+      background-size: 100% 100%;
     }
   }
 

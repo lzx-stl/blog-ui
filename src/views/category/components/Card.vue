@@ -1,6 +1,6 @@
 <template>
   <div class="card-container">
-    <a :href="`/article/${article.id}`"
+    <a :href="`/article/details/${article.id}`"
        target="_blank">
       <div class="card-img">
 
@@ -16,7 +16,7 @@
              class="author-infor">
 
             <img class="card-infor__avatar"
-                 :src="article.authorAvatar" />
+                 v-lazy="article.authorAvatar" />
             <div class="card-infor__name">{{article.authorNickname}}</div>
           </a>
           <h3 class="card-title">{{ article.title }}</h3>

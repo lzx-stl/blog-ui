@@ -128,7 +128,6 @@ export default {
     },
     add(data) {
       if (data === '') return
-      console.log(`data`, data)
       let n = this.history.length
       if (n == 0) this.history.push(data)
       else if (n == 1) {

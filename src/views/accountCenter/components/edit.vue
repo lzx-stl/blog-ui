@@ -2,7 +2,7 @@
   <div class="account-info-edit__content">
     <div class="account-info-edit__avatar">
       <div class="avatar">
-        <img :src="form.avatar"
+        <img v-lazy="form.avatar"
              class="avatar__img">
       </div>
 
@@ -71,7 +71,6 @@ export default {
   },
   computed: {},
   created() {
-    console.log('edit')
     getInformation(this.id).then((res) => {
       this.form = res.user
     })

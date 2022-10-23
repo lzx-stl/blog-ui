@@ -1,5 +1,28 @@
 @import "./btn.scss";
 @import "./variables.scss";
+.el-menu--horizontal {
+  .el-submenu__title{
+    height: 60px;
+    line-height: 60px;
+  }
+  & > .menu-item {
+    display: inline-block;
+  }
+  .el-submenu {
+    display: inline-block;
+    .menu-item{
+      width: 100%;
+      
+      display: block;
+    }
+    .el-submenu__icon-arrow {
+      position: static;
+      vertical-align: middle;
+      margin-left: 8px;
+      margin-top: -3px;
+    }
+  }
+}
 
 .v-note-wrapper.shadow {
   z-index: 10;
@@ -134,14 +157,14 @@ a {
     }
   }
 }
-.el-dialog {
-  border-radius: 12px;
+// .el-dialog {
+//   border-radius: 12px;
 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-.el-dialog__wrapper {
-  overflow: hidden;
-}
+//   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+// }
+// .el-dialog__wrapper {
+//   overflow: hidden;
+// }
 .clear {
   clear: both;
 }

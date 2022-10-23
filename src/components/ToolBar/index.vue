@@ -51,7 +51,6 @@ export default {
       })
     },
     like() {
-      console.log(`like`, like);
     }
   }
 }

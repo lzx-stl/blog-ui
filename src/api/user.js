@@ -19,18 +19,25 @@ export function getInformation (id) {
   });
 }
 
-export function getInfor (token) {
+export function getInfo () {
   return request({
-    url: "/user/getInfor",
-    method: "get",
-    params: {
-      token
-    },
+    url: "/user/getInfo",
+    method: "get"
   });
-
 }
 
-export function login (source) {
+export function getInfoById(id)
+{
+  return request({
+    url: "/user/getInfoById",
+    method: "get",
+    params:{
+      id
+    }
+  });
+}
+
+export function loginByThird (source) {
   return request({
     url: "/oauth/render",
     method: "post",

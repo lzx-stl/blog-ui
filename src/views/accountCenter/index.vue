@@ -1,11 +1,11 @@
 <template>
   <div class="main-page">
 
-    <div class="layout">
+    <div class="layout" v-if="user != null">
       <div class="bg"></div>
       <div class="container account-center-header">
         <div class="account-center-header__avatar">
-          <img :src="user.avatar"
+          <img v-lazy="user.avatar" 
                alt="" />
         </div>
         <div class="account-center-user">
@@ -24,7 +24,7 @@
             <span style="margin-right: 20px;">个性签名</span>
             <p>{{user.information}}</p>
           </div>
-          <!-- <div class="account-center-user__intro">IP</div>
+          <div class="account-center-user__intro">IP</div>
           <div class="account-center-header__data">
 
             <div class="account-center-header__data-item"><a href=""
@@ -36,7 +36,7 @@
               <div class="label">关注</div>
             </div>
             <div class="account-center-header__data-item">获赞</div>
-          </div> -->
+          </div>
         </div>
 
       </div>
@@ -45,7 +45,6 @@
         <ul class="side-menu__list">
           <router-link v-for="item in userRoutes.children"
                        :key="item.path"
-                        v-show="!item.hidden"
                        :to="{path: resolvePath(item.path), query: {id}}"
                        class="side-menu__item"
                        :class="{'active': item.meta.name == $route.meta.name}">
@@ -79,7 +78,7 @@ import path from 'path'
 import BackToTop from '@/components/BackToTop'
 
 import CommentList from './components/CommentList'
-import { getInformation, getFansCount, getFollowsCount } from '@/api/user'
+import { getInfoById, getFansCount, getFollowsCount } from '@/api/user'
 import { mapState, mapGetters } from 'vuex'
 import { userRoutes } from '@/router'
 import { isExternal } from '@/utils/validate'
@@ -94,7 +93,7 @@ export default {
   data() {
     return {
       basePath: '',
-      user: {},
+      user: null,
       activeText: '',
       fansCount: 0,
       followsCount: 0,
@@ -106,11 +105,13 @@ export default {
   computed: {
     ...mapGetters(['userRoutes']),
     key() {
-      return this.$route.path
+      console.log(`key`, this.$route.path.toString());
+      return this.$route.path;
     }
   },
   created() {
-    getInformation(this.id).then((res) => {
+    console.log(`this.id`, this.id);
+    getInfoById(this.id).then((res) => {
       this.user = res.user
     })
     // getFansCount(this.id).then((res) => {
@@ -122,14 +123,7 @@ export default {
     // })
   },
   methods: {
-    handleClick(path, id) {
-      this.$router.push({
-        path: path,
-        query: {
-          id
-        }
-      })
-    },
+   
     resolvePath(routePath) {
       if (isExternal(routePath)) {
         return routePath

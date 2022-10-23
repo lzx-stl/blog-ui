@@ -7,7 +7,7 @@
 
         <div class="layout-main">
           <div class="banner-box">
-            <banner />
+            <banner :list="bannerList" />
           </div>
 
           <div class="article-list">
@@ -29,7 +29,7 @@
                      :key="item[0]">
                   <a :href="`/accountCenter/bookList?id=${item[1].id}`"
                      target="_blank"
-                     class="user-card__link"><img :src="item[1].avatar"
+                     class="user-card__link"><img v-lazy="item[1].avatar"
                          class="user-avatar"
                          alt="">
                   </a>
@@ -93,7 +93,6 @@
 </template>
 
 <script>
-import { getConfig } from '@/api/config'
 import Banner from '@/components/Banner'
 import ArticleList from '@/components/ArticleList/index'
 
@@ -104,7 +103,7 @@ import SideMenu from '@/components/SideMenu'
 import Footer from '@/components/Footer'
 import BackToTop from '@/components/BackToTop'
 
-import { mapState } from 'vuex'
+import { mapState , mapGetters} from 'vuex'
 
 export default {
   name: 'Home',
@@ -124,10 +123,9 @@ export default {
   mounted() {},
   computed: {
     ...mapState({
-      users: (state) => state.user.users,
-      topImg: (state) => state.config.topImg,
-      mainImg: (state) => state.config.mainImg
-    })
+      users: (state) => state.user.users
+    }),
+    ...mapGetters(['bannerList'])
   },
   methods: {
     scrollWindow(event) {
@@ -147,7 +145,7 @@ export default {
   background-size: 100% 100%;
   background-color: #f5f5f5;
   background-attachment: fixed;
-  
+
   .home-header {
     width: 700px;
     margin-bottom: 30px;
@@ -177,8 +175,7 @@ export default {
   background-size: 100% 100%;
   background-attachment: fixed;
 }
-.article-list{
-  
+.article-list {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 

@@ -17,7 +17,7 @@ Router.prototype.push = function push (location) {
 export const userRoutes =
 {
 
-  path: "/accountCenter",
+  path: "accountCenter",
   name: "AccountCenter",
   hidden: true,
   component: () => import("@/views/accountCenter/index"),
@@ -82,72 +82,57 @@ export const userRoutes =
   ]
 }
 
-export const constantRoutes =
-  [
-    {
-      path: '/home',
-      name: "home",
-      hidden: false,
-      component: () => import("@/views/home/index"),
-      meta: { title: "主页" },
-    },
-    {
-      path: '/category',
-      name: "Category",
+export const constantRoutes = [
+  {
+    path: 'home',
+    name: "home",
+    hidden: false,
+    component: () => import("@/views/home/index"),
+    meta: { title: "主页" },
+  }, 
+  {
 
-      hidden: false,
-      component: () => import("@/views/category/index"),
-      meta: { title: "分类" },
-    },
-    {
-      path: "/imagebed",
-      name: "ImageBed",
+    path: 'category',
+    name: "Category",
+    component: () => import("@/views/category/index"),
+    hidden: false,
+    meta: { title: "分类" },
 
-      hidden: false,
-      component: () => import("@/views/imageBed/index"),
-      meta: { title: "图床" },
-    },
-    {
-      path: "/eventLine",
-      name: "EventLine",
-      hidden: true,
-      component: () => import("../views/eventLine/index"),
-      meta: { title: "随笔" },
-    },
-    {
-      path: "/project",
-      name: "Project",
+  },
+  {
+    path: "imagebed",
+    name: "ImageBed",
+    hidden: false,
+    component: () => import("@/views/imageBed/index"),
+    meta: { title: "图床" },
 
-      hidden: true,
-      component: () => import("../views/project/index"),
-      meta: { title: "项目" },
-    },
-    {
-      path: "/resources",
-      name: "Resources",
-
-      hidden: true,
-      component: () => import("../views/resources/index"),
-      meta: { title: "资源" },
-    },
-    {
-      path: "/article/:id",
-      name: "Article",
-      hidden: true,
-      component: () => import("@/views/article/index"),
-
-      props: true
-    },
-    {
-      path: '/search',
-      name: "Search",
-      hidden: true,
-      component: () => import("@/components/Search/index"),
-      meta: { title: "主页" },
-    },
-    userRoutes
-  ]
-
+  }, 
+  {
+    path: "else",
+    meta: { title: "其他" },
+    children: [
+      {
+        path: "eventLine",
+        name: "EventLine",
+        component: () => import("@/views/eventLine/index"),
+        meta: { title: "随笔" },
+      },
+      {
+        path: "project",
+        name: "Project",
+        component: () => import("@/views/project/index"),
+        meta: { title: "项目" },
+      },
+      {
+        path: "resources",
+        name: "Resources",
+        component: () => import("@/views/resources/index"),
+        meta: { title: "资源" },
+      },
+    ]
+  },
+  userRoutes
+]
 
 export const defaultRoutes = [
   {
@@ -156,24 +141,58 @@ export const defaultRoutes = [
     redirect: '/home',
     children: constantRoutes
   },
-
   {
     path: '/login',
     name: 'Login',
     meta: { title: "登录" },
+    hidden: true,
     component: () => import("@/views/login/index.vue"),
   },
   {
     path: '/authRedirect',
     name: 'AuthRedirect',
+
+    hidden: true,
     component: () => import("@/views/login/components/auth-redirect.vue"),
   },
   {
     path: '/403',
     name: '403',
+    hidden: true,
     component: () => import("@/views/error/403.vue"),
   },
-];
+
+
+  {
+    path: "/article",
+    component: Layout,
+    children: [
+      {
+        path: 'details/:id',
+        name: "Article",
+        hidden: true,
+        component: () => import("@/views/article/index"),
+        props: true
+      }
+    ]
+  },
+  {
+    path: '/search',
+    component: Layout,
+    redirect: '/search/index',
+    children: [
+      {
+        path: 'index',
+        name: "Search",
+        hidden: true,
+        component: () => import("@/components/Search/index"),
+        meta: { title: "主页" },
+      }
+    ]
+  }
+]
+
+
 export const asyncRoutes = [
   constantRoutes
 ]

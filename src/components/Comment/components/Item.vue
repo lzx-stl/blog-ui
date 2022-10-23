@@ -5,12 +5,12 @@
 
         <el-popover placement="top"
                     width="360"
-                    trigger="hover">
+                    trigger="click">
           <div class="user-card">
             <div class="bg"></div>
             <div class="face">
 
-              <img :src="from.avatar"
+              <img v-lazy="from.avatar"
                    alt="" />
             </div>
             <div class="infor">
@@ -32,7 +32,7 @@
             <a class="user-name"
                :href="`/accountCenter/bookList?id=${from.id}`"
                target="_blank">
-              <img :src="from.avatar"
+              <img v-lazy="from.avatar"
                    alt=""
                    class="user-avatar-img" />
             </a>

@@ -1,6 +1,5 @@
 <template>
-  <div class="flex-container"
-       :style="{backgroundImage: `url(${eventImg})`}">
+  <div class="flex-container">
     <!-- <el-timeline class="container">
       <el-timeline-item v-for="item in list"
                         :key="item.id"
@@ -58,7 +57,6 @@ export default {
   },
   computed: {
     ...mapState({
-      eventImg: (state) => state.config.eventImg
     })
   },
   created() {

@@ -1,15 +1,16 @@
 import Vue from "vue";
 import App from "./App.vue";
-import router from './permission'
+import router from '@/router'
 import store from "./store";
 
+import '@/permission'
 import "element-ui/lib/theme-chalk/index.css";
 import ElementUI from "element-ui";
 import mavonEditor from "mavon-editor";
 
 import "mavon-editor/dist/css/index.css";
-import '@/assets/fonts/index.css'
-import '@/assets/fonts/iconfont'
+import '@/icons/iconfont'
+import '@/icons/iconfont.css'
 import '@/styles/index.scss' // global css
 import '@/styles/btn.scss' // global css
 import '@/styles/variables.scss' // global css
@@ -50,20 +51,10 @@ Vue.use(mavonEditor);
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
 
-import VueLazyload from 'vue-lazyload'
-
-Vue.use(VueLazyload)
-
-// or with options
-Vue.use(VueLazyload, {
-  preLoad: 1.3,
-  error: '',
-  loading: '',
-  attempt: 1
-})
-
+import lazy from '@/directive/lazy-load/index'
 
 new Vue({
+  lazy,
   router,
   store,
   render: (h) => h(App),

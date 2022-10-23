@@ -1,11 +1,11 @@
-import { login, getInfor, getUserList, updateUser } from "@/api/user";
+import { loginByThird, getInfo, getUserList, updateUser } from "@/api/user";
 import { getToken, setToken } from "@/utils/auth";
+import { set } from "nprogress";
 import Vue from "vue";
 import { removeToken } from "../../utils/auth";
-
-
+import openWindow from "@/utils/open-window";
 const state = {
-  token: '',
+  token: getToken(),
   id: '',
   avatar: '',
   nickname: '',
@@ -21,10 +21,7 @@ const mutations = {
   SET_USER: (state, user) => {
     const { id, nickname, avatar, username, information } = user;
     state.id = id
-    state.nickname = nickname
-    state.avatar = avatar
     state.username = username
-    state.information = information
     window.localStorage.setItem("user", JSON.stringify(user))
     // if (state.users.has(id)) {
     //   state.users[id].nickname = nickname;
@@ -41,6 +38,22 @@ const mutations = {
     window.localStorage.setItem("users", m)
     Vue.set(state, 'users', m)
   },
+  SET_ID(state, id)
+  {
+    state.id = id
+  },
+  SET_AVATAR (state, avatar) {
+    state.avatar = avatar
+  },
+
+  SET_NICKNAME (state, nickname) {
+    state.nickname = nickname
+
+  },
+  SET_ROLES(state, roles)
+  {
+    state.roles = roles
+  }
 }
 
 const actions = {
@@ -53,12 +66,47 @@ const actions = {
       })
     })
   },
-  getInfor ({ commit }) {
+  loginByThird ({ commit }, source) {
+    return new Promise(async (resolve, reject) => {
+
+      const option = await loginByThird(source);
+      const { url } = option;
+
+      // const {url} 
+      let son = openWindow(url, '', 600, 400);
+
+      window.addEventListener('message', (e) => {
+        if (e.data == 'closed') {
+          window.location.reload();
+        }
+      })
+      let that = this
+      // var loop = setInterval(function () {
+      //   if (son.closed) {
+      //     clearInterval(loop)
+      //     //判读登录状态
+      //     window.location.reload()
+      //   }
+      // }, 1000)
+    })
+  },
+  getInfo ({ commit }) {
     return new Promise((resolve, reject) => {
-      getInfor().then(res => {
-        commit('SET_TOKEN', getToken())
-        commit('SET_USER', res.user);
-        resolve(res.user);
+      getInfo().then(res => {
+        const data = res.user
+        if(data == null)  resolve(data);
+        const { role, nickname, avatar, information, id } = data
+        const roles = role.split(',');
+
+        // roles must be a non-empty array
+        // if (!roles || roles.length <= 0) {
+        //   reject('getInfo: roles must be a non-null array!')
+        // }
+        commit('SET_ID', id);
+        commit('SET_ROLES', roles)
+        commit('SET_NICKNAME', nickname)
+        commit('SET_AVATAR', avatar)
+        resolve(data)
       }).catch(error => {
         reject(error);
       })

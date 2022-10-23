@@ -3,10 +3,10 @@
     <div class="article-card__header">
 
       <div class="article-card__userinfo">
-        <a :href="`/accountCenter/bookList?id=${article.id}`">
+        <a :href="`/accountCenter/bookList?id=${article.authorId}`">
 
           <div class="artilce-user__avatar">
-            <img :src="article.authorAvatar"
+            <img v-lazy="article.authorAvatar"
                  alt="">
 
           </div>
@@ -17,7 +17,7 @@
     </div>
 
     <a class="article-card__link"
-       :href="'/article/' + article.id "
+       :href="`/article/details/${article.id}`"
        target="_blank">
 
       <div class="article-card__body">
@@ -25,7 +25,7 @@
           <h3>{{article.title}}</h3>
         </div>
         <div class="article-card__preview">
-          <img v-lazy="article.mainImg"
+          <img v-lazy="article.mainImg" 
                alt="">
         </div>
         <div class="article-card__infor">

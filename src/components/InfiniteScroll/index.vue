@@ -19,7 +19,6 @@ export default {
       const dist = scrollHeight - scrollTop - clientHeight
 
       if (dist <= 20) {
-        console.log(`加载！`)
         this.$emit('scrollHandle')
       }
     }

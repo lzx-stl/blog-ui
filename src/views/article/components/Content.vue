@@ -4,7 +4,8 @@
       <div class="title-container">
         <h1 class="big-title"
             @click="get">{{ article.title }}</h1>
-        <div class="article-read-info" v-if="status">
+        <div class="article-read-info"
+             v-if="status">
           <span class="publish-text"
                 data-v-0735ec40="">2022-07-08 20:06</span>
           <span>{{ status.readings }} 阅读</span>
@@ -17,8 +18,8 @@
 
           <div class="up-left">
             <div class="avatar-container">
-              <el-image v-if="article.authorAvatar"
-                        :src="article.authorAvatar"></el-image>
+              <img v-if="article.authorAvatar"
+                   v-lazy="article.authorAvatar" />
             </div>
             <div class="up-name-pannel">{{ article.authorNickname }}</div>
           </div>
@@ -152,7 +153,7 @@ export default {
           width: 44px;
           height: 44px;
           margin-right: 10px;
-          .el-image {
+          img {
             border-radius: 50%;
           }
         }

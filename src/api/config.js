@@ -1,14 +1,12 @@
 import request from "@/utils/request";
 
-export function getConfig (id) {
-    return request({
-        url: "/config/getConfig",
-        method: "get",
-        params:{
-            id
-        }
-    });
+export function getBannerList () {
+  return request({
+    url: "/banner/getList",
+    method: "get"
+  });
 }
+
 
 
 export function updateConfig (data) {

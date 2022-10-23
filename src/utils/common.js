@@ -1,3 +1,13 @@
+import QC from 'qc' 
+export function loginByThird()
+{
+  console.log(`QC`, QC);
+}
+
+
+
+
+
 //定时器实现防抖函数
 export function debounce (fn, delay) {
   let timer = null;

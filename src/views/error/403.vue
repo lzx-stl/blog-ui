@@ -1,6 +1,6 @@
 <template>
     <div>
-      <el-image :src="url" alt=""></el-image>
+      <img v-lazy="url" alt=""></img>
     </div>
 </template>
 
