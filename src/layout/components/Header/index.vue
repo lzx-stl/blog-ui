@@ -39,11 +39,7 @@ export default {
     
   },
   created() {
-    // this.$store.dispatch('permission/generateRoutes', [])
-    if (getToken()) {
-      this.$store.dispatch('user/getInfo', [])
-      this.isLogin = true
-    }
+    
   },
 }
 </script>

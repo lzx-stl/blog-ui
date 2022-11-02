@@ -22,7 +22,6 @@
     <div class="pagination-box">
       <Pagination v-show="total > 0"
                   :total="total"
-                  :pageSizes="[12, 24, 36, 48]"
                   :page.sync="listQuery.curr"
                   :limit.sync="listQuery.limit"
                   @pagination="getList" />
@@ -88,18 +87,18 @@ export default {
 .category-container {
   width: 100%;
   padding-top: 60px;
-  .list-nav {
-    width: 1400px;
 
-    margin: 50px auto 55px auto;
+  padding: 60px 45px;
+  .list-nav {
+    margin: 40px auto 35px auto;
   }
   .card-list {
-    display: grid;
-    width: 1400px;
-    margin: 0 auto;
-    grid-gap: 25px;
-    grid-column-gap: 25px;
-    grid-template-columns: repeat(4, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    // margin: 0 16 *.5 *-1,
+    // grid-gap: 25px;
+    // grid-column-gap: 30px;
+    // grid-template-columns: repeat(3, 1fr);
   }
 
   .pagination-box {

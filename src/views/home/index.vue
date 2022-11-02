@@ -1,92 +1,61 @@
 <template>
   <div class="home-container">
 
-    <div class="main">
+    <div class="banner-box">
+      <banner :list="bannerList" />
+    </div>
 
-      <div class="layout">
+    <div class="layout">
 
-        <div class="layout-main">
-          <div class="banner-box">
-            <banner :list="bannerList" />
-          </div>
+      <div class="layout-main">
 
-          <div class="article-list">
-            <ArticleList></ArticleList>
-          </div>
+        <div class="article-list">
+          <ArticleList></ArticleList>
         </div>
-        <div class="layout-sub">
-          <SideMenu>
-            <template v-slot:header>
-              <h2 class="side-section__title">推荐用户</h2>
-              <div class="side-section__link">
-                <a href="">更多</a>
-              </div>
-            </template>
-            <template v-slot:content>
-              <div class="hot-articles">
-                <div class="hot-item"
-                     v-for="item of users"
-                     :key="item[0]">
-                  <a :href="`/accountCenter/bookList?id=${item[1].id}`"
-                     target="_blank"
-                     class="user-card__link"><img v-lazy="item[1].avatar"
-                         class="user-avatar"
-                         alt="">
-                  </a>
-                  <div class="infor">
-                    <a :href="`/accountCenter/bookList?id=${item[1].id}`"
-                       class="user-card__link">{{item[1].nickname}}
-                    </a>
-                  </div>
-                  <button class="user-follow">关注</button>
-                </div>
-              </div>
-            </template>
-          </SideMenu>
+      </div>
+      <div class="layout-sub">
+        <SideMenu>
+          <template v-slot:header>
+            <h2 class="side-section__title">热门文章</h2>
+            <div class="side-section__link">
+              <a href="">更多</a>
+            </div>
+          </template>
+          <template v-slot:content>
+            <div class="hot-articles">
+              <div class="hot-item"
+                   v-for="i in 5"
+                   :key="i">
 
-          <SideMenu>
-            <template v-slot:header>
-              <h2 class="side-section__title">热门文章</h2>
-              <div class="side-section__link">
-                <a href="">更多</a>
+                <div class="infor">咕咕咕</div>
+                <div class="hot-num">1185448</div>
               </div>
-            </template>
-            <template v-slot:content>
-              <div class="hot-articles">
-                <div class="hot-item"
-                     v-for="i in 5"
-                     :key="i">
+            </div>
+          </template>
+        </SideMenu>
 
-                  <div class="infor">咕咕咕</div>
-                  <div class="hot-num">1185448</div>
-                </div>
+        <SideMenu>
+          <template v-slot:header>
+            <h2 class="side-section__title">热门话题</h2>
+            <div class="side-section__link">
+              <a href="">更多</a>
+            </div>
+          </template>
+          <template v-slot:content>
+            <div class="hot-articles">
+              <div class="hot-item"
+                   v-for="i in 5"
+                   :key="i">
+                <div class="infor">咕咕咕</div>
               </div>
-            </template>
-          </SideMenu>
-
-          <SideMenu>
-            <template v-slot:header>
-              <h2 class="side-section__title">热门话题</h2>
-              <div class="side-section__link">
-                <a href="">更多</a>
-              </div>
-            </template>
-            <template v-slot:content>
-              <div class="hot-articles">
-                <div class="hot-item"
-                     v-for="i in 5"
-                     :key="i">
-                  <div class="infor">咕咕咕</div>
-                </div>
-              </div>
-            </template>
-          </SideMenu>
-
-        </div>
+            </div>
+          </template>
+        </SideMenu>
 
       </div>
 
     </div>
+
     <Footer />
     <BackToTop />
   </div>
@@ -103,7 +72,7 @@ import SideMenu from '@/components/SideMenu'
 import Footer from '@/components/Footer'
 import BackToTop from '@/components/BackToTop'
 
-import { mapState , mapGetters} from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'Home',
@@ -151,7 +120,11 @@ export default {
     margin-bottom: 30px;
   }
 }
-
+.banner-box {
+  height: 100vh;
+  background-color: red;
+  // margin-bottom: 20px;
+}
 .topBg {
   width: 100%;
   height: 720px;
@@ -170,11 +143,6 @@ export default {
   left: 25%;
 }
 
-.main {
-  padding-top: 20px;
-  background-size: 100% 100%;
-  background-attachment: fixed;
-}
 .article-list {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -229,9 +197,6 @@ export default {
   // background-color: #f5f5f5;
   box-sizing: content-box;
 
-  .banner-box {
-    margin-bottom: 20px;
-  }
   &::after {
     content: '';
     display: block;

@@ -8,9 +8,16 @@ export default {
       entries.forEach(entry => {
 
         if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = binding.value;
-          observer.unobserve(img);
+
+          const target = entry.target;
+
+          if (binding.arg === 'back')
+
+            el.style.backgroundImage = `url('${binding.value}')`;
+          else target.src = binding.value;
+          console.log(`el.style.backgroundImage`, el.style.backgroundImage);
+ 
+          observer.unobserve(target);
         }
       })
     }
@@ -20,7 +27,10 @@ export default {
   }, inserted (el, binding, vnode) {
   }, update (el, binding, vnode) {
 
-    el.src = binding.value;
+    if (binding.arg === 'back')
+      el.style.backgroundImage = `url(${binding.value})`;
+    else
+      el.src = binding.value;
   }, componentUpdated (el, binding, vnode) {
 
 

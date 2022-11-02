@@ -1,7 +1,7 @@
 <template>
   <div class="banner-container">
     <el-carousel trigger="click"
-                 height="350px"
+    height="100vh"
                  :interval="3000"
                  arrow="hover">
       <el-carousel-item v-for="item in list"

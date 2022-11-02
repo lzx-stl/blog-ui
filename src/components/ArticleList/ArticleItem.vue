@@ -3,7 +3,7 @@
     <div class="article-card__header">
 
       <div class="article-card__userinfo">
-        <a :href="`/accountCenter/bookList?id=${article.authorId}`">
+        <!-- <a :href="`/accountCenter/bookList?id=${article.authorId}`">
 
           <div class="artilce-user__avatar">
             <img v-lazy="article.authorAvatar"
@@ -11,7 +11,7 @@
 
           </div>
           <div class="artilce-user__name">{{article.authorNickname}}</div>
-        </a>
+        </a> -->
 
       </div>
     </div>
@@ -28,9 +28,9 @@
           <img v-lazy="article.mainImg" 
                alt="">
         </div>
-        <div class="article-card__infor">
+        <!-- <div class="article-card__infor">
 
-        </div>
+        </div> -->
       </div>
     </a>
     <div class="article-card__footer">

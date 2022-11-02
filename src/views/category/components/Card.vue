@@ -2,26 +2,15 @@
   <div class="card-container">
     <a :href="`/article/details/${article.id}`"
        target="_blank">
-      <div class="card-img">
+      <div class="card-img"
+           v-lazy:back='article.mainImg'>
 
-        <img v-lazy="article.mainImg"
-             alt="" />
+        <div class="shadow">
+          {{article.title}}
+        </div>
       </div>
 
       <div class="card-footer">
-
-        <div class="card-infor">
-          <a :href="`/accountCenter/bookList?id=${article.authorId}`"
-             target="_blank"
-             class="author-infor">
-
-            <img class="card-infor__avatar"
-                 v-lazy="article.authorAvatar" />
-            <div class="card-infor__name">{{article.authorNickname}}</div>
-          </a>
-          <h3 class="card-title">{{ article.title }}</h3>
-
-        </div>
 
       </div>
 
@@ -42,30 +31,41 @@ export default {
 
 <style lang="scss">
 .card-container {
+  margin-bottom: 20px;
+  flex: 0 0 25%;
+  max-width: 25%;
   cursor: pointer;
   font-size: 15px;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-  border-radius: 14px;
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-  transition: all 0.2s linear;
 
-  &:hover {
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    transform: translate3d(0, -4px, 0);
-  }
+  padding: 0 8px;
+  text-align: center;
+  // width: 100%;
+  // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+
   .card-img {
-    border-top-left-radius: 14px;
-    border-top-right-radius: 14px;
     width: 100%;
-    height: 168px;
+    // height: 100%;
+    height: 200px;
+    background-size: 100% 100%;
     overflow: hidden;
-    img {
+    position: relative;
+    transition: all 0.2s linear;
+
+  border-radius: 6px;
+    &:hover {
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      transform: translate3d(0, -4px, 0);
+    }
+    .shadow {
       width: 100%;
-      height: 100%;
-      transition: all 0.2s ease;
+      min-height: 60px;
+      position: absolute;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: 16px;
+      // text-align: left;
+      padding: 0 10px;
     }
   }
 

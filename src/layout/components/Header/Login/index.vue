@@ -26,7 +26,8 @@
           </div>
         </div>
         <div slot="reference">
-          <a :href="`/accountCenter/bookList?id=${id}`" v-if="avatar">
+          <a :href="`/accountCenter/bookList?id=${id}`"
+             v-if="avatar">
 
             <img class="avatar"
                  v-lazy="avatar"
@@ -63,14 +64,14 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      isLogin: false,
+      isLogin: getToken() != undefined ? true : false,
       isHover: false,
       visible: false,
       pannelVisable: false
     }
   },
   created() {
-    this.isLogin = getToken()
+    this.$store.dispatch('user/getInfo')
   },
   methods: {
     handleClick() {

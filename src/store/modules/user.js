@@ -96,7 +96,7 @@ const actions = {
         const data = res.user
         if(data == null)  resolve(data);
         const { role, nickname, avatar, information, id } = data
-        const roles = role.split(',');
+        const roles = role ? role.split(',') : [];
 
         // roles must be a non-empty array
         // if (!roles || roles.length <= 0) {
